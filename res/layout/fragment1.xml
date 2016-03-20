@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <EditText
+            android:id="@+id/ip"
+            android:hint="请输入ip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+		<Button
+		    android:id="@+id/button"
+		    android:layout_below="@id/ip"
+		    android:text="获取数据"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content" />
+        <com.example.MyViews.MyGridView
+            android:id="@+id/mgv"
+            android:layout_below="@id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="3" />
+    </RelativeLayout>
+
+</ScrollView>
