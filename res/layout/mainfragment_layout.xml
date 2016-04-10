@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <RadioGroup
+        android:id="@+id/radioG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true" >
+        <RadioButton
+            android:id="@+id/radiob1"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="ceshi" />
+        <RadioButton
+            android:id="@+id/radiob2"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="ceshi" />
+        <RadioButton
+            android:id="@+id/radiob3"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="ceshi" />
+    </RadioGroup>
+    
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_above="@id/radioG"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+	
+</RelativeLayout>

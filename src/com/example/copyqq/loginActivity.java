@@ -71,7 +71,7 @@ import android.widget.Toast;
 				String onLine = response.getResponse();
 				if(onLine.contains("成功")){
 					resource.Myzhanghao = name;
-					Intent intent = new Intent(loginActivity.this, Myfrinds.class);
+					Intent intent = new Intent(loginActivity.this, MainFragment.class);
 					startActivity(intent);
 				}else{
 					Toast.makeText(loginActivity.this, "登陆失败,该账号在其他地方登录", 1).show();
