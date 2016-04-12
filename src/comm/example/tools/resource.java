@@ -13,6 +13,7 @@ import com.example.copyqq.Chat;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import comm.Request;
 import comm.Response;
@@ -335,6 +336,7 @@ public class resource {
 				ObjectOutputStream oos = new ObjectOutputStream(
 						socket.getOutputStream());
 				oos.writeObject(request);
+				oos.flush();
 				ObjectInputStream ois = new ObjectInputStream(
 						socket.getInputStream());
 				response = (Response) ois.readObject();
