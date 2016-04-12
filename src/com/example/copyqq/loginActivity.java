@@ -18,7 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-@SuppressLint("HandlerLeak") public class loginActivity extends Activity implements OnClickListener {
+@SuppressLint("HandlerLeak")
+public class loginActivity extends Activity implements OnClickListener {
 
 	TextView regist;
 	TextView forgets;
@@ -29,7 +30,7 @@ import android.widget.Toast;
 	EditText userpswd;
 
 	String name = "";
-	
+
 	CheckBox remenber;
 
 	@SuppressLint("HandlerLeak")
@@ -50,10 +51,12 @@ import android.widget.Toast;
 								.getSharedPreferences("users",
 										loginActivity.MODE_PRIVATE);
 						Editor edit = spf.edit();
-						edit.putString("username", username.getText().toString());
-						edit.putString("userpswd", userpswd.getText().toString());
+						edit.putString("username", username.getText()
+								.toString());
+						edit.putString("userpswd", userpswd.getText()
+								.toString());
 						edit.commit();
-					}else{
+					} else {
 						SharedPreferences spf = loginActivity.this
 								.getSharedPreferences("users",
 										loginActivity.MODE_PRIVATE);
@@ -64,17 +67,20 @@ import android.widget.Toast;
 					resource.onLine(this);
 
 				} else {
-					Toast.makeText(loginActivity.this, "登陆失败,用户名或密码错误", 1).show();
+					Toast.makeText(loginActivity.this, "登陆失败,用户名或密码错误", 1)
+							.show();
 				}
-			}else if(what == 2){
+			} else if (what == 2) {
 				Response response = (Response) msg.obj;
 				String onLine = response.getResponse();
-				if(onLine.contains("成功")){
+				if (onLine.contains("成功")) {
 					resource.Myzhanghao = name;
-					Intent intent = new Intent(loginActivity.this, MainFragment.class);
+					Intent intent = new Intent(loginActivity.this,
+							MainFragment.class);
 					startActivity(intent);
-				}else{
-					Toast.makeText(loginActivity.this, "登陆失败,该账号在其他地方登录", 1).show();
+				} else {
+					Toast.makeText(loginActivity.this, "登陆失败,该账号在其他地方登录", 1)
+							.show();
 				}
 			}
 		};
@@ -87,7 +93,7 @@ import android.widget.Toast;
 		setContentView(R.layout.activity_login);
 
 		resource.jieshouxiaoxi = false;
-		
+
 		resource.lianjie(handler);
 		regist = (TextView) findViewById(R.id.regist);
 		forgets = (TextView) findViewById(R.id.forgets);
@@ -99,16 +105,15 @@ import android.widget.Toast;
 		forgets.setOnClickListener(this);
 		login.setOnClickListener(this);
 
-		SharedPreferences spf = loginActivity.this
-				.getSharedPreferences("users",
-						loginActivity.MODE_PRIVATE);
+		SharedPreferences spf = loginActivity.this.getSharedPreferences(
+				"users", loginActivity.MODE_PRIVATE);
 		String name = spf.getString("username", "");
 		String pswd = spf.getString("userpswd", "");
 		username.setText(name);
 		userpswd.setText(pswd);
-		if(!"".equals(name) && !"".equals(pswd)){
+		if (!"".equals(name) && !"".equals(pswd)) {
 			remenber.setChecked(true);
-		}else{
+		} else {
 			remenber.setChecked(false);
 		}
 	}
@@ -125,9 +130,7 @@ import android.widget.Toast;
 			Intent intent = new Intent(loginActivity.this, registActivity.class);
 			startActivity(intent);
 		} else if (key == forgets_id) {
-			
-			
-			
+
 			Toast.makeText(this, "忘记密码", 1).show();
 		} else if (key == login_id) {
 			login();
@@ -140,7 +143,32 @@ import android.widget.Toast;
 		resource.exitqq();
 		super.onDestroy();
 	}
-	
+
+	int back = 0;
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		if (back == 1) {
+			super.onBackPressed();
+		} else {
+			new Thread() {
+				public void run() {
+					back = 1;
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					back = 0;
+				};
+			}.start();
+			Toast.makeText(loginActivity.this, "再按一次退出", Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+
 	@SuppressLint("ShowToast")
 	public void login() {
 		if (resource.socket != null) {

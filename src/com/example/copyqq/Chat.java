@@ -38,6 +38,8 @@ import android.widget.Toast;
 	private ArrayList<qq_message> adapter_data = new ArrayList<qq_message>();
 	private ScrollView sl;
 	
+	private int[] pinmu = new int[2];
+	
 	@SuppressLint("HandlerLeak")
 	public Handler handler = new Handler(){
 		@SuppressWarnings("unchecked")
@@ -46,6 +48,7 @@ import android.widget.Toast;
 			if(what == 4){
 				adapter_data.addAll((ArrayList<qq_message>) msg.obj);
 				myAdapter.notifyDataSetChanged();
+				
 			}
 		};
 	};
@@ -54,6 +57,9 @@ import android.widget.Toast;
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		pinmu[0] = getWindowManager().getDefaultDisplay().getWidth();
+		pinmu[1] = getWindowManager().getDefaultDisplay().getHeight();
+		
 		setContentView(R.layout.activity_chat);
 		Intent intent = getIntent();
 		Object obj = intent.getSerializableExtra("frind");
@@ -144,17 +150,19 @@ import android.widget.Toast;
 			qq_message q_msg = adapter_data.get(position);
 			String s = q_msg.getSendUser_zhanghao();
 			LayoutInflater inflater = LayoutInflater.from(Chat.this);
+			View v;
 			if(s.equals(resource.Myzhanghao)){
-				View v = inflater.inflate(R.layout.item_qqmessage2, null);
+				v = inflater.inflate(R.layout.item_qqmessage2, null);
 				TextView q_message = (TextView) v.findViewById(R.id.message);
 				q_message.setText(q_msg.getMessage());
-				return v;
 			}else{
-				View v = inflater.inflate(R.layout.item_qqmessage1, null);
+				v = inflater.inflate(R.layout.item_qqmessage1, null);
 				TextView q_message = (TextView) v.findViewById(R.id.message);
 				q_message.setText(q_msg.getMessage());
-				return v;
 			}
+
+			sl.scrollTo(pinmu[0], pinmu[1]);
+			return v;
 		}
 		
 	}

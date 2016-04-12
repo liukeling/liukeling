@@ -1,44 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
+
     <RadioGroup
         android:id="@+id/radioG"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true" >
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
         <RadioButton
             android:id="@+id/radiob1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="ceshi" />
+            android:text="我的好友"
+            android:textColor="#000000" />
+
         <RadioButton
             android:id="@+id/radiob2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="ceshi" />
+            android:text="我的空间"
+            android:textColor="#000000" />
+
         <RadioButton
             android:id="@+id/radiob3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="ceshi" />
+            android:text="网上商城"
+            android:textColor="#000000" />
     </RadioGroup>
-    
+
     <FrameLayout
         android:id="@+id/frame"
-        android:layout_above="@id/radioG"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-	
+        android:layout_height="match_parent"
+        android:layout_above="@id/radioG" />
+
 </RelativeLayout>

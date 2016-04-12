@@ -40,36 +40,33 @@ public final class R {
     }
     public static final class id {
         public static final int SVfrinds=0x7f080005;
-        public static final int action_settings=0x7f08001e;
-        public static final int agree=0x7f08001c;
-        public static final int forgetbutton=0x7f080013;
-        public static final int forgets=0x7f080010;
-        public static final int frame=0x7f08001a;
-        public static final int frindinfo=0x7f080015;
+        public static final int action_settings=0x7f08001b;
+        public static final int agree=0x7f080019;
+        public static final int forgetbutton=0x7f080010;
+        public static final int forgets=0x7f08000d;
+        public static final int frame=0x7f080017;
+        public static final int frindinfo=0x7f080012;
         public static final int frinds=0x7f080006;
-        public static final int kongjian=0x7f080008;
         public static final int ll=0x7f080002;
-        public static final int login=0x7f08000d;
+        public static final int login=0x7f08000a;
         public static final int message=0x7f080003;
         public static final int neirong=0x7f080001;
-        public static final int qietou=0x7f08000a;
-        public static final int radioG=0x7f080016;
-        public static final int radiob1=0x7f080017;
-        public static final int radiob2=0x7f080018;
-        public static final int radiob3=0x7f080019;
-        public static final int regist=0x7f08000f;
-        public static final int registButton=0x7f08001b;
-        public static final int remenber=0x7f08000e;
+        public static final int qietou=0x7f080007;
+        public static final int radioG=0x7f080013;
+        public static final int radiob1=0x7f080014;
+        public static final int radiob2=0x7f080015;
+        public static final int radiob3=0x7f080016;
+        public static final int regist=0x7f08000c;
+        public static final int registButton=0x7f080018;
+        public static final int remenber=0x7f08000b;
         public static final int sendMessage=0x7f080004;
-        public static final int shangcheng=0x7f080009;
         public static final int sl=0x7f080000;
-        public static final int tiaokuan=0x7f08001d;
-        public static final int touxiang=0x7f080014;
-        public static final int username=0x7f08000b;
-        public static final int usernewpswd=0x7f080012;
-        public static final int userpswd=0x7f08000c;
-        public static final int userzhanghao=0x7f080011;
-        public static final int yun=0x7f080007;
+        public static final int tiaokuan=0x7f08001a;
+        public static final int touxiang=0x7f080011;
+        public static final int username=0x7f080008;
+        public static final int usernewpswd=0x7f08000f;
+        public static final int userpswd=0x7f080009;
+        public static final int userzhanghao=0x7f08000e;
     }
     public static final class layout {
         public static final int activity_chat=0x7f030000;
