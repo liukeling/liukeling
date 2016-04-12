@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="ceshi" />
+            android:text="我的好友" />
         <RadioButton
             android:id="@+id/radiob2"
             android:button="@null"
@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="ceshi" />
+            android:text="我的空间" />
         <RadioButton
             android:id="@+id/radiob3"
             android:button="@null"
@@ -32,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="ceshi" />
+            android:text="网上商城" />
     </RadioGroup>
     
     <FrameLayout

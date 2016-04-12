@@ -34,6 +34,9 @@
             android:name="com.example.copyqq.MainFragment"
             android:launchMode="singleTop" ></activity>
         <activity
+            android:name="com.example.copyqq.Myfrinds"
+            android:launchMode="singleTop" ></activity>
+        <activity
             android:name="com.example.copyqq.Chat"
             android:launchMode="singleTask" >
         </activity>
