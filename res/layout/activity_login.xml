@@ -37,7 +37,7 @@
         android:id="@+id/login"
         android:layout_below="@id/userpswd"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginLeft="25dp"
         android:background="@drawable/login_buttonselector"
         android:layout_marginRight="25dp"
