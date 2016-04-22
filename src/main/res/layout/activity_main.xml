@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/daohang"
+    tools:context=".MainActivity" >
+	
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/daohang_button_selector1"
+            android:text="@string/daohang_login" />
+
+        <Button
+            android:id="@+id/regist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/daohang_button_selector2"
+            android:text="@string/daohang_regist" />
+    </LinearLayout>
+
+    <!-- <HorizontalScrollView
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ListView
+            android:id="@+id/left_drawer"
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_gravity="left" />
+    </HorizontalScrollView> -->
+
+</RelativeLayout>

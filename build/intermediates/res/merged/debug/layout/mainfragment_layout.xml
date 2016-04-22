@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
+
+    <RadioGroup
+        android:id="@+id/radioG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/radiob1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/mainfragement_xiaoxi_selector"
+            android:gravity="center"
+            android:drawablePadding="-20dp"
+            android:textColor="#aaaaaa" />
+
+        <RadioButton
+            android:id="@+id/radiob2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawablePadding="-20dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:drawableTop="@drawable/mainfragment_lianxi_selector"
+            android:textColor="#aaaaaa" />
+
+        <RadioButton
+            android:id="@+id/radiob3"
+            android:layout_width="0dp"
+            android:drawablePadding="-20dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:drawableTop="@drawable/mainfragment_tongtai_selector"
+            android:textColor="#aaaaaa" />
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/radioG" />
+</RelativeLayout><!-- From: file:/D:/AndroidStudioProjects/heheda/copyqq/src/main/res/layout/mainfragment_layout.xml -->

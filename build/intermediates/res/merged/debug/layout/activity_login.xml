@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
+    
+    <ImageView
+        android:id="@+id/qietou"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/qietou" />
+    <EditText
+        android:id="@+id/username"
+        android:layout_below="@id/qietou"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/login_name"
+        android:textSize="15dp"
+        android:paddingLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+    <EditText
+        android:id="@+id/userpswd"
+        android:layout_below="@id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/login_pswd"
+        android:textSize="15dp"
+        android:password="true"
+        android:paddingLeft="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+    <Button
+        android:id="@+id/login"
+        android:layout_below="@id/userpswd"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="25dp"
+        android:background="@drawable/login_buttonselector"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/login_button" />
+
+    <CheckBox
+        android:id="@+id/remenber"
+        android:layout_below="@id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/login_remenber" />
+    
+    <TextView
+        android:id="@+id/regist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:textColor="#ff0000"
+        android:layout_margin="20dp"
+        android:text="@string/daohang_regist" />
+
+    <TextView
+        android:id="@+id/forgets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/regist"
+        android:layout_alignBottom="@+id/regist"
+        android:layout_alignRight="@+id/userpswd"
+        android:textColor="#ff0000"
+        android:layout_margin="20dp"
+        android:text="@string/paswd_forgets" />
+    
+</RelativeLayout><!-- From: file:/D:/AndroidStudioProjects/heheda/copyqq/src/main/res/layout/activity_login.xml -->
