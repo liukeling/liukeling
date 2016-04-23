@@ -1,0 +1,99 @@
+[33mcommit f44098b2c0342e0a13160cd4563cd24d60662866[m
+Author: 刘科领 <1845108504@qq.com>
+Date:   Fri Apr 22 17:40:10 2016 +0800
+
+    将工程转入至android studio中
+
+[33mcommit 91959b6f5c58882d60edd90cdd4aea7a0a0cb6b1[m
+Author: 刘科领 <1845108504@qq.com>
+Date:   Fri Apr 22 17:37:49 2016 +0800
+
+    将Eclipse下的仿qq转入到studio中
+
+[33mcommit 6c4e5103124b23ed918b27c9d4a2f71b8b0be5a5[m
+Merge: 4b70582 e79ac87
+Author: 刘科领 <1845108504@qq.com>
+Date:   Tue Apr 12 18:52:06 2016 +0800
+
+    Merge branch 'master' of D:\workspace1\仿qq
+
+[33mcommit e79ac8717473e6316ddfbc8ce6936c8affe2edfa[m
+Author: 刘科领 <1845108504@qq.com>
+Date:   Tue Apr 12 17:16:47 2016 +0800
+
+    风格改变一下
+
+[33mcommit 07d823847a9ddf7a122b5766f088011e0ef8daf5[m
+Author: 刘科领 <1845108504@qq.com>
+Date:   Tue Apr 12 16:07:42 2016 +0800
+
+    frindsFragment基本完成，Chart的收到信息自动下拉下来完成
+
+[33mcommit 0c97f78672b5af30d20f4e62bf07e659c228bb9c[m
+Author: 刘科领 <1845108504@qq.com>
+Date:   Tue Apr 12 11:32:19 2016 +0800
+
+    整合Fragment初见成效
+
+[33mcommit 4b7058265bde96ee91da1509d3aaed9326a863ee[m
+Merge: 489bbc9 0101996
+Author: 刘科领 <1845108504@qq.com>
+Date:   Mon Apr 11 00:39:14 2016 +0800
+
+    Merge branch 'master' of D:\workspace1\仿qq
+
+[33mcommit 010199650c76542c0de016fb1f4284c108f1c834[m
+Author: 刘科领 <1845108504@qq.com>
+Date:   Mon Apr 11 00:39:05 2016 +0800
+
+    全部纳入管理得了
+
+[33mcommit 489bbc94428b5cf20ab7dcc2ae51ddb48de2cac5[m
+Merge: e406745 4c297c3
+Author: 刘科领 <1845108504@qq.com>
+Date:   Mon Apr 11 00:38:12 2016 +0800
+
+    Merge branch 'master' of D:\workspace1\仿qq
+
+[33mcommit e40674509d5ed90218a33c524cea29ed005baa45[m
+Author: 刘科领 <1845108504@qq.com>
+Date:   Mon Apr 11 00:36:43 2016 +0800
+
+    全删
+
+[33mcommit 4c297c30f1b80d97476d14f0c9b6dd799458db42[m
+Author: 刘科领 <1845108504@qq.com>
+Date:   Mon Apr 11 00:27:51 2016 +0800
+
+    尝试使用Fragment
+
+[33mcommit 922c89dabc895447f70dd70c187b62d36de7fb89[m
+Author: 刘科领 <1845108504@qq.com>
+Date:   Sun Apr 10 21:43:23 2016 +0800
+
+    初次提交
+
+[33mcommit af0317a6b3c0d0fef5d5cc7a710ddb4042230f59[m
+Author: 刘科领 <1845108504@qq.com>
+Date:   Sun Mar 20 20:14:37 2016 +0800
+
+    删除空文件夹
+
+[33mcommit 217395453efb95aa9e42b542fcd48715cf5a132a[m
+Merge: b6e4dd7 7a109c5
+Author: 刘科领 <1845108504@qq.com>
+Date:   Sun Mar 20 20:12:57 2016 +0800
+
+    Merge branch 'master' of https://github.com/liukeling/liukeling
+
+[33mcommit b6e4dd79e18cb4842b455d8495a16ea98a7afdc9[m
+Author: 刘科领 <1845108504@qq.com>
+Date:   Sun Mar 20 20:12:00 2016 +0800
+
+    上次提交错了
+
+[33mcommit 7a109c58a3e542243adeb4336c8f7aeec133a31e[m
+Author: 刘科领 <1845108504@qq.com>
+Date:   Sun Mar 20 20:07:24 2016 +0800
+
+    第一次提交
