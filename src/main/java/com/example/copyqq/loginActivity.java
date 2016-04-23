@@ -70,6 +70,8 @@ public class loginActivity extends Activity implements OnClickListener {
 					Toast.makeText(loginActivity.this, "登陆失败,用户名或密码错误", Toast.LENGTH_SHORT)
 							.show();
 				}
+				login.setClickable(true);
+				login.setBackgroundResource(R.drawable.login_buttonselector);
 			} else if (what == 2) {
 				Response response = (Response) msg.obj;
 				String onLine = response.getResponse();
@@ -183,6 +185,8 @@ public class loginActivity extends Activity implements OnClickListener {
 					boolean c = pswd.matches("\\w{1,20}");
 					if (c) {
 						resource.login(name, pswd, handler);
+						login.setClickable(false);
+						login.setBackgroundResource(R.drawable.login_button2);
 					} else {
 						Toast.makeText(this, "密码不能包含非法字符", Toast.LENGTH_SHORT).show();
 					}

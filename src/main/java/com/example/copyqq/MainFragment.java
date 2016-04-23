@@ -5,31 +5,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.fragments.frindListfragment;
+import com.example.fragments.frindListmain_fragment;
+import com.example.fragments.frindlist_fragmnet;
+import com.example.fragments.phonelist_fragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import comm.user;
 
 import com.example.Tools.resource;
 
-import android.content.Context;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
@@ -40,6 +34,8 @@ import android.widget.Toast;
  */
 public class MainFragment extends FragmentActivity implements
         OnCheckedChangeListener {
+    //是消息界面还是电话界面
+    private boolean isxinxi = true;
     //toolbar
     private Toolbar main_toolbar;
     //radiogroup
@@ -105,6 +101,8 @@ public class MainFragment extends FragmentActivity implements
                 menu.showMenu();
             }
         });
+        tv_1.setClickable(false);
+        //设置监听
         tv_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +112,9 @@ public class MainFragment extends FragmentActivity implements
                 tv_1.setTextColor(Color.parseColor("#00B7FB"));
                 tv_1.setClickable(false);
                 tv_2.setClickable(true);
+                fra = new frindlist_fragmnet();
+                isxinxi = true;
+                putfragment();
             }
         });
         tv_2.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +126,9 @@ public class MainFragment extends FragmentActivity implements
                 tv_1.setTextColor(Color.parseColor("#ffffff"));
                 tv_2.setClickable(false);
                 tv_1.setClickable(true);
+                isxinxi = false;
+                fra = new phonelist_fragment();
+                putfragment();
             }
         });
         rg.setOnCheckedChangeListener(this);
@@ -153,6 +157,8 @@ public class MainFragment extends FragmentActivity implements
                 R.layout.menu_item, R.id.tv, menudata);
 
         menuListView.setAdapter(adapter);
+
+        updata();
     }
     /*
      * 初始化布局
@@ -174,30 +180,32 @@ public class MainFragment extends FragmentActivity implements
     }
 
 	/*
-	 * 用于切换不同Fragment
+	 * 用于实例化要切换的Fragment
 	 */
 
     public void setFragment() {
         switch (checkfragment) {
             case 1:
-
                 tv_1.setVisibility(View.VISIBLE);
                 tv_2.setVisibility(View.VISIBLE);
                 tv_3.setVisibility(View.INVISIBLE);
-
+                if(isxinxi) {
+                    fra = new frindlist_fragmnet();
+                }else{
+                    fra = new phonelist_fragment();
+                }
                 break;
             case 2:
                 tv_1.setVisibility(View.INVISIBLE);
                 tv_2.setVisibility(View.INVISIBLE);
                 tv_3.setVisibility(View.VISIBLE);
                 tv_3.setText("联系人");
-                updata();
                 frindlistadapter = new SimpleExpandableListAdapter(this,
                         resource.gruops, R.layout.one_mulu,
                         new String[]{"group"}, new int[]{R.id.tv},
                         resource.childs, R.layout.two_mulu,
                         new String[]{"child"}, new int[]{R.id.tv});
-                fra = new frindListfragment(handler, frindlistadapter);
+                fra = new frindListmain_fragment(handler, frindlistadapter);
                 break;
             case 3:
                 tv_1.setVisibility(View.INVISIBLE);
@@ -208,14 +216,19 @@ public class MainFragment extends FragmentActivity implements
         }
         putfragment();
     }
+    /*
+        用于切换Fragment
+     */
     private void putfragment(){
 
         if (fra != null) {
             if(curr_fragment != null) {
                 getSupportFragmentManager().beginTransaction().remove(curr_fragment).commit();
             }
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame, fra).commit();
+            if(fra != curr_fragment) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame, fra).commit();
+            }
             curr_fragment = fra;
         }
     }
@@ -250,6 +263,10 @@ public class MainFragment extends FragmentActivity implements
      * 这个方法是用来更新好友列表数据的
      */
     private void updata() {
+
+        /*
+            更新好友分组
+         */
         resource.gruops.clear();
         resource.childs.clear();
         ArrayList<Integer> al = new ArrayList<Integer>();
