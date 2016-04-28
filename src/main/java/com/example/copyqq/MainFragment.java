@@ -14,15 +14,19 @@ import comm.user;
 
 import com.example.Tools.resource;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -40,7 +44,9 @@ public class MainFragment extends FragmentActivity implements
     private Toolbar main_toolbar;
     //radiogroup
     private RadioGroup rg;
-
+    //toolbar的菜单
+    private View Main_view;
+    private PopupWindow popupWindow;
     //侧滑菜单
     private SlidingMenu menu;
     //toolbar上的title
@@ -95,6 +101,7 @@ public class MainFragment extends FragmentActivity implements
         // TODO Auto-generated method stub
         super.onCreate(arg0);
         initView();
+        //点击toolbar的图标，开始侧滑
         main_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +109,18 @@ public class MainFragment extends FragmentActivity implements
             }
         });
         tv_1.setClickable(false);
+//TODO
+//        main_toolbar.inflateMenu(R.menu.mainfragment_xiaoximenu);
+//        main_toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//
+////                popupWindow.showAsDropDown(main_toolbar,50, ViewGroup.LayoutParams.MATCH_PARENT);
+//                return false;
+//            }
+//        });
+        //toolbar设置菜单
+
         //设置监听
         tv_1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,25 +183,35 @@ public class MainFragment extends FragmentActivity implements
      * 初始化布局
      */
     private void initView() {
-        View view = View.inflate(MainFragment.this, R.layout.mainfragment_layout, null);
+        Main_view = View.inflate(MainFragment.this, R.layout.mainfragment_layout, null);
         cehuamen = View.inflate(this, R.layout.main_menu, null);
-        rg = (RadioGroup) view.findViewById(R.id.radioG);
-        main_toolbar = (Toolbar) view.findViewById(R.id.main_toolbar);
-        tv_1 = (TextView) view.findViewById(R.id.tv_1);
-        tv_2 = (TextView) view.findViewById(R.id.tv_2);
-        tv_3 = (TextView) view.findViewById(R.id.tv_3);
-        setContentView(view);
+        rg = (RadioGroup) Main_view.findViewById(R.id.radioG);
+        main_toolbar = (Toolbar) Main_view.findViewById(R.id.main_toolbar);
+        tv_1 = (TextView) Main_view.findViewById(R.id.tv_1);
+        tv_2 = (TextView) Main_view.findViewById(R.id.tv_2);
+        tv_3 = (TextView) Main_view.findViewById(R.id.tv_3);
+        setContentView(Main_view);
+    }
+
+    public void popWindow(View view){
+        popupWindow = new PopupWindow(this);
+        popupWindow.setContentView(cehuamen);
+        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.showAsDropDown(view,50, 50);
     }
 
     // 头像点击调用
     public void checkOther(View view) {
-        Toast.makeText(this, "hehe", Toast.LENGTH_SHORT).show();
+        //TODO
+        startActivity(new Intent(this, userInfo.class));
     }
 
 	/*
 	 * 用于实例化要切换的Fragment
 	 */
 
+    //TODO
     public void setFragment() {
         switch (checkfragment) {
             case 1:

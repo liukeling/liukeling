@@ -56,6 +56,14 @@
                 android:layout_centerInParent="true"
                 android:layout_height="34dp"/>
         </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:onClick="popWindow"
+            android:src="@mipmap/menu_jia"/>
     </RelativeLayout>
 
     <RadioGroup

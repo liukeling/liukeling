@@ -46,6 +46,10 @@
             android:name="com.example.copyqq.registActivity"
             android:launchMode="singleTop" >
         </activity>
+        <activity
+            android:name="com.example.copyqq.userInfo"
+            android:launchMode="singleTop" >
+        </activity>
     </application>
 
 </manifest>

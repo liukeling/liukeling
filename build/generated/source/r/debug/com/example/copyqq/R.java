@@ -1945,6 +1945,10 @@ containing a value of this type.
         public static final int slidingmenumain=0x7f040033;
         public static final int support_simple_spinner_dropdown_item=0x7f040034;
         public static final int two_mulu=0x7f040035;
+        public static final int user_infolayout=0x7f040036;
+    }
+    public static final class menu {
+        public static final int mainfragment_xiaoximenu=0x7f0d0000;
     }
     public static final class mipmap {
         public static final int button_daohang_1=0x7f030000;
@@ -1952,19 +1956,20 @@ containing a value of this type.
         public static final int ceshi1=0x7f030002;
         public static final int daohang=0x7f030003;
         public static final int ic_launcher=0x7f030004;
-        public static final int qietou=0x7f030005;
-        public static final int qq_touxiang=0x7f030006;
-        public static final int sendbutton_chat=0x7f030007;
-        public static final int sendbutton_chat1=0x7f030008;
-        public static final int skin_tab_icon_contact_normal=0x7f030009;
-        public static final int skin_tab_icon_contact_selected=0x7f03000a;
-        public static final int skin_tab_icon_conversation_normal=0x7f03000b;
-        public static final int skin_tab_icon_conversation_selected=0x7f03000c;
-        public static final int skin_tab_icon_plugin_normal=0x7f03000d;
-        public static final int skin_tab_icon_plugin_selected=0x7f03000e;
-        public static final int toolbar_touxiang=0x7f03000f;
-        public static final int toright_jiantou_hui=0x7f030010;
-        public static final int touxiang=0x7f030011;
+        public static final int menu_jia=0x7f030005;
+        public static final int qietou=0x7f030006;
+        public static final int qq_touxiang=0x7f030007;
+        public static final int sendbutton_chat=0x7f030008;
+        public static final int sendbutton_chat1=0x7f030009;
+        public static final int skin_tab_icon_contact_normal=0x7f03000a;
+        public static final int skin_tab_icon_contact_selected=0x7f03000b;
+        public static final int skin_tab_icon_conversation_normal=0x7f03000c;
+        public static final int skin_tab_icon_conversation_selected=0x7f03000d;
+        public static final int skin_tab_icon_plugin_normal=0x7f03000e;
+        public static final int skin_tab_icon_plugin_selected=0x7f03000f;
+        public static final int toolbar_touxiang=0x7f030010;
+        public static final int toright_jiantou_hui=0x7f030011;
+        public static final int touxiang=0x7f030012;
     }
     public static final class string {
         public static final int abc_action_bar_home_description=0x7f060000;
