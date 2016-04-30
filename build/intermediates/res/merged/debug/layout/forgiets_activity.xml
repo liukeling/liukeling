@@ -36,4 +36,4 @@
         android:layout_below="@id/usernewpswd"
         android:text="找回密码" />
 
-</RelativeLayout><!-- From: file:/D:/AndroidStudioProjects/heheda/copyqq/src/main/res/layout/forgiets_activity.xml -->
+</RelativeLayout>
