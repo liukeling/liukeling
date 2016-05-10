@@ -5,5 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="qinse">#00B7FB</color>
     <color name="huise">#aaaaaa</color>
+    <color name="huibaise">#eeeeee</color>
+    <color name="huibai_baise">#f3f3f3</color>
+    <color name="huibai_huise">#dddddd</color>
     <color name="white">#fff</color>
 </resources>

@@ -12,7 +12,7 @@ import com.example.copyqq.R;
 /**
  * Created by Administrator on 2016/4/23.
  */
-public class frindlist_fragmnet extends Fragment {
+public class Frindlist_fragmnet extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

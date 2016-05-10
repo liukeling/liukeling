@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint("HandlerLeak")
-public class loginActivity extends Activity implements OnClickListener {
+public class LoginActivity extends Activity implements OnClickListener {
 
 	TextView regist;
 	TextView forgets;
@@ -39,17 +39,17 @@ public class loginActivity extends Activity implements OnClickListener {
 		public void handleMessage(android.os.Message msg) {
 			int what = msg.what;
 			if (what == 122411) {
-				Toast.makeText(loginActivity.this, "链接失败", Toast.LENGTH_SHORT).show();
+				Toast.makeText(LoginActivity.this, "链接失败", Toast.LENGTH_SHORT).show();
 			} else if (what == 1) {
 				Response response = (Response) msg.obj;
 				if (response == null) {
-					Toast.makeText(loginActivity.this, "链接服务器失败", Toast.LENGTH_SHORT).show();
+					Toast.makeText(LoginActivity.this, "链接服务器失败", Toast.LENGTH_SHORT).show();
 				} else if (response.getResponse().contains("成功")) {
 
 					if (remenber.isChecked()) {
-						SharedPreferences spf = loginActivity.this
+						SharedPreferences spf = LoginActivity.this
 								.getSharedPreferences("users",
-										loginActivity.MODE_PRIVATE);
+										LoginActivity.MODE_PRIVATE);
 						Editor edit = spf.edit();
 						edit.putString("username", username.getText()
 								.toString());
@@ -57,9 +57,9 @@ public class loginActivity extends Activity implements OnClickListener {
 								.toString());
 						edit.commit();
 					} else {
-						SharedPreferences spf = loginActivity.this
+						SharedPreferences spf = LoginActivity.this
 								.getSharedPreferences("users",
-										loginActivity.MODE_PRIVATE);
+										LoginActivity.MODE_PRIVATE);
 						Editor edit = spf.edit();
 						edit.clear();
 						edit.commit();
@@ -67,7 +67,7 @@ public class loginActivity extends Activity implements OnClickListener {
 					resource.onLine(this);
 
 				} else {
-					Toast.makeText(loginActivity.this, "登陆失败,用户名或密码错误", Toast.LENGTH_SHORT)
+					Toast.makeText(LoginActivity.this, "登陆失败,用户名或密码错误", Toast.LENGTH_SHORT)
 							.show();
 				}
 				login.setClickable(true);
@@ -77,11 +77,11 @@ public class loginActivity extends Activity implements OnClickListener {
 				String onLine = response.getResponse();
 				if (onLine.contains("成功")) {
 					resource.Myzhanghao = name;
-					Intent intent = new Intent(loginActivity.this,
+					Intent intent = new Intent(LoginActivity.this,
 							MainFragment.class);
 					startActivity(intent);
 				} else {
-					Toast.makeText(loginActivity.this, "登陆失败,该账号在其他地方登录", Toast.LENGTH_SHORT)
+					Toast.makeText(LoginActivity.this, "登陆失败,该账号在其他地方登录", Toast.LENGTH_SHORT)
 							.show();
 				}
 			}
@@ -107,8 +107,8 @@ public class loginActivity extends Activity implements OnClickListener {
 		forgets.setOnClickListener(this);
 		login.setOnClickListener(this);
 
-		SharedPreferences spf = loginActivity.this.getSharedPreferences(
-				"users", loginActivity.MODE_PRIVATE);
+		SharedPreferences spf = LoginActivity.this.getSharedPreferences(
+				"users", LoginActivity.MODE_PRIVATE);
 		String name = spf.getString("username", "");
 		String pswd = spf.getString("userpswd", "");
 		username.setText(name);
@@ -129,11 +129,11 @@ public class loginActivity extends Activity implements OnClickListener {
 		int forgets_id = forgets.getId();
 		int login_id = login.getId();
 		if (key == regist_id) {
-			Intent intent = new Intent(loginActivity.this, registActivity.class);
+			Intent intent = new Intent(LoginActivity.this, RegistActivity.class);
 			startActivity(intent);
 		} else if (key == forgets_id) {
 			
-			Intent intent = new Intent(loginActivity.this, forgetspswd.class);
+			Intent intent = new Intent(LoginActivity.this, Forgetspswd.class);
 			startActivity(intent);
 			
 		} else if (key == login_id) {
@@ -168,7 +168,7 @@ public class loginActivity extends Activity implements OnClickListener {
 					back = 0;
 				};
 			}.start();
-			Toast.makeText(loginActivity.this, "再按一次退出", Toast.LENGTH_SHORT)
+			Toast.makeText(LoginActivity.this, "再按一次退出", Toast.LENGTH_SHORT)
 					.show();
 		}
 	}

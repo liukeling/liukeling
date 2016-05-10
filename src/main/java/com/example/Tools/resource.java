@@ -16,6 +16,7 @@ import com.example.copyqq.Chat;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import comm.Request;
 import comm.Response;
@@ -38,7 +39,7 @@ public class resource {
 	 * 存放内容, 以便显示在列表中
 	 */
 	public static List<List<Map<String, String>>> childs = new ArrayList<List<Map<String, String>>>();
-
+	//储存登陆的用户
 	private static user me = null;
 
 	private resource() {
@@ -54,6 +55,10 @@ public class resource {
 		new Thread() {
 			public void run() {
 				try {
+					if(resource.socket != null) {
+						resource.socket.close();
+						resource.socket = null;
+					}
 					Socket socket = new Socket(dbdao.fuwuip, dbdao.qqduankou);
 					resource.socket = socket;
 				} catch (Exception e) {
@@ -137,7 +142,6 @@ public class resource {
 							// ArrayList<user> list = response.getFriends();
 							//
 							// frind_list.addAll(list);
-
 							Object obj = response.getObj();
 							frinds.clear();
 							frinds.addAll((ArrayList<HashMap<HashMap<Integer, String>, user>>) obj);
@@ -198,13 +202,12 @@ public class resource {
 							Message msg = new Message();
 							if (Integer.parseInt(Myzhanghao) == response
 									.getResponseUser().getZhanghao()) {
-								msg.what = 70;
 								me = response.getResponseUser();
 							} else {
 								msg.what = 71;
 								msg.obj = response.getResponseUser();
+								handler.sendMessage(msg);
 							}
-							handler.sendMessage(msg);
 						}
 
 					} catch (Exception e) {

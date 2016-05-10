@@ -22,10 +22,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		SharedPreferences spf = this.getSharedPreferences("users",
-				loginActivity.MODE_PRIVATE);
+				LoginActivity.MODE_PRIVATE);
 		if(!"null".equals(spf.getString("username", "null"))){
 
-			Intent intent = new Intent(this, loginActivity.class);
+			Intent intent = new Intent(this, LoginActivity.class);
 			startActivity(intent);
 			this.finish();
 		}
@@ -51,10 +51,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		int registid = regist.getId();
 		if (key == loginid) {
 			this.finish();
-			Intent intent = new Intent(this, loginActivity.class);
+			Intent intent = new Intent(this, LoginActivity.class);
 			startActivity(intent);
 		} else if (key == registid) {
-			Intent intent = new Intent(MainActivity.this, registActivity.class);
+			Intent intent = new Intent(MainActivity.this, RegistActivity.class);
 			startActivity(intent);
 		}
 	}

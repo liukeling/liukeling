@@ -12,7 +12,7 @@ import com.example.copyqq.R;
 /**
  * Created by Administrator on 2016/4/23.
  */
-public class phonelist_fragment extends Fragment {
+public class Phonelist_fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

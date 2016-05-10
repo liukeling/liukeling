@@ -27,29 +27,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.copyqq.loginActivity"
-            android:launchMode="singleTop" >
-        </activity>
+            android:name="com.example.copyqq.LoginActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name="com.example.copyqq.Chat"
-            android:launchMode="singleTop" >
-        </activity>
+            android:launchMode="singleTop" />
         <activity
-            android:name="com.example.copyqq.forgetspswd"
-            android:launchMode="singleTop" >
-        </activity>
+            android:name="com.example.copyqq.Forgetspswd"
+            android:launchMode="singleTop" />
         <activity
             android:name="com.example.copyqq.MainFragment"
-            android:launchMode="singleTop" >
-        </activity>
+            android:launchMode="singleTop" />
         <activity
-            android:name="com.example.copyqq.registActivity"
-            android:launchMode="singleTop" >
-        </activity>
+            android:name="com.example.copyqq.RegistActivity"
+            android:launchMode="singleTop" />
         <activity
-            android:name="com.example.copyqq.userInfo"
-            android:launchMode="singleTop" >
-        </activity>
+            android:name="com.example.copyqq.UserInfo"
+            android:launchMode="singleTop" />
+        <activity
+            android:name="com.example.copyqq.AddNewFrind"
+            android:launchMode="singleTop" />
+        <activity android:name="com.example.copyqq.Search_frinds" />
     </application>
 
 </manifest>

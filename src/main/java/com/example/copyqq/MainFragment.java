@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.fragments.frindListmain_fragment;
-import com.example.fragments.frindlist_fragmnet;
-import com.example.fragments.phonelist_fragment;
+import com.example.fragments.FrindListmain_fragment;
+import com.example.fragments.Frindlist_fragmnet;
+import com.example.fragments.Phonelist_fragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import comm.user;
@@ -21,32 +21,30 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
-/*
- * 这是登陆后的主界面，一个FragmentActivity。
- */
 public class MainFragment extends FragmentActivity implements
-        OnCheckedChangeListener {
+        OnCheckedChangeListener, View.OnClickListener {
     //是消息界面还是电话界面
     private boolean isxinxi = true;
     //toolbar
     private Toolbar main_toolbar;
     //radiogroup
     private RadioGroup rg;
-    //toolbar的菜单
+    //toolbar菜单
+    private ImageView add_mainfram;
+    private TextView add_mainfram_tv;
+
     private View Main_view;
-    private PopupWindow popupWindow;
     //侧滑菜单
     private SlidingMenu menu;
     //toolbar上的title
@@ -64,6 +62,7 @@ public class MainFragment extends FragmentActivity implements
 
     // 侧滑布局
     private View cehuamen;
+    private TextView usertitle;
     // 侧滑布局中ListView
     private ListView menuListView;
     // 侧滑布局中ListView的数据
@@ -80,17 +79,12 @@ public class MainFragment extends FragmentActivity implements
                         .getLinshiobj();
                 frinds.addAll(list);
                 updata();
-                if (frindlistadapter != null) {
-                    frindlistadapter.notifyDataSetChanged();
-                }
                 if ("one".equals(msg.obj)) {
                     resource.jieshouxiaoxiThread(handler);
                 }
-            } else if (what == 70) {
-                Toast.makeText(MainFragment.this,
-                        "" + resource.getMe().toString(), Toast.LENGTH_LONG).show();
-            } else if (what == 71) {
-
+            }else if (what == 71) {
+                //获取到好友的信息
+                user frind_info = (user) msg.obj;
             }
         }
 
@@ -110,46 +104,12 @@ public class MainFragment extends FragmentActivity implements
         });
         tv_1.setClickable(false);
 //TODO
-//        main_toolbar.inflateMenu(R.menu.mainfragment_xiaoximenu);
-//        main_toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//
-////                popupWindow.showAsDropDown(main_toolbar,50, ViewGroup.LayoutParams.MATCH_PARENT);
-//                return false;
-//            }
-//        });
-        //toolbar设置菜单
-
         //设置监听
-        tv_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tv_2.setBackgroundResource(R.color.qinse);
-                tv_1.setBackgroundResource(R.color.white);
-                tv_2.setTextColor(Color.parseColor("#ffffff"));
-                tv_1.setTextColor(Color.parseColor("#00B7FB"));
-                tv_1.setClickable(false);
-                tv_2.setClickable(true);
-                fra = new frindlist_fragmnet();
-                isxinxi = true;
-                putfragment();
-            }
-        });
-        tv_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tv_2.setBackgroundResource(R.color.white);
-                tv_1.setBackgroundResource(R.color.qinse);
-                tv_2.setTextColor(Color.parseColor("#00B7FB"));
-                tv_1.setTextColor(Color.parseColor("#ffffff"));
-                tv_2.setClickable(false);
-                tv_1.setClickable(true);
-                isxinxi = false;
-                fra = new phonelist_fragment();
-                putfragment();
-            }
-        });
+        tv_1.setOnClickListener(this);
+        tv_2.setOnClickListener(this);
+
+        add_mainfram_tv.setOnClickListener(this);
+
         rg.setOnCheckedChangeListener(this);
         // 一进来默认是第2个被选中
         rg.check(R.id.radiob2);
@@ -160,7 +120,6 @@ public class MainFragment extends FragmentActivity implements
 		/*
          * 侧滑功能的实现
 		 */
-        menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setBehindOffset(100);
 
@@ -170,12 +129,22 @@ public class MainFragment extends FragmentActivity implements
 		/*
 		 * 从侧滑布局中获取控件
 		 */
-        menuListView = (ListView) cehuamen.findViewById(R.id.listView);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.menu_item, R.id.tv, menudata);
 
         menuListView.setAdapter(adapter);
+
+        menu.setOnOpenListener(new SlidingMenu.OnOpenListener() {
+            @Override
+            public void onOpen() {
+
+                if(resource.getMe() != null) {
+                    usertitle.setText(resource.getMe().getName()+"\n"+resource.getMe().getZhanghao());
+                }else{
+                    usertitle.setText("未知");
+                }
+            }
+        });
 
         updata();
     }
@@ -185,26 +154,23 @@ public class MainFragment extends FragmentActivity implements
     private void initView() {
         Main_view = View.inflate(MainFragment.this, R.layout.mainfragment_layout, null);
         cehuamen = View.inflate(this, R.layout.main_menu, null);
+        menu = new SlidingMenu(this);
+        menuListView = (ListView) cehuamen.findViewById(R.id.listView);
+        usertitle = (TextView) cehuamen.findViewById(R.id.usertitle);
         rg = (RadioGroup) Main_view.findViewById(R.id.radioG);
         main_toolbar = (Toolbar) Main_view.findViewById(R.id.main_toolbar);
         tv_1 = (TextView) Main_view.findViewById(R.id.tv_1);
         tv_2 = (TextView) Main_view.findViewById(R.id.tv_2);
         tv_3 = (TextView) Main_view.findViewById(R.id.tv_3);
+        add_mainfram = (ImageView) Main_view.findViewById(R.id.add_mainfram);
+        add_mainfram_tv = (TextView) Main_view.findViewById(R.id.add_mainfram_tv);
         setContentView(Main_view);
-    }
-
-    public void popWindow(View view){
-        popupWindow = new PopupWindow(this);
-        popupWindow.setContentView(cehuamen);
-        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.showAsDropDown(view,50, 50);
     }
 
     // 头像点击调用
     public void checkOther(View view) {
         //TODO
-        startActivity(new Intent(this, userInfo.class));
+        startActivity(new Intent(this, UserInfo.class));
     }
 
 	/*
@@ -218,28 +184,39 @@ public class MainFragment extends FragmentActivity implements
                 tv_1.setVisibility(View.VISIBLE);
                 tv_2.setVisibility(View.VISIBLE);
                 tv_3.setVisibility(View.INVISIBLE);
+
+                add_mainfram.setVisibility(View.VISIBLE);
+                add_mainfram_tv.setVisibility(View.INVISIBLE);
                 if(isxinxi) {
-                    fra = new frindlist_fragmnet();
+                    fra = new Frindlist_fragmnet();
                 }else{
-                    fra = new phonelist_fragment();
+                    fra = new Phonelist_fragment();
                 }
                 break;
             case 2:
                 tv_1.setVisibility(View.INVISIBLE);
                 tv_2.setVisibility(View.INVISIBLE);
                 tv_3.setVisibility(View.VISIBLE);
+                add_mainfram.setVisibility(View.INVISIBLE);
+                add_mainfram_tv.setVisibility(View.VISIBLE);
+
+                add_mainfram_tv.setText("添加");
+
                 tv_3.setText("联系人");
                 frindlistadapter = new SimpleExpandableListAdapter(this,
                         resource.gruops, R.layout.one_mulu,
                         new String[]{"group"}, new int[]{R.id.tv},
                         resource.childs, R.layout.two_mulu,
                         new String[]{"child"}, new int[]{R.id.tv});
-                fra = new frindListmain_fragment(handler, frindlistadapter);
+                fra = new FrindListmain_fragment(handler, frindlistadapter);
                 break;
             case 3:
                 tv_1.setVisibility(View.INVISIBLE);
                 tv_2.setVisibility(View.INVISIBLE);
                 tv_3.setVisibility(View.VISIBLE);
+                add_mainfram.setVisibility(View.INVISIBLE);
+                add_mainfram_tv.setVisibility(View.VISIBLE);
+                add_mainfram_tv.setText("更多");
                 tv_3.setText("动态");
                 break;
         }
@@ -356,6 +333,14 @@ public class MainFragment extends FragmentActivity implements
                 }
             }
             resource.childs.add(er);
+
+        }
+
+        if (fra instanceof FrindListmain_fragment) {
+            FrindListmain_fragment f = (FrindListmain_fragment) fra;
+            if(f.frindlistadapter != null){
+                f.frindlistadapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -365,5 +350,44 @@ public class MainFragment extends FragmentActivity implements
         resource.outLine();
         super.onDestroy();
     }
+//TODO
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_1:
 
+                tv_2.setBackgroundResource(R.color.qinse);
+                tv_1.setBackgroundResource(R.color.white);
+                tv_2.setTextColor(Color.parseColor("#ffffff"));
+                tv_1.setTextColor(Color.parseColor("#00B7FB"));
+                tv_1.setClickable(false);
+                tv_2.setClickable(true);
+                fra = new Frindlist_fragmnet();
+                isxinxi = true;
+                putfragment();
+                break;
+            case R.id.tv_2:
+
+                tv_2.setBackgroundResource(R.color.white);
+                tv_1.setBackgroundResource(R.color.qinse);
+                tv_2.setTextColor(Color.parseColor("#00B7FB"));
+                tv_1.setTextColor(Color.parseColor("#ffffff"));
+                tv_2.setClickable(false);
+                tv_1.setClickable(true);
+                isxinxi = false;
+                fra = new Phonelist_fragment();
+                putfragment();
+                break;
+            case R.id.add_mainfram_tv:
+                if(checkfragment == 2) {
+                    Intent intent = new Intent(this, AddNewFrind.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.right_to_left, R.anim.no_translate);
+                }else{
+                    //更多功能
+
+                }
+                break;
+        }
+    }
 }

@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-@SuppressLint("HandlerLeak") public class forgetspswd extends Activity {
+@SuppressLint("HandlerLeak") public class Forgetspswd extends Activity {
 	EditText username;
 	EditText userzhanghao;
 	EditText userpswd;
@@ -25,10 +25,10 @@ import android.widget.Toast;
 				Response response = (Response) msg.obj;
 				String xinxi = response.getResponse();
 				if("修改成功".equals(xinxi)){
-					Toast.makeText(forgetspswd.this, "修改成功", Toast.LENGTH_SHORT).show();
+					Toast.makeText(Forgetspswd.this, "修改成功", Toast.LENGTH_SHORT).show();
 					finish();
 				}else if("修改失败".equals(xinxi)){
-					Toast.makeText(forgetspswd.this, "修改失败", Toast.LENGTH_SHORT).show();
+					Toast.makeText(Forgetspswd.this, "修改失败", Toast.LENGTH_SHORT).show();
 				}
 				
 			}
@@ -56,7 +56,7 @@ import android.widget.Toast;
 						&& !"".equals(zhanghao) && pswd != null && !"".equals(pswd)){
 					resource.modifyMima(name, pswd, zhanghao,handler);
 				}else{
-					Toast.makeText(forgetspswd.this, "用户名，密码及账号不能为空", Toast.LENGTH_LONG);
+					Toast.makeText(Forgetspswd.this, "用户名，密码及账号不能为空", Toast.LENGTH_LONG);
 				}
 			}
 

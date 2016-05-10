@@ -21,7 +21,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
-@SuppressLint("HandlerLeak") public class registActivity extends Activity {
+@SuppressLint("HandlerLeak") public class RegistActivity extends Activity {
 	private EditText username;
 	private EditText userpswd;
 	private CheckBox agree;
@@ -37,7 +37,7 @@ import android.widget.Toast;
 					int zhanghao = newuser.getZhanghao();
 					if (zhanghao != 0 && zhanghao != -1) {
 						AlertDialog dialog = new AlertDialog.Builder(
-								registActivity.this)
+								RegistActivity.this)
 								.setTitle("注册成功")
 								.setCancelable(false)
 								.setMessage(
@@ -52,24 +52,24 @@ import android.widget.Toast;
 													DialogInterface dialog,
 													int which) {
 												dialog.dismiss();
-												registActivity.this.finish();
+												RegistActivity.this.finish();
 												Intent intent = new Intent(
-														registActivity.this,
-														loginActivity.class);
+														RegistActivity.this,
+														LoginActivity.class);
 												startActivity(intent);
 											}
 										}).create();
 						dialog.show();
 					} else {
-						Toast.makeText(registActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
+						Toast.makeText(RegistActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
 					}
 				}else{
-					Toast.makeText(registActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
+					Toast.makeText(RegistActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
 				}
 
 				registprogress.dismiss();
 			}else if(msg.what == 122411){
-				Toast.makeText(registActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
+				Toast.makeText(RegistActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
 			}
 		};
 	};
@@ -108,18 +108,18 @@ import android.widget.Toast;
 						&& !"".equals(pswd)) {
 					if (pswd.matches("\\w{1,20}")) {
 						resource.regist(name, pswd, handler);
-						registprogress = new ProgressDialog(registActivity.this);
+						registprogress = new ProgressDialog(RegistActivity.this);
 						registprogress.setTitle("等待");
 						registprogress.setMessage("正在注册");
 						registprogress.setCancelable(false);
 						registprogress.show();
 
 					} else {
-						Toast.makeText(registActivity.this, "密码含有非法字符", Toast.LENGTH_SHORT)
+						Toast.makeText(RegistActivity.this, "密码含有非法字符", Toast.LENGTH_SHORT)
 								.show();
 					}
 				} else {
-					Toast.makeText(registActivity.this, "用户名或密码不能为空", Toast.LENGTH_SHORT).show();
+					Toast.makeText(RegistActivity.this, "用户名或密码不能为空", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});

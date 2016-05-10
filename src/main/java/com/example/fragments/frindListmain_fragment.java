@@ -23,13 +23,13 @@ import android.widget.SimpleExpandableListAdapter;
 import android.widget.Toast;
 
 @SuppressLint("ValidFragment")
-public class frindListmain_fragment extends Fragment {
+public class FrindListmain_fragment extends Fragment {
 	MyExpandableListView frindList;
 	Context ap_c = null;
-	SimpleExpandableListAdapter frindlistadapter;
+	public SimpleExpandableListAdapter frindlistadapter;
 	Handler handler;
 
-	public frindListmain_fragment(Handler handler,
+	public FrindListmain_fragment(Handler handler,
 								  SimpleExpandableListAdapter frindlistadapter) {
 		this.handler = handler;
 		this.frindlistadapter = frindlistadapter;
@@ -55,7 +55,7 @@ public class frindListmain_fragment extends Fragment {
 				jilu.put(groupPosition, childPosition);
 				user u = resource.frindList.get(jilu);
 				if (u != null) {
-					Intent intent = new Intent(frindListmain_fragment.this
+					Intent intent = new Intent(FrindListmain_fragment.this
 							.getActivity(), Chat.class);
 					intent.putExtra("frind", u);
 					startActivity(intent);

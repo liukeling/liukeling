@@ -1,19 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/qinse"
+        android:minHeight="50dp">
+
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/left_back"
+            android:drawablePadding="5dp"
+            android:text="消息"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="ceshi" />
+
+    </android.support.v7.widget.Toolbar>
 
     <LinearLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
-        android:orientation="vertical" >
+        android:layout_below="@id/toolbar"
+        android:background="@color/huibai_baise"
+        android:orientation="vertical">
 
         <ScrollView
             android:id="@+id/sl"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="1">
 
             <com.example.MyViews.MyListView
                 android:id="@+id/neirong"
@@ -23,28 +50,86 @@
                 android:divider="#00000000" />
         </ScrollView>
 
-        <LinearLayout
-            android:id="@+id/ll"
+        <RelativeLayout
+            android:id="@+id/bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal" >
+            android:layout_alignParentBottom="true">
 
-            <EditText
-                android:id="@+id/message"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:maxLength="1000"
-                android:singleLine="true" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/sendMessage"
-                android:layout_width="wrap_content"
-                android:clickable="false"
+                <EditText
+                    android:id="@+id/message"
+                    android:background="@color/white"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:maxLength="1000"
+                    android:singleLine="true"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="10dp"/>
+
+                <ImageButton
+                    android:id="@+id/sendMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/sendbutton_chat"
+                    android:clickable="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/xiaoxi_type"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/sendbutton_chat" />
-        </LinearLayout>
+                android:layout_below="@id/ll"
+                android:minHeight="40dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/hui_mai_icon"
+                    android:layout_height="match_parent" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/hui_vadio_icon"
+                    android:layout_height="match_parent" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/hui_image_icon"
+                    android:layout_height="match_parent" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/hui_phone_icoon"
+                    android:layout_height="match_parent" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/hui_hongbao_icon"
+                    android:layout_height="match_parent" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/hui_xiao_icon"
+                    android:layout_height="match_parent" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/hui_jia_icon"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_below="@id/xiaoxi_type"
+                android:layout_height="200dp" />
+        </RelativeLayout>
     </LinearLayout>
-
 </RelativeLayout>
