@@ -48,6 +48,7 @@
             android:name="com.example.copyqq.AddNewFrind"
             android:launchMode="singleTop" />
         <activity android:name="com.example.copyqq.Search_frinds" />
+        <activity android:name="com.example.copyqq.Chatset_Activity" />
     </application>
 
 </manifest>

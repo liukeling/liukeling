@@ -28,6 +28,7 @@ public class resource {
 	public static Socket socket;
 	public static String Myzhanghao = "0";
 	public static boolean jieshouxiaoxi = false;
+	private static Handler linshiHandler = null;
 	private static ArrayList<HashMap<HashMap<Integer, String>, user>> frinds = new ArrayList<HashMap<HashMap<Integer, String>, user>>();
 	public static HashMap<user, Chat> user_chat = new HashMap<user, Chat>();
 	public static HashMap<HashMap<Integer, Integer>, user> frindList = new HashMap<HashMap<Integer, Integer>, user>();
@@ -73,6 +74,16 @@ public class resource {
 		}.start();
 	}
 
+	//TODO 用于搜索好友的方法
+	public static void searchFrinds(Handler handler, String search_info){
+		linshiHandler = handler;
+
+		Request request = new Request();
+		request.setZhiling("搜索好友");
+		request.setRequest(search_info);
+		requestchuli(request, 0);
+	}
+
 	// 用于注册的方法
 	public static void regist(final String username, final String userpswd,
 							  final Handler handler) {
@@ -95,7 +106,6 @@ public class resource {
 						handler.sendMessage(msg);
 
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 						Message msg = new Message();
 						msg.what = 122411;
@@ -207,6 +217,14 @@ public class resource {
 								msg.what = 71;
 								msg.obj = response.getResponseUser();
 								handler.sendMessage(msg);
+							}
+						}else if("搜索好友的结果".equals(res)){
+							//TODO
+							if(linshiHandler != null){
+								Message msg = new Message();
+								msg.obj = response.getObj();
+								msg.what = 8;
+								linshiHandler.sendMessage(msg);
 							}
 						}
 

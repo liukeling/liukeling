@@ -30,7 +30,6 @@ public class AddNewFrind extends AppCompatActivity implements View.OnClickListen
         switch (v.getId()){
             case R.id.select_btn:
                 y = select.getTop();
-                Toast.makeText(AddNewFrind.this, "ceshi"+y, Toast.LENGTH_SHORT).show();
                 TranslateAnimation translateAnimation = new TranslateAnimation(0,0,0,-y*9);
                 translateAnimation.setDuration(1000);
                 translateAnimation.setFillAfter(true);

@@ -17,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.SimpleExpandableListAdapter;
@@ -44,6 +45,15 @@ public class FrindListmain_fragment extends Fragment {
 		frindList = (MyExpandableListView) view.findViewById(R.id.frinds);
 		frindList.setGroupIndicator(null);
 		frindList.setAdapter(frindlistadapter);
+
+
+		frindList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				Toast.makeText(ap_c, ""+position, Toast.LENGTH_SHORT).show();
+				return true;
+			}
+		});
 
 		frindList.setOnChildClickListener(new OnChildClickListener() {
 

@@ -41,7 +41,8 @@
         <activity
             android:name=".AddNewFrind"
             android:launchMode="singleTop" />
-        <activity android:name=".Search_frinds"></activity>
+        <activity android:name=".Search_frinds" />
+        <activity android:name=".Chatset_Activity"></activity>
     </application>
 
 </manifest>

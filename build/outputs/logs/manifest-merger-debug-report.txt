@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml:2:1-47:12
+ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml:2:1-48:12
 	package
 		ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml:3:5-33
 		INJECTED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml
@@ -22,13 +22,14 @@ ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest
 	android:name
 		ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml:6:22-78
 application
-ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml:8:5-45:19
+ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml:8:5-46:19
 MERGED from [com.android.support:appcompat-v7:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-v4:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:animated-vector-drawable:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\AndroidManifest.xml:7:5-20
 MERGED from [com.android.support:support-vector-drawable:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.1\AndroidManifest.xml:7:5-20
 MERGED from [com.android.support:support-v4:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-vector-drawable:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.1\AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-v4:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\AndroidManifest.xml:22:5-20
 	android:label
 		ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml:11:9-41
@@ -99,9 +100,13 @@ ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest
 	android:name
 		ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml:42:13-40
 activity#com.example.copyqq.Search_frinds
-ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml:44:9-60
+ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml:44:9-51
 	android:name
 		ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml:44:19-48
+activity#com.example.copyqq.Chatset_Activity
+ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml:45:9-63
+	android:name
+		ADDED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml:45:19-51
 uses-sdk
 INJECTED from D:\AndroidStudioProjects\Applications\copyqq\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:21:5-23:78
@@ -110,6 +115,8 @@ MERGED from [com.android.support:animated-vector-drawable:23.2.1] D:\AndroidStud
 MERGED from [com.android.support:support-vector-drawable:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.1\AndroidManifest.xml:5:5-43
 MERGED from [com.android.support:support-v4:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-vector-drawable:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.1\AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-v4:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:recyclerview-v7:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.2.1\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-v4:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\AndroidManifest.xml:20:5-43
 	tools:overrideLibrary
 		ADDED from [com.android.support:appcompat-v7:23.2.1] D:\AndroidStudioProjects\Applications\copyqq\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:23:9-75

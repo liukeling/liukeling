@@ -82,7 +82,7 @@ public class user implements Serializable {
 
 	@Override
 	public String toString() {
-		return "状态:"+zhuangtai+";姓名:"+name+"ip:"+ip;
+		return "状态:"+zhuangtai+";姓名:"+name+";ip:"+ip;
 	}
 
 }

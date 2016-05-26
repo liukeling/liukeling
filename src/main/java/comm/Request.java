@@ -1,11 +1,8 @@
 package comm;
 
 import java.io.Serializable;
-/*
- * 
- */
-@SuppressWarnings("serial")
 public class Request implements Serializable{
+	private String request = "";
 	private String zhiling = "";
 	private String Myzhanghao = "";
 	private String duifangzhanghao = "";
@@ -23,6 +20,15 @@ public class Request implements Serializable{
 	private String FileName = "";
 	private String[] listItems = null;
 	private int duankou;
+
+	
+	public String getRequest() {
+		return request;
+	}
+
+	public void setRequest(String request) {
+		this.request = request;
+	}
 
 	public void setZhiling(String zhiling) {
 		this.zhiling = zhiling;

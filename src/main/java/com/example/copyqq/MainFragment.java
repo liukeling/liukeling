@@ -82,7 +82,7 @@ public class MainFragment extends FragmentActivity implements
                 if ("one".equals(msg.obj)) {
                     resource.jieshouxiaoxiThread(handler);
                 }
-            }else if (what == 71) {
+            } else if (what == 71) {
                 //获取到好友的信息
                 user frind_info = (user) msg.obj;
             }
@@ -90,6 +90,7 @@ public class MainFragment extends FragmentActivity implements
 
         ;
     };
+
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
@@ -126,7 +127,7 @@ public class MainFragment extends FragmentActivity implements
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         // 为侧滑菜单设置布局
         menu.setMenu(cehuamen);
-		/*
+        /*
 		 * 从侧滑布局中获取控件
 		 */
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -138,9 +139,9 @@ public class MainFragment extends FragmentActivity implements
             @Override
             public void onOpen() {
 
-                if(resource.getMe() != null) {
-                    usertitle.setText(resource.getMe().getName()+"\n"+resource.getMe().getZhanghao());
-                }else{
+                if (resource.getMe() != null) {
+                    usertitle.setText(resource.getMe().getName() + "\n" + resource.getMe().getZhanghao());
+                } else {
                     usertitle.setText("未知");
                 }
             }
@@ -148,6 +149,7 @@ public class MainFragment extends FragmentActivity implements
 
         updata();
     }
+
     /*
      * 初始化布局
      */
@@ -187,9 +189,9 @@ public class MainFragment extends FragmentActivity implements
 
                 add_mainfram.setVisibility(View.VISIBLE);
                 add_mainfram_tv.setVisibility(View.INVISIBLE);
-                if(isxinxi) {
+                if (isxinxi) {
                     fra = new Frindlist_fragmnet();
-                }else{
+                } else {
                     fra = new Phonelist_fragment();
                 }
                 break;
@@ -222,16 +224,17 @@ public class MainFragment extends FragmentActivity implements
         }
         putfragment();
     }
+
     /*
         用于切换Fragment
      */
-    private void putfragment(){
+    private void putfragment() {
 
         if (fra != null) {
-            if(curr_fragment != null) {
+            if (curr_fragment != null) {
                 getSupportFragmentManager().beginTransaction().remove(curr_fragment).commit();
             }
-            if(fra != curr_fragment) {
+            if (fra != curr_fragment) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame, fra).commit();
             }
@@ -275,11 +278,14 @@ public class MainFragment extends FragmentActivity implements
          */
         resource.gruops.clear();
         resource.childs.clear();
+        //用于储存分组编号
         ArrayList<Integer> al = new ArrayList<Integer>();
+        //用于储存分组名称
         ArrayList<String> al1 = new ArrayList<String>();
         for (HashMap<HashMap<Integer, String>, user> hm : frinds) {
             for (HashMap<Integer, String> key : hm.keySet()) {
                 for (int i : key.keySet()) {
+                    //用于判断是否有重复的分组编号
                     boolean b = false;
                     for (int k : al) {
                         if (i == k) {
@@ -296,14 +302,17 @@ public class MainFragment extends FragmentActivity implements
                 }
             }
         }
-
+        //一级分组的数据设置
         for (String s : al1) {
             Map<String, String> title = new HashMap<String, String>();
             title.put("group", s);
             resource.gruops.add(title);
         }
+        //二级分组的数据设置
         int length = al.size();
         for (int i = 0; i < length; i++) {
+            boolean userIsNull = false;
+
             List<Map<String, String>> er = new ArrayList<Map<String, String>>();
 
             for (HashMap<HashMap<Integer, String>, user> hm : frinds) {
@@ -313,9 +322,13 @@ public class MainFragment extends FragmentActivity implements
                 for (HashMap<Integer, String> key : hm.keySet()) {
                     String value = "";
                     u = hm.get(key);
-                    value = u.getName() + " " + u.getZhuangtai();
-                    if ("是".equals(u.getHaveMassage())) {
-                        value = value + "   有消息";
+                    if (u != null) {
+                        value = u.getName() + " " + u.getZhuangtai();
+                        if ("是".equals(u.getHaveMassage())) {
+                            value = value + "   有消息";
+                        }
+                    } else {
+                        userIsNull = true;
                     }
                     for (int k : key.keySet()) {
                         if (al.get(i) == k) {
@@ -329,16 +342,18 @@ public class MainFragment extends FragmentActivity implements
                     HashMap<Integer, Integer> jilu = new HashMap<Integer, Integer>();
                     jilu.put(i, er.size());
                     resource.frindList.put(jilu, u);
-                    er.add(c_er);
+                    //如果用户为空就不添加到分组
+                    if(u != null) {
+                        er.add(c_er);
+                    }
                 }
             }
             resource.childs.add(er);
-
         }
 
         if (fra instanceof FrindListmain_fragment) {
             FrindListmain_fragment f = (FrindListmain_fragment) fra;
-            if(f.frindlistadapter != null){
+            if (f.frindlistadapter != null) {
                 f.frindlistadapter.notifyDataSetChanged();
             }
         }
@@ -350,10 +365,11 @@ public class MainFragment extends FragmentActivity implements
         resource.outLine();
         super.onDestroy();
     }
-//TODO
+
+    //TODO
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_1:
 
                 tv_2.setBackgroundResource(R.color.qinse);
@@ -379,11 +395,11 @@ public class MainFragment extends FragmentActivity implements
                 putfragment();
                 break;
             case R.id.add_mainfram_tv:
-                if(checkfragment == 2) {
+                if (checkfragment == 2) {
                     Intent intent = new Intent(this, AddNewFrind.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.right_to_left, R.anim.no_translate);
-                }else{
+                } else {
                     //更多功能
 
                 }

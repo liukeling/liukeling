@@ -1,31 +1,67 @@
 package com.example.copyqq;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.MyViews.MyListView;
+import com.example.Tools.resource;
+
+import java.util.ArrayList;
+
+import comm.user;
 
 public class Search_frinds extends AppCompatActivity implements View.OnClickListener {
 
     private EditText string_select;
     private View main;
+    private MyListView myListView;
     private boolean back = true;
+
+    private ArrayList<user> listViewData = new ArrayList<>();
+
+    private Myadapter adapter;
+//    private
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == 8){
+                ArrayList<user> al = (ArrayList<user>) msg.obj;
+                listViewData.clear();
+                if(al != null) {
+                    listViewData.addAll(al);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         main = View.inflate(this, R.layout.activity_search_frinds, null);
-//        setContentView(R.layout.activity_search_frinds);
         setContentView(main);
         string_select = (EditText) main.findViewById(R.id.string_select);
+        myListView = (MyListView) main.findViewById(R.id.mylistView);
         final Button btn_ok = (Button) main.findViewById(R.id.btn_ok);
         final ImageView ed_quxiao = (ImageView) main.findViewById(R.id.ed_quxiao);
+        adapter = new Myadapter();
+
+        myListView.setAdapter(adapter);
+
         ed_quxiao.setVisibility(View.INVISIBLE);
         string_select.addTextChangedListener(new TextWatcher() {
             @Override
@@ -95,9 +131,43 @@ public class Search_frinds extends AppCompatActivity implements View.OnClickList
                 if("".equals(s) || s == null){
                     onBackPressed();
                 }else{
-
+                    resource.searchFrinds(handler, s);
                 }
                 break;
+        }
+    }
+    private class Myadapter extends BaseAdapter{
+
+        @Override
+        public int getCount() {
+            return listViewData.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return listViewData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView tv_name;
+            TextView tv_id;
+            if(convertView == null){
+                convertView = View.inflate(Search_frinds.this, R.layout.searchuser_item, null);
+            }
+            tv_name = (TextView) convertView.findViewById(R.id.tv_name);
+            tv_id = (TextView) convertView.findViewById(R.id.tv_id);
+
+            user u = listViewData.get(position);
+            tv_name.setText(u.getName());
+            tv_id.setText("("+u.getZhanghao()+")");
+
+            return convertView;
         }
     }
 }

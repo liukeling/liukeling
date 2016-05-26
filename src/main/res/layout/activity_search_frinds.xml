@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.copyqq.Search_frinds">
     <LinearLayout
+        android:id="@+id/ll_top"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,4 +44,10 @@
             android:background="@color/white"
             android:textColor="@color/qinse"/>
     </LinearLayout>
+    <com.example.MyViews.MyListView
+        android:id="@+id/mylistView"
+        android:layout_below="@id/ll_top"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>
