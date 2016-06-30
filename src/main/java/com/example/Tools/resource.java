@@ -11,26 +11,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.copyqq.AddFrind_activity;
 import com.example.copyqq.Chat;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import comm.Request;
 import comm.Response;
+import comm.SysInfo;
 import comm.qq_message;
 import comm.user;
 import com.dbdao.dbdao;
 
 public class resource {
+	private static Context context;
 	public static Socket socket;
 	public static String Myzhanghao = "0";
 	public static boolean jieshouxiaoxi = false;
 	private static Handler linshiHandler = null;
-	private static ArrayList<HashMap<HashMap<Integer, String>, user>> frinds = new ArrayList<HashMap<HashMap<Integer, String>, user>>();
+	public static ArrayList<SysInfo> Sysinfos = new ArrayList<>();
+	public static ArrayList<HashMap<HashMap<Integer, String>, user>> frinds = new ArrayList<HashMap<HashMap<Integer, String>, user>>();
 	public static HashMap<user, Chat> user_chat = new HashMap<user, Chat>();
+	//用于储存好友，根据分组编号和二级目录编号来得到好友对象
 	public static HashMap<HashMap<Integer, Integer>, user> frindList = new HashMap<HashMap<Integer, Integer>, user>();
 	/**
 	 * 创建一级条目容器
@@ -56,12 +64,10 @@ public class resource {
 		new Thread() {
 			public void run() {
 				try {
-					if(resource.socket != null) {
-						resource.socket.close();
-						resource.socket = null;
+					if(resource.socket == null || resource.socket.isClosed()) {
+						Socket socket = new Socket(dbdao.fuwuip, dbdao.qqduankou);
+						resource.socket = socket;
 					}
-					Socket socket = new Socket(dbdao.fuwuip, dbdao.qqduankou);
-					resource.socket = socket;
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -142,90 +148,19 @@ public class resource {
 					try {
 						ObjectInputStream ois = new ObjectInputStream(
 								socket.getInputStream());
-						Response response = (Response) ois.readObject();
+						final Response response = (Response) ois.readObject();
 
-						String res = response.getResponse();
+						final String res = response.getResponse();
 
-						if ("自动更新列表".equals(res)) {
-
-							// frind_list.clear();
-							// ArrayList<user> list = response.getFriends();
-							//
-							// frind_list.addAll(list);
-							Object obj = response.getObj();
-							frinds.clear();
-							frinds.addAll((ArrayList<HashMap<HashMap<Integer, String>, user>>) obj);
-							Message msg = new Message();
-							msg.what = 3;
-
-							handler.sendMessage(msg);
-
-						} else if ("下线成功".equals(res)) {
-							jieshouxiaoxi = false;
-						} else if ("有消息来了".equals(res)) {
-							user sendUser = response.getSendUser();
-							Chat c = user_chat.get(sendUser);
-							if (c != null) {
-
-								Request request = new Request();
-								request.setZhiling("获取未读聊天记录");
-								request.setMyzhanghao(resource.Myzhanghao);
-								request.setDuifangzhanghao(c.frind
-										.getZhanghao() + "");
-								requestchuli(request, 0);
-
-							} else {
-
-								for (HashMap<HashMap<Integer, String>, user> hm : frinds) {
-									for (user u : hm.values()) {
-										if (u.equals(sendUser)) {
-											u.setHaveMassage("是");
-											break;
-										}
-									}
+						if("下线成功".equals(res)) {
+							responsechuli(res, response, handler);
+						}else{
+							Thread thread = new Thread(){
+								public void run(){
+									responsechuli(res, response, handler);
 								}
-								Message msg = new Message();
-								msg.what = 3;
-								msg.obj = "not one";
-								handler.sendMessage(msg);
-							}
-						} else if ("给你未读聊天记录".equals(res)) {
-							ArrayList<String> jilus = response
-									.getLiaotianjilu();
-							ArrayList<qq_message> al = new ArrayList<qq_message>();
-							for (String message : jilus) {
-								qq_message q_msg = new qq_message();
-								q_msg.setMessage(message);
-								q_msg.setSendUser_zhanghao(response
-										.getSendUser().getZhanghao() + "");
-								al.add(q_msg);
-							}
-
-							Chat c = user_chat.get(response.getSendUser());
-							if (c != null) {
-								Message msg = new Message();
-								msg.what = 4;
-								msg.obj = al;
-								c.handler.sendMessage(msg);
-							}
-						} else if ("用户信息".equals(res)) {
-							Message msg = new Message();
-							if (Integer.parseInt(Myzhanghao) == response
-									.getResponseUser().getZhanghao()) {
-								me = response.getResponseUser();
-							} else {
-								msg.what = 71;
-								msg.obj = response.getResponseUser();
-								handler.sendMessage(msg);
-							}
-						}else if("搜索好友的结果".equals(res)){
-							//TODO
-							if(linshiHandler != null){
-								Message msg = new Message();
-								msg.obj = response.getObj();
-								msg.what = 8;
-								linshiHandler.sendMessage(msg);
-							}
+							};
+							thread.start();
 						}
 
 					} catch (Exception e) {
@@ -237,7 +172,125 @@ public class resource {
 			};
 		}.start();
 	}
+	private static void responsechuli(String res, Response response, Handler handler){
+		if ("自动更新列表".equals(res)) {
+			Object obj = response.getObj();
+			frinds.clear();
+			frinds.addAll((ArrayList<HashMap<HashMap<Integer, String>, user>>) obj);
+			Message msg = new Message();
+			msg.what = 3;
 
+			handler.sendMessage(msg);
+
+		} else if ("下线成功".equals(res)) {
+			jieshouxiaoxi = false;
+		} else if ("有消息来了".equals(res)) {
+			user sendUser = response.getSendUser();
+			Chat c = user_chat.get(sendUser);
+			if (c != null) {
+
+				Request request = new Request();
+				request.setZhiling("获取未读聊天记录");
+				request.setMyzhanghao(resource.Myzhanghao);
+				request.setDuifangzhanghao(c.frind
+						.getZhanghao() + "");
+				requestchuli(request, 0);
+
+			} else {
+
+				for (HashMap<HashMap<Integer, String>, user> hm : frinds) {
+					for (user u : hm.values()) {
+						if (u.equals(sendUser)) {
+							u.setHaveMassage("是");
+							break;
+						}
+					}
+				}
+				Message msg = new Message();
+				msg.what = 3;
+				msg.obj = "not one";
+				handler.sendMessage(msg);
+			}
+		} else if ("给你未读聊天记录".equals(res)) {
+			ArrayList<String> jilus = response
+					.getLiaotianjilu();
+			ArrayList<qq_message> al = new ArrayList<qq_message>();
+			for (String message : jilus) {
+				qq_message q_msg = new qq_message();
+				q_msg.setMessage(message);
+				q_msg.setSendUser_zhanghao(response
+						.getSendUser().getZhanghao() + "");
+				al.add(q_msg);
+			}
+
+			Chat c = user_chat.get(response.getSendUser());
+			if (c != null) {
+				Message msg = new Message();
+				msg.what = 4;
+				msg.obj = al;
+				c.handler.sendMessage(msg);
+			}
+		} else if ("用户信息".equals(res)) {
+			Message msg = new Message();
+			if (Integer.parseInt(Myzhanghao) == response
+					.getResponseUser().getZhanghao()) {
+				me = response.getResponseUser();
+			} else {
+				msg.what = 71;
+				msg.obj = response.getResponseUser();
+				handler.sendMessage(msg);
+			}
+		}else if("搜索好友的结果".equals(res)){
+			//TODO
+			if(linshiHandler != null){
+				Message msg = new Message();
+				msg.obj = response.getObj();
+				msg.what = 8;
+				linshiHandler.sendMessage(msg);
+			}
+		}else if("添加好友请求结果".equals(res)){
+			final boolean ok = (boolean) response.getObj();
+			if(context != null){
+				((Activity)context).runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (ok) {
+							Toast.makeText(context, "请求已经发送", Toast.LENGTH_SHORT).show();
+						} else {
+							Toast.makeText(context, "请求发送失败", Toast.LENGTH_SHORT).show();
+						}
+					}
+				});
+			}
+		}else if("有系统消息".equals(res)){
+			//更新系统消息
+//			Log.e("ceshi", "xitongxiaoxi");
+			reflushSystemInfo(0);
+		}else if("所有系统消息".equals(res)){
+			ArrayList<SysInfo> al = (ArrayList<SysInfo>) response.getObj();
+			Message msg = new Message();
+			msg.what = 9;
+			msg.obj = al;
+			handler.sendMessage(msg);
+		}else if("好友请求回复完成".equals(res)){
+			Message msg = new Message();
+			msg.what = 10;
+			msg.obj = response.getObj();
+			handler.sendMessage(msg);
+		}
+	}
+	//更新系统消息
+	public static Response reflushSystemInfo(int type){
+		Request request = new Request();
+		request.setZhiling("获取系统消息");
+		if(type == 0) {
+			requestchuli(request, type);
+			return null;
+		}else{
+			Response response = requestchuli(request, type);
+			return response;
+		}
+	}
 	// 发送消息
 	public static void sendQq_Message(qq_message q_msg) {
 
@@ -251,23 +304,59 @@ public class resource {
 
 	// 获取好友列表
 	public static void getfrindListdata(final Handler handler) {
-		// 用于一加载就获取好友列表
+		// 用于一加载就获取好友列表与更新系统消息
 		new Thread() {
 			public void run() {
 
 				Request request = new Request();
 				request.setZhiling("获取用户列表");
 				Response response = requestchuli(request, 1);
+				Response response1 = resource.reflushSystemInfo(1);
 
-				Object obj = response.getObj();
+
+				Sysinfos.clear();
+				Sysinfos.addAll((ArrayList<SysInfo>) response1.getObj());
+
 				frinds.clear();
-				frinds.addAll((ArrayList<HashMap<HashMap<Integer, String>, user>>) obj);
+				frinds.addAll((ArrayList<HashMap<HashMap<Integer, String>, user>>) response.getObj());
 				Message msg = new Message();
 				msg.what = 3;
 				msg.obj = "one";
 				handler.sendMessage(msg);
 			};
 		}.start();
+	}
+
+	//添加好友请求的回复
+	public static void addFrindResponse(int type, SysInfo sinfo, int fenzu_item){
+		Request request = new Request();
+		request.setZhiling("添加为好友的回复");
+		request.setDuifangzhanghao(sinfo.getReleaseuser());
+		ArrayList<Object> al = new ArrayList<>();
+
+		switch (type){
+			case 0:
+				//同意
+				if(fenzu_item != -1) {
+					al.add(sinfo);
+					al.add(true);
+					request.setObj(al);
+				}else{
+					//分组不明确
+					al.add(sinfo);
+					al.add(false);
+					request.setObj(al);
+				}
+				break;
+			case 1:
+				//拒绝
+				al.add(sinfo);
+				al.add(false);
+				request.setObj(al);
+				break;
+		}
+		al.add(fenzu_item);
+		requestchuli(request, 0);
 	}
 
 	// 修改密码
@@ -366,6 +455,7 @@ public class resource {
 			try {
 				oos = new ObjectOutputStream(resource.socket.getOutputStream());
 				oos.writeObject(request);
+				oos.flush();
 				oos.close();
 				socket.close();
 				socket = null;
@@ -374,6 +464,18 @@ public class resource {
 			}
 		}
 
+	}
+
+	//发送添加好友请求
+	public static void sendAddFrindRequest(String duifangzhanghao, int fenzuitem, Context context){
+		if(socket != null){
+			Request request = new Request();
+			request.setZhiling("添加好友_发送");
+			request.setDuifangzhanghao(duifangzhanghao);
+			request.setObj(fenzuitem);
+			requestchuli(request, 0);
+			resource.context = context;
+		}
 	}
 
 	// 下线
@@ -411,6 +513,7 @@ public class resource {
 				ObjectOutputStream oos = new ObjectOutputStream(
 						socket.getOutputStream());
 				oos.writeObject(request);
+				oos.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

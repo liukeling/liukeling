@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.copyqq.ChoiceFrinds">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@color/qinse"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="取消"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择联系人"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:layout_centerInParent="true"/>
+            <TextView
+                android:id="@+id/ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="完成"
+                android:textSize="18dp"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/huise"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:id="@+id/ll_search"
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:drawableLeft="@mipmap/search_contact"
+            android:paddingLeft="20dp"
+            android:hint="搜索"
+            android:drawablePadding="20dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <ScrollView
+        android:id="@+id/SVfrinds"
+        android:layout_below="@id/ll_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        <com.example.MyViews.MyExpandableListView
+            android:id="@+id/frinds"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </ScrollView>
+</RelativeLayout>

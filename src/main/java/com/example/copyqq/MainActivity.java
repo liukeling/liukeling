@@ -59,8 +59,4 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 	
-//	public void toggleMenu(View view){
-//		
-//	}
-	
 }

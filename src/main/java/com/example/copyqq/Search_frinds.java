@@ -12,11 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.MyViews.MyListView;
 import com.example.Tools.resource;
@@ -86,6 +88,15 @@ public class Search_frinds extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                user seach_u = listViewData.get(position);
+                Intent intent = new Intent(Search_frinds.this, UserInfo.class);
+                intent.putExtra("user", seach_u);
+                startActivity(intent);
+            }
+        });
         btn_ok.setOnClickListener(this);
         ed_quxiao.setOnClickListener(this);
     }
@@ -94,7 +105,7 @@ public class Search_frinds extends AppCompatActivity implements View.OnClickList
     public void onBackPressed() {
         if(back) {
             TranslateAnimation animation = new TranslateAnimation(0, 0, 0, AddNewFrind.y * 9);
-            animation.setDuration(1000);
+            animation.setDuration(500);
             animation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {

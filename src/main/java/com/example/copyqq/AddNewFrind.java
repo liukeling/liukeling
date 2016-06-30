@@ -31,7 +31,7 @@ public class AddNewFrind extends AppCompatActivity implements View.OnClickListen
             case R.id.select_btn:
                 y = select.getTop();
                 TranslateAnimation translateAnimation = new TranslateAnimation(0,0,0,-y*9);
-                translateAnimation.setDuration(1000);
+                translateAnimation.setDuration(500);
                 translateAnimation.setFillAfter(true);
                 translateAnimation.setAnimationListener(new Animation.AnimationListener() {
                     @Override

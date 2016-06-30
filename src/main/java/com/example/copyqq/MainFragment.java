@@ -6,31 +6,34 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.fragments.FrindListmain_fragment;
-import com.example.fragments.Frindlist_fragmnet;
+import com.example.fragments.SysInfolist_fragmnet;
 import com.example.fragments.Phonelist_fragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
+import comm.SysInfo;
 import comm.user;
 
 import com.example.Tools.resource;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.AnimationUtils;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
-import android.widget.SimpleExpandableListAdapter;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainFragment extends FragmentActivity implements
         OnCheckedChangeListener, View.OnClickListener {
@@ -67,8 +70,7 @@ public class MainFragment extends FragmentActivity implements
     private ListView menuListView;
     // 侧滑布局中ListView的数据
     private String[] menudata = {"one", "two", "three", "fore", "five", "six"};
-    // 好友列表的适配器
-    private SimpleExpandableListAdapter frindlistadapter = null;
+    private MyAdapter frindlistadapter = null;
     // 用于接受信息的handler
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -80,15 +82,60 @@ public class MainFragment extends FragmentActivity implements
                 frinds.addAll(list);
                 updata();
                 if ("one".equals(msg.obj)) {
+
+                    boolean isxiaoxijiemian = false;
+                    if(fra != null){
+                        isxiaoxijiemian = fra instanceof SysInfolist_fragmnet;
+                    }
+
+                    if(isxiaoxijiemian){
+                        SysInfolist_fragmnet frindlist_fragment = (SysInfolist_fragmnet) fra;
+                        frindlist_fragment.reflushSysInfo(resource.Sysinfos);
+                    }
+                    for(SysInfo sinfo : resource.Sysinfos){
+                        if(!sinfo.isRead()){
+                            //震动
+                            Vibrator vibrator = (Vibrator) MainFragment.this.getSystemService(Context.VIBRATOR_SERVICE);
+                            vibrator.vibrate(1000);
+                            Toast.makeText(MainFragment.this, "有未读的系统消息", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+
                     resource.jieshouxiaoxiThread(handler);
                 }
             } else if (what == 71) {
                 //获取到好友的信息
                 user frind_info = (user) msg.obj;
+            }else if(what == 9){
+                ArrayList<SysInfo> al = (ArrayList<SysInfo>) msg.obj;
+                resource.Sysinfos.clear();
+                resource.Sysinfos.addAll(al);
+                boolean isxiaoxijiemian = false;
+                if(fra != null){
+                    isxiaoxijiemian = fra instanceof SysInfolist_fragmnet;
+                }
+                if(isxiaoxijiemian){
+                    SysInfolist_fragmnet frindlist_fragment = (SysInfolist_fragmnet) fra;
+                    frindlist_fragment.reflushSysInfo(al);
+                }
+                for(SysInfo sinfo : al){
+                    if(!sinfo.isRead()){
+                        //震动
+                        Vibrator vibrator = (Vibrator) MainFragment.this.getSystemService(Context.VIBRATOR_SERVICE);
+                        vibrator.vibrate(1000);
+                        Toast.makeText(MainFragment.this, "有未读的系统消息", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+            }else if(what == 10){
+                if(!msg.obj.equals("")) {
+                    Toast.makeText(MainFragment.this, ""+msg.obj, Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainFragment.this, "好友请求回复成功 ", Toast.LENGTH_SHORT).show();
+                }
             }
         }
-
-        ;
     };
 
     @Override
@@ -108,16 +155,15 @@ public class MainFragment extends FragmentActivity implements
         //设置监听
         tv_1.setOnClickListener(this);
         tv_2.setOnClickListener(this);
+        add_mainfram.setOnClickListener(this);
 
         add_mainfram_tv.setOnClickListener(this);
 
         rg.setOnCheckedChangeListener(this);
         // 一进来默认是第2个被选中
         rg.check(R.id.radiob2);
-
         // 获取好友列表数据
         resource.getfrindListdata(handler);
-
 		/*
          * 侧滑功能的实现
 		 */
@@ -172,7 +218,9 @@ public class MainFragment extends FragmentActivity implements
     // 头像点击调用
     public void checkOther(View view) {
         //TODO
-        startActivity(new Intent(this, UserInfo.class));
+        Intent intent = new Intent(this, UserInfo.class);
+        intent.putExtra("user", resource.getMe());
+        startActivity(intent);
     }
 
 	/*
@@ -190,7 +238,7 @@ public class MainFragment extends FragmentActivity implements
                 add_mainfram.setVisibility(View.VISIBLE);
                 add_mainfram_tv.setVisibility(View.INVISIBLE);
                 if (isxinxi) {
-                    fra = new Frindlist_fragmnet();
+                    fra = SysInfolist_fragmnet.newInstance(resource.Sysinfos);
                 } else {
                     fra = new Phonelist_fragment();
                 }
@@ -205,11 +253,7 @@ public class MainFragment extends FragmentActivity implements
                 add_mainfram_tv.setText("添加");
 
                 tv_3.setText("联系人");
-                frindlistadapter = new SimpleExpandableListAdapter(this,
-                        resource.gruops, R.layout.one_mulu,
-                        new String[]{"group"}, new int[]{R.id.tv},
-                        resource.childs, R.layout.two_mulu,
-                        new String[]{"child"}, new int[]{R.id.tv});
+                frindlistadapter = new MyAdapter();
                 fra = new FrindListmain_fragment(handler, frindlistadapter);
                 break;
             case 3:
@@ -378,7 +422,7 @@ public class MainFragment extends FragmentActivity implements
                 tv_1.setTextColor(Color.parseColor("#00B7FB"));
                 tv_1.setClickable(false);
                 tv_2.setClickable(true);
-                fra = new Frindlist_fragmnet();
+                fra = SysInfolist_fragmnet.newInstance(resource.Sysinfos);
                 isxinxi = true;
                 putfragment();
                 break;
@@ -404,6 +448,76 @@ public class MainFragment extends FragmentActivity implements
 
                 }
                 break;
+            case R.id.add_mainfram:
+                break;
         }
     }
+
+
+
+    public class MyAdapter extends BaseExpandableListAdapter{
+
+        @Override
+        public int getGroupCount() {
+            return resource.gruops.size();
+        }
+
+        @Override
+        public int getChildrenCount(int groupPosition) {
+            return resource.childs.get(groupPosition).size();
+        }
+
+        @Override
+        public Object getGroup(int groupPosition) {
+            return resource.gruops.get(groupPosition);
+        }
+
+        @Override
+        public Object getChild(int groupPosition, int childPosition) {
+            return resource.childs.get(groupPosition)
+                    .get(childPosition);
+        }
+
+        @Override
+        public long getGroupId(int groupPosition) {
+            return groupPosition;
+        }
+
+        @Override
+        public long getChildId(int groupPosition, int childPosition) {
+            return childPosition;
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            View view = View.inflate(MainFragment.this.getApplicationContext(), R.layout.two_mulu, null);
+            TextView tv = (TextView) view.findViewById(R.id.tv);
+            tv.setText(((HashMap<String, String>) getGroup(groupPosition)).get("group"));
+            Integer[] integers = {-1, groupPosition};
+            view.setTag(integers);
+            return view;
+        }
+
+        @Override
+        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+
+            View view = View.inflate(MainFragment.this.getApplicationContext(), R.layout.one_mulu, null);
+            TextView tv = (TextView) view.findViewById(R.id.tv);
+            tv.setText(((HashMap<String, String>)getChild(groupPosition, childPosition)).get("child"));
+            Integer[] integers = {groupPosition, childPosition};
+            view.setTag(integers);
+            return view;
+        }
+
+        @Override
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return true;
+        }
+    }
+
 }

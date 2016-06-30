@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -42,7 +43,10 @@
             android:name=".AddNewFrind"
             android:launchMode="singleTop" />
         <activity android:name=".Search_frinds" />
-        <activity android:name=".Chatset_Activity"></activity>
+        <activity android:name=".Chatset_Activity" />
+        <activity android:name=".ChoiceFrinds" />
+        <activity android:name=".AddFrind_activity" />
+        <activity android:name=".Sysinfo_Activity"></activity>
     </application>
 
 </manifest>

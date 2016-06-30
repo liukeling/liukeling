@@ -2,6 +2,7 @@ package comm;
 
 import java.io.Serializable;
 public class Request implements Serializable{
+	private Object obj;
 	private String request = "";
 	private String zhiling = "";
 	private String Myzhanghao = "";
@@ -11,7 +12,7 @@ public class Request implements Serializable{
 	private String sendMassage = "";
 	private String zhuceusername = "";
 	private String zhucepswd = "";
-	
+
 
 	private String dlzhanghao = "";
 	private String dlpswd = "";
@@ -21,7 +22,7 @@ public class Request implements Serializable{
 	private String[] listItems = null;
 	private int duankou;
 
-	
+
 	public String getRequest() {
 		return request;
 	}
@@ -148,5 +149,13 @@ public class Request implements Serializable{
 
 	public int getDuankou() {
 		return duankou;
+	}
+
+	public void setObj(Object obj) {
+		this.obj = obj;
+	}
+
+	public Object getObj() {
+		return obj;
 	}
 }

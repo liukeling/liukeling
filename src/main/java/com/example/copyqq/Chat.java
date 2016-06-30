@@ -20,6 +20,7 @@ import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -111,9 +112,10 @@ import android.widget.Toast;
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				int action = event.getAction();
-				switch (action){
+				switch (action) {
 					case MotionEvent.ACTION_DOWN:
 						setfragme_bottomGONE();
+						closeInputMethod();
 						break;
 					case MotionEvent.ACTION_MOVE:
 
@@ -129,6 +131,7 @@ import android.widget.Toast;
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				setfragment_bottomVisible();
+				closeInputMethod();
 			}
 		});
 		//获取未读信息
@@ -172,8 +175,18 @@ import android.widget.Toast;
 		sendButton.setClickable(false);
 		//设置背景
 		sendButton.setBackgroundResource(R.mipmap.sendbutton_chat1);
-//		neirong.setAdapter(myAdapter);
 	}
+
+	//关闭输入法
+	public void closeInputMethod(){
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		boolean isOpen = imm.isActive();
+		if (isOpen) {
+			// imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//没有显示则显示
+			imm.hideSoftInputFromWindow(message.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()){
@@ -202,8 +215,13 @@ import android.widget.Toast;
 				break;
 			//用户信息头像点击事件
 			case R.id.user_info:
+				Intent intent = new Intent(Chat.this, Chatset_Activity.class);
 
-				startActivity(new Intent(Chat.this, Chatset_Activity.class));
+				if(frind != null){
+					intent.putExtra("user", frind);
+				}
+
+				startActivity(intent);
 
 				break;
 			//输入框点击监听
