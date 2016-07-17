@@ -124,11 +124,8 @@ public class SysInfolist_fragmnet extends Fragment {
 
                 HashMap<String, String> hm1 = new HashMap<>();
                 hm1.put("key", "确定");
-                HashMap<String, String> hm2 = new HashMap<>();
-                hm2.put("key", "忽略");
                 spinnerData.clear();
                 spinnerData.add(hm1);
-                spinnerData.add(hm2);
             }
             TextView tv_title2 = (TextView) convertView.findViewById(R.id.title2);
             tv_title2.setText(info.getNeirong());
@@ -170,11 +167,7 @@ public class SysInfolist_fragmnet extends Fragment {
                             }
                             break;
                         case 1:
-                            if ("确定".equals(s)) {
-
-                            } else if ("忽略".equals(s)) {
-
-                            }
+                            resource.setSysinfoRead(info);
                             break;
                     }
                 }

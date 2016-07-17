@@ -3,9 +3,12 @@ package com.example.copyqq;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.sql.Date;
 
 import comm.SysInfo;
 
@@ -24,7 +27,16 @@ public class Sysinfo_Activity extends AppCompatActivity {
             finish();
         }
         TextView tv_neirong = (TextView) findViewById(R.id.neirong);
-        tv_neirong.setText(sinfo.getNeirong());
+        TextView time = (TextView) findViewById(R.id.time);
+        Date date = sinfo.getSys_date();
+        try {
+            time.setText(date.toString()
+                    + " 发布,发布者账号:"
+                    + sinfo.getReleaseuser());
+            tv_neirong.setText(sinfo.getNeirong());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         TextView back = (TextView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override

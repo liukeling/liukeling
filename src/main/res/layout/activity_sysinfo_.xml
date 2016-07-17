@@ -42,16 +42,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar">
+        <TextView
+            android:id="@+id/time"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2016年6月30日21点37分发布,发布者:XXX"
+            android:textSize="16dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/darker_gray"/>
+        <ScrollView
+            android:layout_above="@id/time"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/neirong"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="XXX请求添加好友"
+                android:layout_gravity="center_horizontal"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
-
+        </ScrollView>
     </RelativeLayout>
 </RelativeLayout>

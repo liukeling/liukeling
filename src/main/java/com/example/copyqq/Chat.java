@@ -221,7 +221,7 @@ import android.widget.Toast;
 					intent.putExtra("user", frind);
 				}
 
-				startActivity(intent);
+				startActivityForResult(intent, 1);
 
 				break;
 			//输入框点击监听
@@ -229,6 +229,19 @@ import android.widget.Toast;
 				setfragme_bottomGONE();
 				break;
 
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == 1){
+			switch (resultCode){
+				//TODO
+				case 521:
+					onBackPressed();
+					break;
+			}
 		}
 	}
 

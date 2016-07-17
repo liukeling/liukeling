@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.Tools.resource;
 
 import comm.user;
 
@@ -14,6 +17,7 @@ public class Chatset_Activity extends AppCompatActivity implements View.OnClickL
     private RelativeLayout user_title;
     private TextView back, create_taolun;
     private user intentUser;
+    private Button del_frind;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,11 +27,14 @@ public class Chatset_Activity extends AppCompatActivity implements View.OnClickL
         user_title = (RelativeLayout) findViewById(R.id.user_title);
         back = (TextView) findViewById(R.id.back);
         create_taolun = (TextView) findViewById(R.id.create_taolun);
+        del_frind = (Button) findViewById(R.id.del_frind);
 
         back.setOnClickListener(this);
         user_title.setOnClickListener(this);
         create_taolun.setOnClickListener(this);
+        del_frind.setOnClickListener(this);
     }
+
 
     @Override
     public void onClick(View v) {
@@ -47,6 +54,11 @@ public class Chatset_Activity extends AppCompatActivity implements View.OnClickL
                 }
                 create_intent.putExtra("user", intentUser);
                 startActivity(create_intent);
+                break;
+            case R.id.del_frind:
+                resource.delFrind(intentUser, this);
+                setResult(521);
+                onBackPressed();
                 break;
         }
     }

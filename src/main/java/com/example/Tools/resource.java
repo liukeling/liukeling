@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,12 +62,19 @@ public class resource {
 
 	// 用于连接服务器
 	public static void lianjie(final Handler handler) {
-		new Thread() {
-			public void run() {
+		new AsyncTask<Void, Void, Void>(){
+			@Override
+			protected Void doInBackground(Void... params) {
+
 				try {
-					if(resource.socket == null || resource.socket.isClosed()) {
+					if(resource.socket == null) {
 						Socket socket = new Socket(dbdao.fuwuip, dbdao.qqduankou);
 						resource.socket = socket;
+					}else{
+						resource.socket.shutdownInput();
+						resource.socket.shutdownOutput();
+						resource.socket.close();
+						resource.socket = new Socket(dbdao.fuwuip, dbdao.qqduankou);
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -76,8 +84,9 @@ public class resource {
 					handler.sendMessage(msg);
 					resource.socket = null;
 				}
-			};
-		}.start();
+				return null;
+			}
+		}.execute();
 	}
 
 	//TODO 用于搜索好友的方法
@@ -277,6 +286,25 @@ public class resource {
 			msg.what = 10;
 			msg.obj = response.getObj();
 			handler.sendMessage(msg);
+		}else if("删除好友成功".equals(res)){
+			String sys = (String) response.getObj();
+			if("添加系统消息失败".equals(sys)){
+				 // TODO
+			}
+
+			((Activity)context).runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+				}
+			});
+		}else if("删除好友失败".equals(res)){
+			((Activity)context).runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
+				}
+			});
 		}
 	}
 	//更新系统消息
@@ -290,6 +318,13 @@ public class resource {
 			Response response = requestchuli(request, type);
 			return response;
 		}
+	}
+	//将系统消息标记为已读
+	public static void setSysinfoRead(SysInfo sinfo){
+		Request request = new Request();
+		request.setZhiling("将系统消息标记为已读");
+		request.setObj(sinfo);
+		requestchuli(request, 0);
 	}
 	// 发送消息
 	public static void sendQq_Message(qq_message q_msg) {
@@ -424,7 +459,6 @@ public class resource {
 						handler.sendMessage(msg);
 
 					} catch (UnknownHostException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				};
@@ -504,7 +538,6 @@ public class resource {
 				response = (Response) ois.readObject();
 				return response;
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
 			}
@@ -515,7 +548,6 @@ public class resource {
 				oos.writeObject(request);
 				oos.flush();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;
@@ -524,6 +556,24 @@ public class resource {
 
 	public static user getMe() {
 		return me;
+	}
+
+	//用于删除好友
+	public static void delFrind(final user frind, final Context context){
+
+		new AsyncTask<Void, Void, Void>(){
+
+			@Override
+			protected Void doInBackground(Void... params) {
+
+				Request request = new Request();
+				request.setZhiling("删除好友");
+				request.setObj(frind);
+				requestchuli(request, 0);
+				resource.context = context;
+				return null;
+			}
+		}.execute();
 	}
 
 	// 用于从网络请求获取用户信息

@@ -12,9 +12,6 @@ import com.example.Tools.resource;
 
 import comm.user;
 
-/**
- * Created by liukeling on 2016/4/24.
- */
 public class UserInfo extends Activity implements View.OnClickListener {
 
     private TextView back, title, more, user_name, user_id;
