@@ -5,6 +5,7 @@ import java.util.zip.Inflater;
 
 import com.example.MyViews.MyExpandableListView;
 import com.example.copyqq.Chat;
+import com.example.copyqq.GropManager;
 import com.example.copyqq.MainFragment;
 import com.example.copyqq.R;
 
@@ -66,7 +67,7 @@ public class FrindListmain_fragment extends Fragment {
                     //一级目录的长按事件
                     int groupPosition = integers[1];
                     View aView = View.inflate(ap_c, R.layout.frindgroup_one, null);
-                    AlertDialog alertDialog = new AlertDialog.Builder(ap_c)
+                    final AlertDialog alertDialog = new AlertDialog.Builder(ap_c)
                             .setView(aView)
                             .create();
                     alertDialog.show();
@@ -74,13 +75,15 @@ public class FrindListmain_fragment extends Fragment {
                     tv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(ap_c, "点击了", Toast.LENGTH_SHORT).show();
+                            alertDialog.dismiss();
+                            Intent groupIntent = new Intent(FrindListmain_fragment.this.getContext(), GropManager.class);
+                            startActivity(groupIntent);
                         }
                     });
                 } else {
                     //二级目录的长按事件
-					int groupPosition = integers[0];
-					int childPosition = integers[1];
+                    int groupPosition = integers[0];
+                    int childPosition = integers[1];
                 }
                 return true;
             }

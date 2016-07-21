@@ -358,7 +358,7 @@ public class MainFragment extends FragmentActivity implements
             boolean userIsNull = false;
 
             List<Map<String, String>> er = new ArrayList<Map<String, String>>();
-
+            resource.frindList.clear();
             for (HashMap<HashMap<Integer, String>, user> hm : frinds) {
                 boolean b = false;
                 HashMap<String, String> c_er = new HashMap<String, String>();
@@ -401,6 +401,10 @@ public class MainFragment extends FragmentActivity implements
                 f.frindlistadapter.notifyDataSetChanged();
             }
         }
+
+
+        //TODO
+
     }
 
     @Override

@@ -44,7 +44,7 @@ public class resource {
 	/**
 	 * 创建一级条目容器
 	 */
-	public static List<Map<String, String>> gruops = new ArrayList<Map<String, String>>();
+	public static ArrayList<Map<String, String>> gruops = new ArrayList<Map<String, String>>();
 	/**
 	 * 存放内容, 以便显示在列表中
 	 */

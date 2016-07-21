@@ -46,7 +46,8 @@
         <activity android:name=".Chatset_Activity" />
         <activity android:name=".ChoiceFrinds" />
         <activity android:name=".AddFrind_activity" />
-        <activity android:name=".Sysinfo_Activity"></activity>
+        <activity android:name=".Sysinfo_Activity" />
+        <activity android:name=".GropManager"></activity>
     </application>
 
 </manifest>

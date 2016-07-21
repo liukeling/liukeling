@@ -129,14 +129,16 @@ public class LoginActivity extends Activity implements OnClickListener {
 		int forgets_id = forgets.getId();
 		int login_id = login.getId();
 		if (key == regist_id) {
+			//注册
 			Intent intent = new Intent(LoginActivity.this, RegistActivity.class);
 			startActivity(intent);
 		} else if (key == forgets_id) {
-			
+			//忘记密码
 			Intent intent = new Intent(LoginActivity.this, Forgetspswd.class);
 			startActivity(intent);
 			
 		} else if (key == login_id) {
+			//登陆
 			login();
 		}
 	}
@@ -149,7 +151,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	}
 
 	int back = 0;
-
+//双击退出
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
@@ -176,6 +178,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	@SuppressLint("ShowToast")
 	public void login() {
 		if (resource.socket != null) {
+			//用户名密码
 			name = username.getText().toString();
 			String pswd = userpswd.getText().toString();
 			if (name != null && !"".equals(name) && pswd != null

@@ -53,6 +53,7 @@
         <activity android:name="com.example.copyqq.ChoiceFrinds" />
         <activity android:name="com.example.copyqq.AddFrind_activity" />
         <activity android:name="com.example.copyqq.Sysinfo_Activity" />
+        <activity android:name="com.example.copyqq.GropManager" />
     </application>
 
 </manifest>

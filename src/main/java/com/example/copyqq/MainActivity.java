@@ -23,6 +23,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		SharedPreferences spf = this.getSharedPreferences("users",
 				LoginActivity.MODE_PRIVATE);
+		//用于判断是否之前记住过用户名和密码
 		if(!"null".equals(spf.getString("username", "null"))){
 
 			Intent intent = new Intent(this, LoginActivity.class);
@@ -31,6 +32,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 
 		try {
+			//初始化配置
 			dbdao.init();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -50,10 +52,12 @@ public class MainActivity extends Activity implements OnClickListener {
 		int loginid = login.getId();
 		int registid = regist.getId();
 		if (key == loginid) {
+			//登陆
 			this.finish();
 			Intent intent = new Intent(this, LoginActivity.class);
 			startActivity(intent);
 		} else if (key == registid) {
+			//注册
 			Intent intent = new Intent(MainActivity.this, RegistActivity.class);
 			startActivity(intent);
 		}
