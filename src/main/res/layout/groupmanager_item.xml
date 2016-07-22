@@ -36,6 +36,7 @@
             android:textColor="@android:color/black"
             android:textSize="20dp" />
         <ImageView
+            android:id="@+id/san"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/san"

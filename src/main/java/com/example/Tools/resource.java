@@ -479,6 +479,13 @@ public class resource {
 		}.start();
 	}
 
+	public static void gruopsSeting(){
+
+		Request request = new Request();
+		request.setZhiling("分组管理");
+
+	}
+
 	// 退出qq
 	public static void exitqq() {
 
@@ -492,12 +499,10 @@ public class resource {
 				oos.flush();
 				oos.close();
 				socket.close();
-				socket = null;
 				Myzhanghao = "";
 			} catch (IOException e) {
 			}
 		}
-
 	}
 
 	//发送添加好友请求
