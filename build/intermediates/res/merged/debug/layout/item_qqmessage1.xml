@@ -19,4 +19,4 @@
 	    android:textColor="#ffffff"
 	    android:layout_marginRight="45dp"
 	    android:layout_toRightOf="@+id/touxiang"/>
-</RelativeLayout>
+</RelativeLayout><!-- From: file:/D:/AndroidStudioProjects/MyApplication/copyqq/src/main/res/layout/item_qqmessage1.xml -->

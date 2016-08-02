@@ -53,7 +53,6 @@ public class SysInfolist_fragmnet extends Fragment {
         al = new ArrayList<>();
         al.addAll((ArrayList<SysInfo>) getArguments().get("sysInfos"));
         View v = View.inflate(getContext(), R.layout.frindlistfragment_layout, null);
-//        refreshable_view = (RefreshableView) v.findViewById(R.id.refreshable_view);
         list_view = (ListView) v.findViewById(R.id.list_view);
         if (al == null) {
             al = new ArrayList<>();

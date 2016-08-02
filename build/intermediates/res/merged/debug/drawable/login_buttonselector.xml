@@ -2,4 +2,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:state_pressed="true" android:drawable="@drawable/login_button2"></item>
 	<item android:drawable="@drawable/login_button1"></item>
-</selector>
+</selector><!-- From: file:/D:/AndroidStudioProjects/MyApplication/copyqq/src/main/res/drawable/login_buttonselector.xml -->

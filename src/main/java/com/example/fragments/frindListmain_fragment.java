@@ -12,6 +12,7 @@ import com.example.copyqq.R;
 import comm.user;
 
 import com.example.Tools.resource;
+import com.example.copyqq.UserInfo;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -108,8 +109,8 @@ public class FrindListmain_fragment extends Fragment {
                 user u = resource.frindList.get(jilu);
                 if (u != null) {
                     Intent intent = new Intent(FrindListmain_fragment.this
-                            .getActivity(), Chat.class);
-                    intent.putExtra("frind", u);
+                            .getActivity(), UserInfo.class);
+                    intent.putExtra("user", u);
                     startActivity(intent);
                 } else {
                     Toast.makeText(getActivity(),

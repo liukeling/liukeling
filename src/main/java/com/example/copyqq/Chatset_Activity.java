@@ -1,5 +1,7 @@
 package com.example.copyqq;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,9 +58,25 @@ public class Chatset_Activity extends AppCompatActivity implements View.OnClickL
                 startActivity(create_intent);
                 break;
             case R.id.del_frind:
-                resource.delFrind(intentUser, this);
-                setResult(521);
-                onBackPressed();
+
+                AlertDialog alertDialog = new AlertDialog.Builder(Chatset_Activity.this)
+                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                resource.delFrind(intentUser, Chatset_Activity.this);
+                                setResult(521);
+                                onBackPressed();
+                            }
+                        })
+                        .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setTitle("确定删除该好友？")
+                        .create();
+                alertDialog.show();
                 break;
         }
     }

@@ -38,6 +38,7 @@ public class UserInfo extends Activity implements View.OnClickListener {
         ok_add.setOnClickListener(this);
         sendMessage.setOnClickListener(this);
         tel.setOnClickListener(this);
+        more.setOnClickListener(this);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,9 @@ public class UserInfo extends Activity implements View.OnClickListener {
                 Intent intent = new Intent(this, Chat.class);
                 intent.putExtra("frind", u);
                 startActivity(intent);
+                break;
+            case R.id.more:
+
                 break;
         }
 

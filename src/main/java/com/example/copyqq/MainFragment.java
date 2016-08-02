@@ -78,7 +78,7 @@ public class MainFragment extends FragmentActivity implements
             if (what == 3) {
                 frinds.clear();
                 ArrayList<HashMap<HashMap<Integer, String>, user>> list = resource
-                        .getLinshiobj();
+                        .frinds;
                 frinds.addAll(list);
                 updata();
                 if ("one".equals(msg.obj)) {
@@ -286,12 +286,6 @@ public class MainFragment extends FragmentActivity implements
         }
     }
 	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * android.widget.RadioGroup.OnCheckedChangeListener#onCheckedChanged(android
-	 * .widget.RadioGroup, int)
-	 *
 	 * 底部导航栏的切换监听
 	 */
 
@@ -355,7 +349,7 @@ public class MainFragment extends FragmentActivity implements
         //二级分组的数据设置
         int length = al.size();
         for (int i = 0; i < length; i++) {
-            boolean userIsNull = false;
+//            boolean userIsNull = false;
 
             List<Map<String, String>> er = new ArrayList<Map<String, String>>();
             resource.frindList.clear();
@@ -371,8 +365,6 @@ public class MainFragment extends FragmentActivity implements
                         if ("是".equals(u.getHaveMassage())) {
                             value = value + "   有消息";
                         }
-                    } else {
-                        userIsNull = true;
                     }
                     for (int k : key.keySet()) {
                         if (al.get(i) == k) {

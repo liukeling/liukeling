@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.copyqq">
+    package="com.example.copyqq" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -11,8 +11,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation" >
             <intent-filter>
                 <action
                     android:name="android.intent.action.MAIN"
@@ -23,36 +25,61 @@
         </activity>
         <activity
             android:name=".LoginActivity"
+            android:configChanges="orientation"
             android:launchMode="singleTop" />
         <activity
             android:name=".Chat"
-            android:launchMode="singleTop" />
+            android:configChanges="orientation"
+            android:launchMode="singleTask" />
         <activity
             android:name=".Forgetspswd"
+            android:configChanges="orientation"
             android:launchMode="singleTop" />
         <activity
             android:name=".MainFragment"
+            android:configChanges="orientation"
             android:launchMode="singleTop" />
         <activity
             android:name=".RegistActivity"
+            android:configChanges="orientation"
             android:launchMode="singleTop" />
         <activity
             android:name=".UserInfo"
-            android:launchMode="singleTop" />
+            android:configChanges="orientation"
+            android:launchMode="singleTask" />
         <activity
             android:name=".AddNewFrind"
+            android:configChanges="orientation"
             android:launchMode="singleTop" />
-        <activity android:name=".Search_frinds" />
-        <activity android:name=".Chatset_Activity" />
-        <activity android:name=".ChoiceFrinds" />
-        <activity android:name=".AddFrind_activity" />
-        <activity android:name=".Sysinfo_Activity" />
-        <activity android:name=".GropManager"></activity>
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <activity
+            android:name=".Search_frinds"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".Chatset_Activity"
+            android:configChanges="orientation"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ChoiceFrinds"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".AddFrind_activity"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".Sysinfo_Activity"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".GropManager"
+            android:configChanges="orientation" />
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".FrindInfo_More" >
+        </activity>
     </application>
 
 </manifest>

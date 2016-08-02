@@ -3,4 +3,4 @@
     <item android:state_pressed="true" android:drawable="@drawable/button_daohang"/>
     <item android:drawable="@mipmap/button_daohang_1"/>
 
-</selector>
+</selector><!-- From: file:/D:/AndroidStudioProjects/MyApplication/copyqq/src/main/res/drawable/daohang_button_selector1.xml -->

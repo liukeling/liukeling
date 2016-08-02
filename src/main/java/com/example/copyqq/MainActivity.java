@@ -53,7 +53,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		int registid = regist.getId();
 		if (key == loginid) {
 			//登陆
-			this.finish();
 			Intent intent = new Intent(this, LoginActivity.class);
 			startActivity(intent);
 		} else if (key == registid) {
@@ -61,6 +60,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			Intent intent = new Intent(MainActivity.this, RegistActivity.class);
 			startActivity(intent);
 		}
+		this.finish();
 	}
 	
 }

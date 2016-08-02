@@ -3,4 +3,4 @@
     <item android:state_pressed="true" android:drawable="@drawable/forget_button" />
     <item android:drawable="@drawable/forget_button_" />
 
-</selector>
+</selector><!-- From: file:/D:/AndroidStudioProjects/MyApplication/copyqq/src/main/res/drawable/forget_buttonselector.xml -->
