@@ -238,7 +238,7 @@ import android.widget.Toast;
 		if(requestCode == 1){
 			switch (resultCode){
 				//TODO
-				case 521:
+				case 5:
 					onBackPressed();
 					break;
 			}

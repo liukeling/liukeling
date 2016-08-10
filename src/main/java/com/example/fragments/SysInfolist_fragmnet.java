@@ -1,26 +1,22 @@
 package com.example.fragments;
 
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.Tools.resource;
-import com.example.copyqq.AddFrind_activity;
+import com.example.copyqq.CheckGroupActivity;
 import com.example.copyqq.R;
 import com.example.copyqq.Sysinfo_Activity;
 
@@ -158,7 +154,7 @@ public class SysInfolist_fragmnet extends Fragment {
                     switch (type) {
                         case 0:
                             if ("同意".equals(s)) {
-                                Intent intent = new Intent(SysInfolist_fragmnet.this.getContext(), AddFrind_activity.class);
+                                Intent intent = new Intent(SysInfolist_fragmnet.this.getContext(), CheckGroupActivity.class);
                                 linshiinfo = info;
                                 startActivityForResult(intent, 0);
                             } else if ("拒绝".equals(s)) {

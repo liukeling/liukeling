@@ -68,7 +68,7 @@
             android:name="com.example.copyqq.ChoiceFrinds"
             android:configChanges="orientation" />
         <activity
-            android:name="com.example.copyqq.AddFrind_activity"
+            android:name="com.example.copyqq.CheckGroupActivity"
             android:configChanges="orientation" />
         <activity
             android:name="com.example.copyqq.Sysinfo_Activity"

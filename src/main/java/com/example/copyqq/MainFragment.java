@@ -2,6 +2,7 @@ package com.example.copyqq;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -322,6 +324,7 @@ public class MainFragment extends FragmentActivity implements
         ArrayList<String> al1 = new ArrayList<String>();
         for (HashMap<HashMap<Integer, String>, user> hm : frinds) {
             for (HashMap<Integer, String> key : hm.keySet()) {
+                //i为分组编号
                 for (int i : key.keySet()) {
                     //用于判断是否有重复的分组编号
                     boolean b = false;
@@ -340,6 +343,9 @@ public class MainFragment extends FragmentActivity implements
                 }
             }
         }
+
+
+
         //一级分组的数据设置
         for (String s : al1) {
             Map<String, String> title = new HashMap<String, String>();
@@ -351,37 +357,31 @@ public class MainFragment extends FragmentActivity implements
         for (int i = 0; i < length; i++) {
 //            boolean userIsNull = false;
 
-            List<Map<String, String>> er = new ArrayList<Map<String, String>>();
-            resource.frindList.clear();
+            List<Map<String, user>> er = new ArrayList<Map<String, user>>();
             for (HashMap<HashMap<Integer, String>, user> hm : frinds) {
+                //记录是否添加至二级目录
                 boolean b = false;
-                HashMap<String, String> c_er = new HashMap<String, String>();
-                user u = null;
+                HashMap<String, user> c_er = new HashMap<String, user>();
                 for (HashMap<Integer, String> key : hm.keySet()) {
+                    user u;
                     String value = "";
                     u = hm.get(key);
-                    if (u != null) {
-                        value = u.getName() + " " + u.getZhuangtai();
-                        if ("是".equals(u.getHaveMassage())) {
-                            value = value + "   有消息";
-                        }
-                    }
+//                    if (u != null) {
+//                        value = u.getName() + " " + u.getZhuangtai();
+//                        if ("是".equals(u.getHaveMassage())) {
+//                            value = value + "   有消息";
+//                        }
+//                    }
                     for (int k : key.keySet()) {
                         if (al.get(i) == k) {
-                            c_er.put("child", value);
+                            c_er.put("child", u);
                             b = true;
                         }
                     }
 
                 }
                 if (b) {
-                    HashMap<Integer, Integer> jilu = new HashMap<Integer, Integer>();
-                    jilu.put(i, er.size());
-                    resource.frindList.put(jilu, u);
-                    //如果用户为空就不添加到分组
-                    if(u != null) {
-                        er.add(c_er);
-                    }
+                    er.add(c_er);
                 }
             }
             resource.childs.add(er);
@@ -393,8 +393,6 @@ public class MainFragment extends FragmentActivity implements
                 f.frindlistadapter.notifyDataSetChanged();
             }
         }
-
-
         //TODO
 
     }
@@ -470,6 +468,8 @@ public class MainFragment extends FragmentActivity implements
 
         @Override
         public Object getChild(int groupPosition, int childPosition) {
+            Log.e("child", resource.childs.get(groupPosition)
+                    .get(childPosition).size() + "");
             return resource.childs.get(groupPosition)
                     .get(childPosition);
         }
@@ -504,7 +504,16 @@ public class MainFragment extends FragmentActivity implements
 
             View view = View.inflate(MainFragment.this.getApplicationContext(), R.layout.one_mulu, null);
             TextView tv = (TextView) view.findViewById(R.id.tv);
-            tv.setText(((HashMap<String, String>)getChild(groupPosition, childPosition)).get("child"));
+            user u = ((HashMap<String, user>)getChild(groupPosition, childPosition)).get("child");
+            String s = "";
+
+                    if (u != null) {
+                        s = u.getName() + " " + u.getZhuangtai();
+                        if ("是".equals(u.getHaveMassage())) {
+                            s = s + "   有消息";
+                        }
+                    }
+            tv.setText(s);
             Integer[] integers = {groupPosition, childPosition};
             view.setTag(integers);
             return view;

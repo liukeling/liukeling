@@ -1,10 +1,9 @@
 package com.example.fragments;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.zip.Inflater;
 
 import com.example.MyViews.MyExpandableListView;
-import com.example.copyqq.Chat;
 import com.example.copyqq.GropManager;
 import com.example.copyqq.MainFragment;
 import com.example.copyqq.R;
@@ -15,7 +14,6 @@ import com.example.Tools.resource;
 import com.example.copyqq.UserInfo;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +26,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -103,10 +100,10 @@ public class FrindListmain_fragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                // TODO Auto-generated method stub
-                HashMap<Integer, Integer> jilu = new HashMap<Integer, Integer>();
-                jilu.put(groupPosition, childPosition);
-                user u = resource.frindList.get(jilu);
+                ArrayList a1 = (ArrayList) resource.childs.get(groupPosition);
+                HashMap<String, user> h = (HashMap<String, user>) a1.get(childPosition);
+                user u = h.get("child");
+//
                 if (u != null) {
                     Intent intent = new Intent(FrindListmain_fragment.this
                             .getActivity(), UserInfo.class);

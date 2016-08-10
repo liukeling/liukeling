@@ -142,12 +142,12 @@ ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifes
 		ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:63:13-48
 	android:name
 		ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:62:13-41
-activity#com.example.copyqq.AddFrind_activity
+activity#com.example.copyqq.CheckGroupActivity
 ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:64:9-66:51
 	android:configChanges
 		ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:66:13-48
 	android:name
-		ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:65:13-46
+		ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:65:13-47
 activity#com.example.copyqq.Sysinfo_Activity
 ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:67:9-69:51
 	android:configChanges

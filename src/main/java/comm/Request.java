@@ -7,6 +7,7 @@ public class Request implements Serializable{
 	private String zhiling = "";
 	private String Myzhanghao = "";
 	private String duifangzhanghao = "";
+	private int groupId;
 	private String mima = "";
 	private String ip = "";
 	private String sendMassage = "";
@@ -22,6 +23,14 @@ public class Request implements Serializable{
 	private String[] listItems = null;
 	private int duankou;
 
+
+	public int getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
+	}
 
 	public String getRequest() {
 		return request;

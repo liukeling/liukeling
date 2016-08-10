@@ -5,14 +5,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.copyqq.AddFrind_activity;
 import com.example.copyqq.Chat;
 
 import android.app.Activity;
@@ -31,6 +29,7 @@ import comm.qq_message;
 import comm.user;
 
 import com.dbdao.dbdao;
+import com.example.copyqq.FrindInfo_More;
 
 public class resource {
     private static Context context;
@@ -44,8 +43,6 @@ public class resource {
     public static ArrayList<SysInfo> Sysinfos = new ArrayList<>();
     public static ArrayList<HashMap<HashMap<Integer, String>, user>> frinds = new ArrayList<>();
     public static HashMap<user, Chat> user_chat = new HashMap<>();
-    //用于储存好友，根据分组编号和二级目录编号来得到好友对象
-    public static HashMap<HashMap<Integer, Integer>, user> frindList = new HashMap<HashMap<Integer, Integer>, user>();
     /**
      * 创建一级条目容器
      */
@@ -53,7 +50,7 @@ public class resource {
     /**
      * 存放内容, 以便显示在列表中
      */
-    public static List<List<Map<String, String>>> childs = new ArrayList<List<Map<String, String>>>();
+    public static List<List<Map<String, user>>> childs = new ArrayList<List<Map<String, user>>>();
     //储存登陆的用户
     private static user me = null;
     //不允许实例化
@@ -156,6 +153,21 @@ public class resource {
         }
     }
 
+    //移动好友
+    public static void moveFrind(final user frind, final int groupId, Context context){
+
+         resource.context = context;
+        new Thread(){
+            public void run(){
+                Request request = new Request();
+                request.setZhiling("移动好友");
+                request.setObj(frind);
+                request.setGroupId(groupId);
+                requestchuli(request, 0);
+            }
+        }.start();
+    }
+
     // 登陆上线后用于随时接收服务器端发来的消息
     public static void jieshouxiaoxiThread(final Handler handler) {
         new Thread() {
@@ -194,7 +206,7 @@ public class resource {
         }.start();
     }
 
-    private static void responsechuli(String res, Response response, Handler handler) {
+    private static void responsechuli(String res, final Response response, Handler handler) {
         if ("自动更新列表".equals(res)) {
             Object obj = response.getObj();
             frinds.clear();
@@ -329,6 +341,20 @@ public class resource {
             msg.what = 11;
             msg.obj = response.getObj();
             linshiHandler.sendMessage(msg);
+        }else if("移动好友结果".equals(res)){
+            ((Activity)context).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if((Boolean)response.getObj()) {
+                        Toast.makeText(context, "移动成功", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(context, "移动失败", Toast.LENGTH_SHORT).show();
+                    }
+                    if(context instanceof FrindInfo_More){
+                        ((FrindInfo_More)context).setGroupName();
+                    }
+                }
+            });
         }
     }
 

@@ -38,15 +38,19 @@ public class LoginActivity extends Activity implements OnClickListener {
 		@SuppressLint("ShowToast")
 		public void handleMessage(android.os.Message msg) {
 			int what = msg.what;
+			//链接服务器失败码
 			if (what == 122411) {
 				Toast.makeText(LoginActivity.this, "链接失败", Toast.LENGTH_SHORT).show();
 			} else if (what == 1) {
+				//请求登录码
 				Response response = (Response) msg.obj;
+				//响应为空说明链接服务器失败
 				if (response == null) {
 					Toast.makeText(LoginActivity.this, "链接服务器失败", Toast.LENGTH_SHORT).show();
 				} else if (response.getResponse().contains("成功")) {
-
+				//登录成功
 					if (remenber.isChecked()) {
+					//判断是否记住用户名和密码
 						SharedPreferences spf = LoginActivity.this
 								.getSharedPreferences("users",
 										LoginActivity.MODE_PRIVATE);
@@ -57,6 +61,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 								.toString());
 						edit.commit();
 					} else {
+					//没有记住用户名和密码，就将之前的标记删除
 						SharedPreferences spf = LoginActivity.this
 								.getSharedPreferences("users",
 										LoginActivity.MODE_PRIVATE);
@@ -67,20 +72,25 @@ public class LoginActivity extends Activity implements OnClickListener {
 					resource.onLine(this);
 
 				} else {
+				//登录失败
 					Toast.makeText(LoginActivity.this, "登陆失败,用户名或密码错误", Toast.LENGTH_SHORT)
 							.show();
 				}
+				//登录请求响应后设置登录按钮可点击,并设置背景
 				login.setClickable(true);
 				login.setBackgroundResource(R.drawable.login_buttonselector);
 			} else if (what == 2) {
+			//登录成功后上线响应码
 				Response response = (Response) msg.obj;
 				String onLine = response.getResponse();
 				if (onLine.contains("成功")) {
+				//上线成功则跳转到主界面
 					resource.Myzhanghao = name;
 					Intent intent = new Intent(LoginActivity.this,
 							MainFragment.class);
 					startActivity(intent);
 				} else {
+				//上线失败说明账号在其他地方已经登录。
 					Toast.makeText(LoginActivity.this, "登陆失败,该账号在其他地方登录", Toast.LENGTH_SHORT)
 							.show();
 				}
@@ -176,6 +186,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	}
 
 	@SuppressLint("ShowToast")
+	//登录按钮的点击方法
 	public void login() {
 		if (resource.socket != null) {
 			//用户名密码

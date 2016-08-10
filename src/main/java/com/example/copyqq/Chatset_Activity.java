@@ -1,5 +1,6 @@
 package com.example.copyqq;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,7 +16,7 @@ import com.example.Tools.resource;
 
 import comm.user;
 
-public class Chatset_Activity extends AppCompatActivity implements View.OnClickListener {
+public class Chatset_Activity extends Activity implements View.OnClickListener {
     private RelativeLayout user_title;
     private TextView back, create_taolun;
     private user intentUser;
@@ -64,7 +65,7 @@ public class Chatset_Activity extends AppCompatActivity implements View.OnClickL
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 resource.delFrind(intentUser, Chatset_Activity.this);
-                                setResult(521);
+                                setResult(5);
                                 onBackPressed();
                             }
                         })

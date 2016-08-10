@@ -2,7 +2,6 @@ package comm;
 
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
 public class user implements Serializable {
 	private String zhuangtai = "";
 	private String name = "";

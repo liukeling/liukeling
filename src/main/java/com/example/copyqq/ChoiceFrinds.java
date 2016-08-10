@@ -128,7 +128,7 @@ public class ChoiceFrinds extends AppCompatActivity implements View.OnClickListe
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
             HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
             hm.put(groupPosition, childPosition);
-            user u = resource.frindList.get(hm);
+            user u = resource.childs.get(groupPosition).get(childPosition).get("child");
 //
             View v = View.inflate(ChoiceFrinds.this, R.layout.checkfrind_two, null);
 //            v.find

@@ -12,7 +12,7 @@ public class dbdao {
 		qqduankou = 12241;
 		yunduankou = 13341;
 		fuwuip = "10.0.2.2";
-//		fuwuip = "192.168.23.1";
+		fuwuip = "192.168.23.1";
 		yuntext = "..";
 	}
 }

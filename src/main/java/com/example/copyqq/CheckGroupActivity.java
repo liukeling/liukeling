@@ -7,10 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.Tools.resource;
 
@@ -19,7 +17,7 @@ import java.util.HashMap;
 
 import comm.user;
 
-public class AddFrind_activity extends AppCompatActivity implements View.OnClickListener {
+public class CheckGroupActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int position;
     private TextView back, send;
@@ -31,8 +29,6 @@ public class AddFrind_activity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_addfrind);
-
-        Intent intent = getIntent();
         for (HashMap<HashMap<Integer, String>, user> hm1 : resource.frinds) {
             for (HashMap<Integer, String> hm2 : hm1.keySet()) {
                 gruops.putAll(hm2);
@@ -52,7 +48,7 @@ public class AddFrind_activity extends AppCompatActivity implements View.OnClick
         gruop_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                AddFrind_activity.this.position = position;
+                CheckGroupActivity.this.position = position;
             }
 
             @Override
@@ -110,7 +106,7 @@ public class AddFrind_activity extends AppCompatActivity implements View.OnClick
             if (convertView != null) {
                 view = convertView;
             } else {
-                view = View.inflate(AddFrind_activity.this, R.layout.spinner_item, null);
+                view = View.inflate(CheckGroupActivity.this, R.layout.spinner_item, null);
             }
             TextView tv = (TextView) view.findViewById(R.id.tv);
             tv.setText("" + gruops.get(keys.get(position)));
