@@ -360,27 +360,23 @@ public class MainFragment extends FragmentActivity implements
             List<Map<String, user>> er = new ArrayList<Map<String, user>>();
             for (HashMap<HashMap<Integer, String>, user> hm : frinds) {
                 //记录是否添加至二级目录
-                boolean b = false;
+                boolean addTotwo = false;
                 HashMap<String, user> c_er = new HashMap<String, user>();
                 for (HashMap<Integer, String> key : hm.keySet()) {
                     user u;
                     String value = "";
                     u = hm.get(key);
-//                    if (u != null) {
-//                        value = u.getName() + " " + u.getZhuangtai();
-//                        if ("是".equals(u.getHaveMassage())) {
-//                            value = value + "   有消息";
-//                        }
-//                    }
                     for (int k : key.keySet()) {
                         if (al.get(i) == k) {
-                            c_er.put("child", u);
-                            b = true;
+                            if(!(u == null)) {
+                                c_er.put("child", u);
+                                addTotwo = true;
+                            }
                         }
                     }
 
                 }
-                if (b) {
+                if (addTotwo) {
                     er.add(c_er);
                 }
             }
