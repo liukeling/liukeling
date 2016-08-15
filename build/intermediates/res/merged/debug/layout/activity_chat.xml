@@ -32,9 +32,9 @@
 
             <ImageView
                 android:id="@+id/user_info"
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
                 android:src="@mipmap/chat_usericon" />
         </RelativeLayout>
@@ -48,26 +48,19 @@
         android:background="@color/huibai_baise"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/fresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
-        <!--<ScrollView
-            android:id="@+id/sl"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_red_dark">
-
-            <com.example.MyViews.MyListView
-                android:id="@+id/neirong"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:divider="#00000000" />
-        </ScrollView>-->
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
         <RelativeLayout
             android:id="@+id/bottom"
             android:layout_width="match_parent"

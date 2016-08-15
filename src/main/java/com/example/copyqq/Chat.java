@@ -8,6 +8,8 @@ import comm.qq_message;
 import comm.user;
 
 import android.annotation.SuppressLint;
+import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +31,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-@SuppressLint("HandlerLeak") public class Chat extends Activity implements View.OnClickListener {
+@SuppressLint("HandlerLeak") public class Chat extends Activity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 	//记录该聊天框是与谁的
 	public user frind;
 	//发送消息按钮
@@ -41,6 +43,7 @@ import android.widget.Toast;
 	//QQ消息的数据
 	private ArrayList<qq_message> adapter_data = new ArrayList<qq_message>();
 	//消息显示的布局
+	SwipeRefreshLayout fresh;
 	private RecyclerView recyclerView;
 	//标题
 	private TextView title;
@@ -64,6 +67,8 @@ import android.widget.Toast;
 				adapter_data.addAll((ArrayList<qq_message>) msg.obj);
 				myAdapter.notifyDataSetChanged();
 				recyclerView.smoothScrollToPosition(adapter_data.size());
+			}else if(what == 1231){
+				fresh.setRefreshing(false);
 			}
 		};
 	};
@@ -88,10 +93,9 @@ import android.widget.Toast;
 			this.finish();
 		}
 		//得到各种控件
-//		Scroll_xiaoxi = (ScrollView) findViewById(R.id.sl);
-//		neirong = (MyListView) findViewById(R.id.neirong);
 		recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
+		fresh = (SwipeRefreshLayout) findViewById(R.id.fresh);
 		sendButton = (ImageButton) findViewById(R.id.sendMessage);
 		message = (EditText) findViewById(R.id.message);
 		title = (TextView) findViewById(R.id.title);
@@ -102,6 +106,8 @@ import android.widget.Toast;
 		xiaoxi_type = (RadioGroup) findViewById(R.id.xiaoxi_type);
 
 		recyclerView.setLayoutManager(new LinearLayoutManager(Chat.this));
+
+		fresh.setOnRefreshListener(this);
 
 		myAdapter = new Chat_adapter();
 		recyclerView.setAdapter(myAdapter);
@@ -273,6 +279,23 @@ import android.widget.Toast;
 	}
 	public user getFrind() {
 		return frind;
+	}
+
+	@Override
+	public void onRefresh() {
+		new Thread(){
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				Message msg = new Message();
+				msg.what = 1231;
+				handler.sendMessage(msg);
+			}
+		}.start();
 	}
 
 

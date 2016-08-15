@@ -1,6 +1,7 @@
 package comm;
 
 public class qq_message {
+	private int id;
 	private String message;
 	private String sendUser_zhanghao;
 	private String reciveUser_zhanghao;
@@ -22,5 +23,12 @@ public class qq_message {
 	public void setReciveUser_zhanghao(String reciveUser_zhanghao) {
 		this.reciveUser_zhanghao = reciveUser_zhanghao;
 	}
-	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 }
