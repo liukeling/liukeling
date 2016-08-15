@@ -1,6 +1,8 @@
 package comm;
 
-public class qq_message {
+import java.io.Serializable;
+
+public class qq_message implements Serializable {
 	private int id;
 	private String message;
 	private String sendUser_zhanghao;

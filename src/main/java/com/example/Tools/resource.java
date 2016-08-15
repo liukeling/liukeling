@@ -211,6 +211,7 @@ public class resource {
             Object obj = response.getObj();
             frinds.clear();
             frinds.addAll((ArrayList<HashMap<HashMap<Integer, String>, user>>) obj);
+
             Message msg = new Message();
             msg.what = 3;
 
@@ -234,9 +235,11 @@ public class resource {
 
                 for (HashMap<HashMap<Integer, String>, user> hm : frinds) {
                     for (user u : hm.values()) {
-                        if (u.equals(sendUser)) {
-                            u.setHaveMassage("是");
-                            break;
+                        if(u != null) {
+                            if (u.equals(sendUser)) {
+                                u.setHaveMassage("是");
+                                break;
+                            }
                         }
                     }
                 }
@@ -246,16 +249,7 @@ public class resource {
                 handler.sendMessage(msg);
             }
         } else if ("给你未读聊天记录".equals(res)) {
-            ArrayList<String> jilus = response
-                    .getLiaotianjilu();
-            ArrayList<qq_message> al = new ArrayList<qq_message>();
-            for (String message : jilus) {
-                qq_message q_msg = new qq_message();
-                q_msg.setMessage(message);
-                q_msg.setSendUser_zhanghao(response
-                        .getSendUser().getZhanghao() + "");
-                al.add(q_msg);
-            }
+            ArrayList<qq_message> al = (ArrayList<qq_message>) response.getObj();
 
             Chat c = user_chat.get(response.getSendUser());
             if (c != null) {
