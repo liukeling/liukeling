@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +31,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint("ValidFragment")
-public class FrindListmain_fragment extends Fragment {
+public class FrindListmain_fragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     MyExpandableListView frindList;
     Context ap_c = null;
     public MainFragment.MyAdapter frindlistadapter;
+    private SwipeRefreshLayout swiperefresh;
     Handler handler;
 
     public FrindListmain_fragment() {
@@ -53,10 +55,16 @@ public class FrindListmain_fragment extends Fragment {
         View view = View.inflate(ap_c, R.layout.activity_frinds, null);
         resource.jieshouxiaoxi = true;
         frindList = (MyExpandableListView) view.findViewById(R.id.frinds);
+        swiperefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+
+        //下拉刷新设置监听
+        swiperefresh.setOnRefreshListener(this);
+
+        //设置列表的展开箭头为空
         frindList.setGroupIndicator(null);
-
+        //好友列表设置适配器
         frindList.setAdapter(frindlistadapter);
-
+        //好友列表设置长按监听
         frindList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -80,21 +88,21 @@ public class FrindListmain_fragment extends Fragment {
                     });
                 } else {
                     //二级目录的长按事件
-                    int groupPosition = integers[0];
-                    int childPosition = integers[1];
+//                    int groupPosition = integers[0];
+//                    int childPosition = integers[1];
                 }
                 return true;
             }
         });
-
-        frindList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-
-                return false;
-            }
-        });
-
+//
+//        frindList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+//            @Override
+//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+//
+//                return false;
+//            }
+//        });
+        //设置子列表的点击监听
         frindList.setOnChildClickListener(new OnChildClickListener() {
 
             @Override
@@ -119,5 +127,14 @@ public class FrindListmain_fragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onRefresh() {
+        resource.reflushFrindList();
+    }
+    public void freshed(){
+        swiperefresh.setRefreshing(false);
+//        Toast.makeText(getContext(), ".....", Toast.LENGTH_SHORT).show();
     }
 }

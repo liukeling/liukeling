@@ -136,6 +136,8 @@ public class MainFragment extends FragmentActivity implements
                 }else{
                     Toast.makeText(MainFragment.this, "好友请求回复成功 ", Toast.LENGTH_SHORT).show();
                 }
+            }else if(what == 1232 && fra instanceof FrindListmain_fragment){
+                ((FrindListmain_fragment)fra).freshed();
             }
         }
     };

@@ -2,16 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff" >
+    android:background="#ffffff">
 
-    <ScrollView
-        android:id="@+id/SVfrinds"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        <com.example.MyViews.MyExpandableListView
-            android:id="@+id/frinds"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/SVfrinds"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </ScrollView>
+            android:layout_height="wrap_content">
+
+            <com.example.MyViews.MyExpandableListView
+                android:id="@+id/frinds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

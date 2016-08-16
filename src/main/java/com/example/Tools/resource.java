@@ -53,6 +53,7 @@ public class resource {
     public static List<List<Map<String, user>>> childs = new ArrayList<List<Map<String, user>>>();
     //储存登陆的用户
     private static user me = null;
+
     //不允许实例化
     private resource() {
 
@@ -73,7 +74,7 @@ public class resource {
                             resource.socket.shutdownInput();
                             resource.socket.shutdownOutput();
                             resource.socket.close();
-                        }catch(Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         resource.socket = new Socket(dbdao.fuwuip, dbdao.qqduankou);
@@ -153,11 +154,11 @@ public class resource {
     }
 
     //移动好友
-    public static void moveFrind(final user frind, final int groupId, Context context){
+    public static void moveFrind(final user frind, final int groupId, Context context) {
 
-         resource.context = context;
-        new Thread(){
-            public void run(){
+        resource.context = context;
+        new Thread() {
+            public void run() {
                 Request request = new Request();
                 request.setZhiling("移动好友");
                 request.setObj(frind);
@@ -233,7 +234,7 @@ public class resource {
 
                 for (HashMap<HashMap<Integer, String>, user> hm : frinds) {
                     for (user u : hm.values()) {
-                        if(u != null) {
+                        if (u != null) {
                             if (u.equals(sendUser)) {
                                 u.setHaveMassage("是");
                                 break;
@@ -330,27 +331,31 @@ public class resource {
             msg.what = 11;
             msg.obj = response.getObj();
             linshiHandler.sendMessage(msg);
-        }else if("移动好友结果".equals(res)){
-            ((Activity)context).runOnUiThread(new Runnable() {
+        } else if ("移动好友结果".equals(res)) {
+            ((Activity) context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if((Boolean)response.getObj()) {
+                    if ((Boolean) response.getObj()) {
                         Toast.makeText(context, "移动成功", Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         Toast.makeText(context, "移动失败", Toast.LENGTH_SHORT).show();
                     }
-                    if(context instanceof FrindInfo_More){
-                        ((FrindInfo_More)context).setGroupName();
+                    if (context instanceof FrindInfo_More) {
+                        ((FrindInfo_More) context).setGroupName();
                     }
                 }
             });
-        }else if("消息记录".equals(res)){
+        } else if ("消息记录".equals(res)) {
             ArrayList<qq_message> al = (ArrayList<qq_message>) response.getObj();
 
             Message msg = new Message();
             msg.what = 1231;
             msg.obj = al;
             linshiHandler.sendMessage(msg);
+        }else if("刷新好友列表成功".equals(res)){
+            Message msg = new Message();
+            msg.what = 1232;
+            handler.sendMessage(msg);
         }
     }
 
@@ -367,9 +372,9 @@ public class resource {
         }
     }
 
-    public static void getRecord(final String zhanghao, final int id, Handler handler){
+    public static void getRecord(final String zhanghao, final int id, Handler handler) {
         linshiHandler = handler;
-        new AsyncTask<Void, Void, Void>(){
+        new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... params) {
@@ -402,12 +407,27 @@ public class resource {
         requestchuli(request, 0);
     }
 
+    //刷新好友列表
+    public static void reflushFrindList(){
+        new AsyncTask<Void, Void, Void>(){
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                Request request = new Request();
+                request.setZhiling("刷新好友列表");
+                requestchuli(request, 0);
+                return null;
+            }
+        }.execute();
+    }
+
     // 获取好友列表
     public static void getfrindListdata(final Handler handler) {
         // 用于一加载就获取好友列表与更新系统消息
-        new Thread() {
-            public void run() {
+        new AsyncTask<Void, Void, Void>() {
 
+            @Override
+            protected Void doInBackground(Void... params) {
                 Request request = new Request();
                 request.setZhiling("获取用户列表");
                 Response response = requestchuli(request, 1);
@@ -423,10 +443,10 @@ public class resource {
                 msg.what = 3;
                 msg.obj = "one";
                 handler.sendMessage(msg);
+                return null;
             }
+        }.execute();
 
-            ;
-        }.start();
     }
 
     //分组管理
