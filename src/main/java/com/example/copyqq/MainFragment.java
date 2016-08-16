@@ -25,8 +25,8 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -62,7 +62,7 @@ public class MainFragment extends FragmentActivity implements
     //获取到好友列表数据
     private ArrayList<HashMap<HashMap<Integer, String>, user>> frinds = new ArrayList<HashMap<HashMap<Integer, String>, user>>();
     // 当前的Fragment
-    private int checkfragment = 1;
+    private int checkfragment = 2;
     //要转化的Fragment
     Fragment fra = null;
 
@@ -73,7 +73,9 @@ public class MainFragment extends FragmentActivity implements
     private ListView menuListView;
     // 侧滑布局中ListView的数据
     private String[] menudata = {"one", "two", "three", "fore", "five", "six"};
-    private MyAdapter frindlistadapter = null;
+    public MyAdapter frindlistadapter = null;
+    FragmentManager fragmentManager;
+
     // 用于接受信息的handler
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -87,16 +89,16 @@ public class MainFragment extends FragmentActivity implements
                 if ("one".equals(msg.obj)) {
 
                     boolean isxiaoxijiemian = false;
-                    if(fra != null){
+                    if (fra != null) {
                         isxiaoxijiemian = fra instanceof SysInfolist_fragmnet;
                     }
 
-                    if(isxiaoxijiemian){
+                    if (isxiaoxijiemian) {
                         SysInfolist_fragmnet frindlist_fragment = (SysInfolist_fragmnet) fra;
                         frindlist_fragment.reflushSysInfo(resource.Sysinfos);
                     }
-                    for(SysInfo sinfo : resource.Sysinfos){
-                        if(!sinfo.isRead()){
+                    for (SysInfo sinfo : resource.Sysinfos) {
+                        if (!sinfo.isRead()) {
                             //震动
                             Vibrator vibrator = (Vibrator) MainFragment.this.getSystemService(Context.VIBRATOR_SERVICE);
                             vibrator.vibrate(1000);
@@ -110,20 +112,20 @@ public class MainFragment extends FragmentActivity implements
             } else if (what == 71) {
                 //获取到好友的信息
                 user frind_info = (user) msg.obj;
-            }else if(what == 9){
+            } else if (what == 9) {
                 ArrayList<SysInfo> al = (ArrayList<SysInfo>) msg.obj;
                 resource.Sysinfos.clear();
                 resource.Sysinfos.addAll(al);
                 boolean isxiaoxijiemian = false;
-                if(fra != null){
+                if (fra != null) {
                     isxiaoxijiemian = fra instanceof SysInfolist_fragmnet;
                 }
-                if(isxiaoxijiemian){
+                if (isxiaoxijiemian) {
                     SysInfolist_fragmnet frindlist_fragment = (SysInfolist_fragmnet) fra;
                     frindlist_fragment.reflushSysInfo(al);
                 }
-                for(SysInfo sinfo : al){
-                    if(!sinfo.isRead()){
+                for (SysInfo sinfo : al) {
+                    if (!sinfo.isRead()) {
                         //震动
                         Vibrator vibrator = (Vibrator) MainFragment.this.getSystemService(Context.VIBRATOR_SERVICE);
                         vibrator.vibrate(1000);
@@ -131,14 +133,14 @@ public class MainFragment extends FragmentActivity implements
                         break;
                     }
                 }
-            }else if(what == 10){
-                if(!msg.obj.equals("")) {
-                    Toast.makeText(MainFragment.this, ""+msg.obj, Toast.LENGTH_SHORT).show();
-                }else{
+            } else if (what == 10) {
+                if (!msg.obj.equals("")) {
+                    Toast.makeText(MainFragment.this, "" + msg.obj, Toast.LENGTH_SHORT).show();
+                } else {
                     Toast.makeText(MainFragment.this, "好友请求回复成功 ", Toast.LENGTH_SHORT).show();
                 }
-            }else if(what == 1232 && fra instanceof FrindListmain_fragment){
-                ((FrindListmain_fragment)fra).freshed();
+            } else if (what == 1232 && curr_fragment instanceof FrindListmain_fragment) {
+                ((FrindListmain_fragment) curr_fragment).freshed();
             }
         }
     };
@@ -147,6 +149,7 @@ public class MainFragment extends FragmentActivity implements
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
+        fragmentManager = getSupportFragmentManager();
         initView();
         //点击toolbar的图标，开始侧滑
         main_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -165,11 +168,9 @@ public class MainFragment extends FragmentActivity implements
         add_mainfram_tv.setOnClickListener(this);
 
         rg.setOnCheckedChangeListener(this);
-        // 一进来默认是第2个被选中
-        rg.check(R.id.radiob2);
         // 获取好友列表数据
         resource.getfrindListdata(handler);
-		/*
+        /*
          * 侧滑功能的实现
 		 */
         menu.setMode(SlidingMenu.LEFT);
@@ -179,7 +180,7 @@ public class MainFragment extends FragmentActivity implements
         // 为侧滑菜单设置布局
         menu.setMenu(cehuamen);
         /*
-		 * 从侧滑布局中获取控件
+         * 从侧滑布局中获取控件
 		 */
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.menu_item, R.id.tv, menudata);
@@ -198,7 +199,11 @@ public class MainFragment extends FragmentActivity implements
             }
         });
 
+        frindlistadapter = new MyAdapter();
         updata();
+        // 一进来默认是第2个被选中
+        rg.check(R.id.radiob2);
+//        setFragment();
     }
 
     /*
@@ -229,11 +234,13 @@ public class MainFragment extends FragmentActivity implements
     }
 
 	/*
-	 * 用于实例化要切换的Fragment
+     * 用于实例化要切换的Fragment
 	 */
 
     //TODO
     public void setFragment() {
+
+        Fragment fragment;
         switch (checkfragment) {
             case 1:
                 tv_1.setVisibility(View.VISIBLE);
@@ -243,9 +250,19 @@ public class MainFragment extends FragmentActivity implements
                 add_mainfram.setVisibility(View.VISIBLE);
                 add_mainfram_tv.setVisibility(View.INVISIBLE);
                 if (isxinxi) {
-                    fra = SysInfolist_fragmnet.newInstance(resource.Sysinfos);
+                    fragment = fragmentManager.findFragmentByTag("hehe" + checkfragment + isxinxi);
+                    if (fragment == null) {
+                        fra = SysInfolist_fragmnet.newInstance(resource.Sysinfos);
+                    } else {
+                        fra = fragment;
+                    }
                 } else {
-                    fra = new Phonelist_fragment();
+                    fragment = fragmentManager.findFragmentByTag("hehe" + checkfragment + isxinxi);
+                    if (fragment == null) {
+                        fra = new Phonelist_fragment();
+                    } else {
+                        fra = fragment;
+                    }
                 }
                 break;
             case 2:
@@ -258,8 +275,12 @@ public class MainFragment extends FragmentActivity implements
                 add_mainfram_tv.setText("添加");
 
                 tv_3.setText("联系人");
-                frindlistadapter = new MyAdapter();
-                fra = new FrindListmain_fragment(handler, frindlistadapter);
+                fragment = fragmentManager.findFragmentByTag("hehe" + checkfragment);
+                if (fragment == null) {
+                    fra = new FrindListmain_fragment(handler);
+                } else {
+                    fra = fragment;
+                }
                 break;
             case 3:
                 tv_1.setVisibility(View.INVISIBLE);
@@ -269,8 +290,14 @@ public class MainFragment extends FragmentActivity implements
                 add_mainfram_tv.setVisibility(View.VISIBLE);
                 add_mainfram_tv.setText("更多");
                 tv_3.setText("动态");
-                fra = new DynamicFragment();
+                fragment = fragmentManager.findFragmentByTag("hehe" + checkfragment);
+                if (fragment == null) {
+                    fra = new DynamicFragment();
+                } else {
+                    fra = fragment;
+                }
                 break;
+
         }
         putfragment();
     }
@@ -281,12 +308,19 @@ public class MainFragment extends FragmentActivity implements
     private void putfragment() {
 
         if (fra != null) {
-            if (curr_fragment != null) {
-                getSupportFragmentManager().beginTransaction().remove(curr_fragment).commit();
-            }
             if (fra != curr_fragment) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frame, fra).commit();
+
+                String cur = ""+checkfragment;
+                if(checkfragment == 1){
+                    cur = cur+isxinxi;
+                }
+
+                if (fragmentManager.findFragmentByTag("hehe" + cur) == null) {
+                    fragmentManager.beginTransaction()
+                            .add(R.id.frame, fra, "hehe" + cur).show(fra).commit();
+                } else {
+                    fragmentManager.beginTransaction().hide(curr_fragment).show(fra).commit();
+                }
             }
             curr_fragment = fra;
         }
@@ -349,7 +383,6 @@ public class MainFragment extends FragmentActivity implements
         }
 
 
-
         //一级分组的数据设置
         for (String s : al1) {
             Map<String, String> title = new HashMap<String, String>();
@@ -372,7 +405,7 @@ public class MainFragment extends FragmentActivity implements
                     u = hm.get(key);
                     for (int k : key.keySet()) {
                         if (al.get(i) == k) {
-                            if(!(u == null)) {
+                            if (!(u == null)) {
                                 c_er.put("child", u);
                                 addTotwo = true;
                             }
@@ -387,14 +420,9 @@ public class MainFragment extends FragmentActivity implements
             resource.childs.add(er);
         }
 
-        if (fra instanceof FrindListmain_fragment) {
-            FrindListmain_fragment f = (FrindListmain_fragment) fra;
-            if (f.frindlistadapter != null) {
-                f.frindlistadapter.notifyDataSetChanged();
-            }
+        if (frindlistadapter != null) {
+            frindlistadapter.notifyDataSetChanged();
         }
-        //TODO
-
     }
 
     @Override
@@ -407,6 +435,7 @@ public class MainFragment extends FragmentActivity implements
     //TODO
     @Override
     public void onClick(View v) {
+        Fragment fragment;
         switch (v.getId()) {
             case R.id.tv_1:
 
@@ -416,8 +445,13 @@ public class MainFragment extends FragmentActivity implements
                 tv_1.setTextColor(Color.parseColor("#00B7FB"));
                 tv_1.setClickable(false);
                 tv_2.setClickable(true);
-                fra = SysInfolist_fragmnet.newInstance(resource.Sysinfos);
                 isxinxi = true;
+                fragment = fragmentManager.findFragmentByTag("hehe1true");
+                if (fragment == null) {
+                    fra = SysInfolist_fragmnet.newInstance(resource.Sysinfos);
+                } else {
+                    fra = fragment;
+                }
                 putfragment();
                 break;
             case R.id.tv_2:
@@ -428,8 +462,13 @@ public class MainFragment extends FragmentActivity implements
                 tv_1.setTextColor(Color.parseColor("#ffffff"));
                 tv_2.setClickable(false);
                 tv_1.setClickable(true);
+                fragment = fragmentManager.findFragmentByTag("hehe1false");
                 isxinxi = false;
-                fra = new Phonelist_fragment();
+                if (fragment == null) {
+                    fra = new Phonelist_fragment();
+                } else {
+                    fra = fragment;
+                }
                 putfragment();
                 break;
             case R.id.add_mainfram_tv:
@@ -448,8 +487,7 @@ public class MainFragment extends FragmentActivity implements
     }
 
 
-
-    public class MyAdapter extends BaseExpandableListAdapter{
+    public class MyAdapter extends BaseExpandableListAdapter {
 
         @Override
         public int getGroupCount() {
@@ -468,8 +506,6 @@ public class MainFragment extends FragmentActivity implements
 
         @Override
         public Object getChild(int groupPosition, int childPosition) {
-            Log.e("child", resource.childs.get(groupPosition)
-                    .get(childPosition).size() + "");
             return resource.childs.get(groupPosition)
                     .get(childPosition);
         }
@@ -504,15 +540,15 @@ public class MainFragment extends FragmentActivity implements
 
             View view = View.inflate(MainFragment.this.getApplicationContext(), R.layout.one_mulu, null);
             TextView tv = (TextView) view.findViewById(R.id.tv);
-            user u = ((HashMap<String, user>)getChild(groupPosition, childPosition)).get("child");
+            user u = ((HashMap<String, user>) getChild(groupPosition, childPosition)).get("child");
             String s = "";
 
-                    if (u != null) {
-                        s = u.getName() + " " + u.getZhuangtai();
-                        if ("是".equals(u.getHaveMassage())) {
-                            s = s + "   有消息";
-                        }
-                    }
+            if (u != null) {
+                s = u.getName() + " " + u.getZhuangtai();
+                if ("是".equals(u.getHaveMassage())) {
+                    s = s + "   有消息";
+                }
+            }
             tv.setText(s);
             Integer[] integers = {groupPosition, childPosition};
             view.setTag(integers);

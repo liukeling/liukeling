@@ -34,7 +34,6 @@ import android.widget.Toast;
 public class FrindListmain_fragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     MyExpandableListView frindList;
     Context ap_c = null;
-    public MainFragment.MyAdapter frindlistadapter;
     private SwipeRefreshLayout swiperefresh;
     Handler handler;
 
@@ -42,10 +41,8 @@ public class FrindListmain_fragment extends Fragment implements SwipeRefreshLayo
 
     }
 
-    public FrindListmain_fragment(Handler handler,
-                                  MainFragment.MyAdapter frindlistadapter) {
+    public FrindListmain_fragment(Handler handler) {
         this.handler = handler;
-        this.frindlistadapter = frindlistadapter;
     }
 
     @Override
@@ -63,7 +60,7 @@ public class FrindListmain_fragment extends Fragment implements SwipeRefreshLayo
         //设置列表的展开箭头为空
         frindList.setGroupIndicator(null);
         //好友列表设置适配器
-        frindList.setAdapter(frindlistadapter);
+        frindList.setAdapter(((MainFragment)getActivity()).frindlistadapter);
         //好友列表设置长按监听
         frindList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
