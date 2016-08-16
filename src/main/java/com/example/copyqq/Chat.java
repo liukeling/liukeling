@@ -31,324 +31,326 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-@SuppressLint("HandlerLeak") public class Chat extends Activity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
-	//记录该聊天框是与谁的
-	public user frind;
-	//发送消息按钮
-	private ImageButton sendButton;
-	//消息编辑框
-	private EditText message;
-	//显示消息的适配器
-	private Chat_adapter myAdapter;
-	//QQ消息的数据
-	private ArrayList<qq_message> adapter_data = new ArrayList<qq_message>();
-	//消息显示的布局
-	SwipeRefreshLayout fresh;
-	private RecyclerView recyclerView;
-	//标题
-	private TextView title;
-	//返回的textView
-	private TextView back;
-	//储存屏幕的宽高
-	private int[] pinmu = new int[2];
-	//底部Fragment
-	private FrameLayout frame_bottom;
-	//用户信息头像
-	private ImageView user_info;
-	//底部按钮的集合
-	private RadioGroup xiaoxi_type;
-	//用于接收消息的handler
-	@SuppressLint("HandlerLeak")
-	public Handler handler = new Handler(){
-		@SuppressWarnings("unchecked")
-		public void handleMessage(android.os.Message msg) {
-			int what = msg.what;
-			if(what == 4){
-				adapter_data.addAll((ArrayList<qq_message>) msg.obj);
-				myAdapter.notifyDataSetChanged();
-				recyclerView.smoothScrollToPosition(adapter_data.size());
-			}else if(what == 1231){
-				fresh.setRefreshing(false);
-			}
-		};
-	};
-	
-	@SuppressLint("ShowToast") @Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		//得到屏幕的宽和高
-		pinmu[0] = getWindowManager().getDefaultDisplay().getWidth();
-		pinmu[1] = getWindowManager().getDefaultDisplay().getHeight();
-		//设置布局文件
-		setContentView(R.layout.activity_chat);
-		//获取到对方对象
-		Intent intent = getIntent();
-		Object obj = intent.getSerializableExtra("frind");
-		//判断对方对象是否是user
-		if(obj instanceof user){
-			frind = (user)obj;
-		}else{
-			Toast.makeText(this, "我不知道Ta是谁", Toast.LENGTH_LONG).show();
-			this.finish();
-		}
-		//得到各种控件
-		recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+@SuppressLint("HandlerLeak")
+public class Chat extends Activity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+    //记录该聊天框是与谁的
+    public user frind;
+    //发送消息按钮
+    private ImageButton sendButton;
+    //消息编辑框
+    private EditText message;
+    //显示消息的适配器
+    private Chat_adapter myAdapter;
+    //QQ消息的数据
+    private ArrayList<qq_message> adapter_data = new ArrayList<qq_message>();
+    //消息显示的布局
+    SwipeRefreshLayout fresh;
+    private RecyclerView recyclerView;
+    //标题
+    private TextView title;
+    //返回的textView
+    private TextView back;
+    //储存屏幕的宽高
+    private int[] pinmu = new int[2];
+    //底部Fragment
+    private FrameLayout frame_bottom;
+    //用户信息头像
+    private ImageView user_info;
+    //底部按钮的集合
+    private RadioGroup xiaoxi_type;
+    //用于接收消息的handler
+    @SuppressLint("HandlerLeak")
+    public Handler handler = new Handler() {
+        @SuppressWarnings("unchecked")
+        public void handleMessage(android.os.Message msg) {
+            int what = msg.what;
+            if (what == 4) {
+                adapter_data.addAll((ArrayList<qq_message>) msg.obj);
+                myAdapter.notifyDataSetChanged();
+                recyclerView.smoothScrollToPosition(adapter_data.size());
+            } else if (what == 1231) {
+                fresh.setRefreshing(false);
+                adapter_data.addAll(0, (ArrayList<qq_message>)msg.obj);
+                myAdapter.notifyDataSetChanged();
+                recyclerView.smoothScrollToPosition(0);
+            }
+        }
 
-		fresh = (SwipeRefreshLayout) findViewById(R.id.fresh);
-		sendButton = (ImageButton) findViewById(R.id.sendMessage);
-		message = (EditText) findViewById(R.id.message);
-		title = (TextView) findViewById(R.id.title);
-		frame_bottom = (FrameLayout) findViewById(R.id.frame_bottom);
-		back = (TextView) findViewById(R.id.back);
-		user_info = (ImageView) findViewById(R.id.user_info);
+        ;
+    };
+
+    @SuppressLint("ShowToast")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        //得到屏幕的宽和高
+        pinmu[0] = getWindowManager().getDefaultDisplay().getWidth();
+        pinmu[1] = getWindowManager().getDefaultDisplay().getHeight();
+        //设置布局文件
+        setContentView(R.layout.activity_chat);
+        //获取到对方对象
+        Intent intent = getIntent();
+        Object obj = intent.getSerializableExtra("frind");
+        //判断对方对象是否是user
+        if (obj instanceof user) {
+            frind = (user) obj;
+        } else {
+            Toast.makeText(this, "我不知道Ta是谁", Toast.LENGTH_LONG).show();
+            this.finish();
+        }
+        //得到各种控件
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        fresh = (SwipeRefreshLayout) findViewById(R.id.fresh);
+        sendButton = (ImageButton) findViewById(R.id.sendMessage);
+        message = (EditText) findViewById(R.id.message);
+        title = (TextView) findViewById(R.id.title);
+        frame_bottom = (FrameLayout) findViewById(R.id.frame_bottom);
+        back = (TextView) findViewById(R.id.back);
+        user_info = (ImageView) findViewById(R.id.user_info);
 //		RelativeLayout bottom = (RelativeLayout) findViewById(R.id.bottom);
-		xiaoxi_type = (RadioGroup) findViewById(R.id.xiaoxi_type);
+        xiaoxi_type = (RadioGroup) findViewById(R.id.xiaoxi_type);
 
-		recyclerView.setLayoutManager(new LinearLayoutManager(Chat.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(Chat.this));
 
-		fresh.setOnRefreshListener(this);
+        fresh.setOnRefreshListener(this);
 
-		myAdapter = new Chat_adapter();
-		recyclerView.setAdapter(myAdapter);
+        myAdapter = new Chat_adapter();
+        recyclerView.setAdapter(myAdapter);
 
-		message.setOnClickListener(this);
+        message.setOnClickListener(this);
 
-		recyclerView.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				int action = event.getAction();
-				switch (action) {
-					case MotionEvent.ACTION_DOWN:
-						setfragme_bottomGONE();
-						closeInputMethod();
-						break;
-					case MotionEvent.ACTION_MOVE:
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        setfragme_bottomGONE();
+                        closeInputMethod();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
 
-						break;
-				}
+                        break;
+                }
 
-				return false;
-			}
-		});
-		//设置各种监听
-		user_info.setOnClickListener(this);
-		xiaoxi_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				setfragment_bottomVisible();
-				closeInputMethod();
-			}
-		});
-		//获取未读信息
-		resource.getQq_Message(frind.getZhanghao() + "");
-		//设置标题
-		title.setText(frind.getName());
-		//设置监听
-		back.setOnClickListener(this);
-		setfragme_bottomGONE();
-		//发送按钮监听
-		sendButton.setOnClickListener(this);
-		//输入框文字监听
-		message.addTextChangedListener(new TextWatcher() {
+                return false;
+            }
+        });
+        //设置各种监听
+        user_info.setOnClickListener(this);
+        xiaoxi_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                setfragment_bottomVisible();
+                closeInputMethod();
+            }
+        });
+        //获取未读信息
+        resource.getQq_Message(frind.getZhanghao() + "");
+        //设置标题
+        title.setText(frind.getName());
+        //设置监听
+        back.setOnClickListener(this);
+        setfragme_bottomGONE();
+        //发送按钮监听
+        sendButton.setOnClickListener(this);
+        //输入框文字监听
+        message.addTextChangedListener(new TextWatcher() {
 
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // TODO Auto-generated method stub
 
-			}
+            }
 
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-										  int after) {
-				// TODO Auto-generated method stub
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // TODO Auto-generated method stub
 
-			}
+            }
 
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				if (message.getText().toString() != null && !"".equals(message.getText().toString())) {
-					sendButton.setClickable(true);
-					sendButton.setBackgroundResource(R.mipmap.sendbutton_chat);
-				} else {
-					sendButton.setClickable(false);
-					sendButton.setBackgroundResource(R.mipmap.sendbutton_chat1);
-				}
-			}
-		});
-		//一开始设置发送按钮为不可点击
-		sendButton.setClickable(false);
-		//设置背景
-		sendButton.setBackgroundResource(R.mipmap.sendbutton_chat1);
-	}
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+                if (message.getText().toString() != null && !"".equals(message.getText().toString())) {
+                    sendButton.setClickable(true);
+                    sendButton.setBackgroundResource(R.mipmap.sendbutton_chat);
+                } else {
+                    sendButton.setClickable(false);
+                    sendButton.setBackgroundResource(R.mipmap.sendbutton_chat1);
+                }
+            }
+        });
+        //一开始设置发送按钮为不可点击
+        sendButton.setClickable(false);
+        //设置背景
+        sendButton.setBackgroundResource(R.mipmap.sendbutton_chat1);
+    }
 
-	//关闭输入法
-	public void closeInputMethod(){
-		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		boolean isOpen = imm.isActive();
-		if (isOpen) {
-			// imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//没有显示则显示
-			imm.hideSoftInputFromWindow(message.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-		}
-	}
+    //关闭输入法
+    public void closeInputMethod() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();
+        if (isOpen) {
+            // imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//没有显示则显示
+            imm.hideSoftInputFromWindow(message.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()){
-			//返回
-			case R.id.back:
-				onBackPressed();
-				break;
-			//发送按钮的点击事件
-			case R.id.sendMessage:
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            //返回
+            case R.id.back:
+                onBackPressed();
+                break;
+            //发送按钮的点击事件
+            case R.id.sendMessage:
 
-				//将输入框中的内容封装成信息（qq_message）对象
-				String m_neirong = message.getText().toString();
-				qq_message q_msg = new qq_message();
-				q_msg.setMessage(m_neirong);
-				q_msg.setSendUser_zhanghao(resource.Myzhanghao);
-				q_msg.setReciveUser_zhanghao("" + frind.getZhanghao());
-				//发送消息
-				resource.sendQq_Message(q_msg);
-				//发送完信息后将输入框清空
-				message.setText("");
-				//将信息条目显示在List中
-				adapter_data.add(q_msg);
-				myAdapter.notifyDataSetChanged();
-				//将下拉条滑至最低下
-				recyclerView.smoothScrollToPosition(adapter_data.size());
-				break;
-			//用户信息头像点击事件
-			case R.id.user_info:
-				Intent intent = new Intent(Chat.this, Chatset_Activity.class);
+                //将输入框中的内容封装成信息（qq_message）对象
+                String m_neirong = message.getText().toString();
+                qq_message q_msg = new qq_message();
+                q_msg.setMessage(m_neirong);
+                q_msg.setSendUser_zhanghao(resource.Myzhanghao);
+                q_msg.setReciveUser_zhanghao("" + frind.getZhanghao());
+                //发送消息
+                resource.sendQq_Message(q_msg);
+                //发送完信息后将输入框清空
+                message.setText("");
+                //将信息条目显示在List中
+                adapter_data.add(q_msg);
+                myAdapter.notifyDataSetChanged();
+                //将下拉条滑至最低下
+                recyclerView.smoothScrollToPosition(adapter_data.size());
+                break;
+            //用户信息头像点击事件
+            case R.id.user_info:
+                Intent intent = new Intent(Chat.this, Chatset_Activity.class);
 
-				if(frind != null){
-					intent.putExtra("user", frind);
-				}
+                if (frind != null) {
+                    intent.putExtra("user", frind);
+                }
 
-				startActivityForResult(intent, 1);
+                startActivityForResult(intent, 1);
 
-				break;
-			//输入框点击监听
-			case R.id.message:
-				setfragme_bottomGONE();
-				break;
+                break;
+            //输入框点击监听
+            case R.id.message:
+                setfragme_bottomGONE();
+                break;
 
-		}
-	}
+        }
+    }
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode == 1){
-			switch (resultCode){
-				//TODO
-				case 5:
-					onBackPressed();
-					break;
-			}
-		}
-	}
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            switch (resultCode) {
+                //TODO
+                case 5:
+                    onBackPressed();
+                    break;
+            }
+        }
+    }
 
-	private void setfragme_bottomGONE(){
-		frame_bottom.setVisibility(View.GONE);
-	}
-	private void setfragment_bottomVisible(){
-		frame_bottom.setVisibility(View.VISIBLE);
-	}
+    private void setfragme_bottomGONE() {
+        frame_bottom.setVisibility(View.GONE);
+    }
 
-	@Override
-	public void onBackPressed() {
-		if(frame_bottom.getVisibility() == View.VISIBLE){
-			setfragme_bottomGONE();
-		}else {
-			super.onBackPressed();
-		}
-	}
+    private void setfragment_bottomVisible() {
+        frame_bottom.setVisibility(View.VISIBLE);
+    }
 
-	@Override
-	protected void onStop() {
-		resource.user_chat.remove(frind);
-		super.onStop();
-	}
-	@Override
-	protected void onResume() {
-		resource.user_chat.put(frind, this);
-		super.onResume();
-	}
-	public user getFrind() {
-		return frind;
-	}
+    @Override
+    public void onBackPressed() {
+        if (frame_bottom.getVisibility() == View.VISIBLE) {
+            setfragme_bottomGONE();
+        } else {
+            super.onBackPressed();
+        }
+    }
 
-	@Override
-	public void onRefresh() {
-		new Thread(){
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				Message msg = new Message();
-				msg.what = 1231;
-				handler.sendMessage(msg);
-			}
-		}.start();
-	}
+    @Override
+    protected void onStop() {
+        resource.user_chat.remove(frind);
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        resource.user_chat.put(frind, this);
+        super.onResume();
+    }
+
+    public user getFrind() {
+        return frind;
+    }
+
+    @Override
+    public void onRefresh() {
+        if (adapter_data.size() != 0) {
+            resource.getRecord(frind.getZhanghao() + "", adapter_data.get(0).getId(), handler);
+        } else {
+            resource.getRecord(frind.getZhanghao() + "", -1, handler);
+        }
+    }
 
 
-	class Chat_adapter extends RecyclerView.Adapter<Chat_adapter.MyViewHolder> {
+    class Chat_adapter extends RecyclerView.Adapter<Chat_adapter.MyViewHolder> {
 
-		@Override
-		public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-			View view = null;
-			switch (viewType){
-				case 0:
-					view = View.inflate(Chat.this, R.layout.item_qqmessage1, null);
-					break;
-				case 1:
-					view = View.inflate(Chat.this, R.layout.item_qqmessage2, null);
-					break;
-			}
-			if(view != null) {
-				MyViewHolder myViewHolder = new MyViewHolder(view);
-				return myViewHolder;
-			}else{
-				return null;
-			}
-		}
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = null;
+            switch (viewType) {
+                case 0:
+                    view = View.inflate(Chat.this, R.layout.item_qqmessage1, null);
+                    break;
+                case 1:
+                    view = View.inflate(Chat.this, R.layout.item_qqmessage2, null);
+                    break;
+            }
+            if (view != null) {
+                MyViewHolder myViewHolder = new MyViewHolder(view);
+                return myViewHolder;
+            } else {
+                return null;
+            }
+        }
 
-		@Override
-		public void onBindViewHolder(MyViewHolder holder, int position) {
+        @Override
+        public void onBindViewHolder(MyViewHolder holder, int position) {
 
-			holder.message.setText(adapter_data.get(position).getMessage());
-		}
+            holder.message.setText(adapter_data.get(position).getMessage());
+        }
 
-		@Override
-		public int getItemCount() {
-			return adapter_data.size();
-		}
+        @Override
+        public int getItemCount() {
+            return adapter_data.size();
+        }
 
-		@Override
-		public int getItemViewType(int position) {
-			if(resource.Myzhanghao.equals(adapter_data.get(position).getSendUser_zhanghao())){
-				return 1;
-			}else{
-				return 0;
-			}
-		}
+        @Override
+        public int getItemViewType(int position) {
+            if (resource.Myzhanghao.equals(adapter_data.get(position).getSendUser_zhanghao())) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
 
-		class MyViewHolder extends RecyclerView.ViewHolder{
+        class MyViewHolder extends RecyclerView.ViewHolder {
 
-			TextView message;
+            TextView message;
 
-			public MyViewHolder(View itemView) {
-				super(itemView);
-				message = (TextView) itemView.findViewById(R.id.message);
-			}
-		}
-	}
+            public MyViewHolder(View itemView) {
+                super(itemView);
+                message = (TextView) itemView.findViewById(R.id.message);
+            }
+        }
+    }
 
 }

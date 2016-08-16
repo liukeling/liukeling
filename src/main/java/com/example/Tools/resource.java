@@ -79,7 +79,6 @@ public class resource {
                         resource.socket = new Socket(dbdao.fuwuip, dbdao.qqduankou);
                     }
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                     Message msg = new Message();
                     msg.what = 122411;
@@ -92,7 +91,7 @@ public class resource {
         }.execute();
     }
 
-    //TODO 用于搜索好友的方法
+    //用于搜索好友的方法
     public static void searchFrinds(Handler handler, String search_info) {
         linshiHandler = handler;
 
@@ -195,7 +194,6 @@ public class resource {
                         }
 
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         jieshouxiaoxi = false;
                         e.printStackTrace();
                     }
@@ -269,7 +267,6 @@ public class resource {
                 handler.sendMessage(msg);
             }
         } else if ("搜索好友的结果".equals(res)) {
-            //TODO
             if (linshiHandler != null) {
                 Message msg = new Message();
                 msg.obj = response.getObj();
@@ -307,7 +304,6 @@ public class resource {
         } else if ("删除好友成功".equals(res)) {
             String sys = (String) response.getObj();
             if ("添加系统消息失败".equals(sys)) {
-                // TODO
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -330,7 +326,6 @@ public class resource {
                 }
             });
         } else if ("修改分组信息".equals(res)) {
-            //TODO
             Message msg = new Message();
             msg.what = 11;
             msg.obj = response.getObj();
@@ -349,6 +344,13 @@ public class resource {
                     }
                 }
             });
+        }else if("消息记录".equals(res)){
+            ArrayList<qq_message> al = (ArrayList<qq_message>) response.getObj();
+
+            Message msg = new Message();
+            msg.what = 1231;
+            msg.obj = al;
+            linshiHandler.sendMessage(msg);
         }
     }
 
@@ -363,6 +365,22 @@ public class resource {
             Response response = requestchuli(request, type);
             return response;
         }
+    }
+
+    public static void getRecord(final String zhanghao, final int id, Handler handler){
+        linshiHandler = handler;
+        new AsyncTask<Void, Void, Void>(){
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                Request request = new Request();
+                request.setZhiling("获取消息记录");
+                request.setDuifangzhanghao(zhanghao);
+                request.setObj(id);
+                requestchuli(request, 0);
+                return null;
+            }
+        }.execute();
     }
 
     //将系统消息标记为已读
@@ -414,7 +432,6 @@ public class resource {
     //分组管理
     public static void groupManager(final Modify_groupitem modifys, Handler handler) {
         resource.linshiHandler = handler;
-        //TODO
         new AsyncTask<Void, Void, Void>() {
 
             @Override
@@ -654,14 +671,12 @@ public class resource {
 
             @Override
             protected Void doInBackground(Void... params) {
-                // TODO Auto-generated method stub
 
                 Request request = new Request();
                 request.setZhiling("获取用户信息");
                 request.setMyzhanghao(zhanghao + "");
 
                 requestchuli(request, type);
-                // TODO
 
                 return null;
             }
