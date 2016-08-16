@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.example.fragments.DynamicFragment;
 import com.example.fragments.FrindListmain_fragment;
 import com.example.fragments.SysInfolist_fragmnet;
 import com.example.fragments.Phonelist_fragment;
@@ -268,6 +269,7 @@ public class MainFragment extends FragmentActivity implements
                 add_mainfram_tv.setVisibility(View.VISIBLE);
                 add_mainfram_tv.setText("更多");
                 tv_3.setText("动态");
+                fra = new DynamicFragment();
                 break;
         }
         putfragment();
