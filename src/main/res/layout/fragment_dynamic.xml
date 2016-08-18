@@ -11,6 +11,7 @@
         android:layout_height="match_parent">
 
         <ScrollView
+            android:id="@+id/scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -19,6 +20,7 @@
                 android:layout_height="match_parent">
 
                 <RelativeLayout
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -30,47 +32,80 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:alpha="0.5"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="相册"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp" />
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="20dp"
+                            android:src="@mipmap/toolbar_touxiang"
+                            android:background="@drawable/touxiang_shap" />
+                        <LinearLayout
+                            android:id="@+id/title_bottm"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:alpha="1"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="说说"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp" />
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="相册"
+                                android:textColor="@android:color/black"
+                                android:textSize="15dp" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="视频"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp" />
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="说说"
+                                android:textColor="@android:color/black"
+                                android:textSize="15dp" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="\@与我相关"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp" />
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="视频"
+                                android:textColor="@android:color/black"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="\@与我相关"
+                                android:textColor="@android:color/black"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+
                     </LinearLayout>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/body"
+                    android:layout_below="@id/title"
+                    android:background="@android:color/darker_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:id="@+id/load"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_below="@id/recyclerView"
+                        android:text="加载更多"
+                        android:gravity="center"
+                        android:textSize="20dp"/>
                 </RelativeLayout>
 
             </RelativeLayout>
