@@ -2,6 +2,7 @@ package com.example.fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,12 +22,14 @@ import android.widget.Toast;
 
 import com.example.Tools.HttpTools;
 import com.example.copyqq.R;
+import com.example.copyqq.TalkAbout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import comm.shuoshuo;
 import comm.user;
@@ -142,8 +145,35 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                 loding(0);
                 break;
             case R.id.Myss:
-
+                Intent intent = new Intent(getContext(), TalkAbout.class);
+                startActivityForResult(intent, 1);
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            switch (resultCode){
+                case 0:
+                    loding(1);
+                    break;
+                case 1:
+                    ArrayList<shuoshuo> delss = (ArrayList<shuoshuo>) data.getSerializableExtra("delss");
+                    Iterator<shuoshuo> iterator = recyclerData.iterator();
+                    while (iterator.hasNext()) {
+                        shuoshuo s = iterator.next();
+                        for(shuoshuo ss : delss){
+                            if(ss.getSsid().equals(s.getSsid())){
+                                iterator.remove();
+                                break;
+                            }
+                        }
+                    }
+                    loding(1);
+                    break;
+            }
         }
     }
 
@@ -158,14 +188,14 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                 if (recyclerData.size() != 0) {
                     sid = recyclerData.get(recyclerData.size() - 1).getSsid();
                 }
-                HttpTools.getShuoShuo("old", sid, handler);
+                HttpTools.getShuoShuo("old", sid, handler, false);
             }
         }else{
             String sid = "0";
             if(recyclerData.size() != 0){
                 sid = recyclerData.get(0).getSsid();
             }
-            HttpTools.getShuoShuo("new", sid, handler);
+            HttpTools.getShuoShuo("new", sid, handler, false);
         }
     }
 
@@ -244,6 +274,13 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
             holder.dz_count.setText("点赞数("+ss.getDianzanshu()+")");
             holder.sstime.setText(ss.getFabutime());
             holder.ss_contect.setText(ss.getNeirong());
+            holder.todo.setText("转发");
+            holder.todo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
 
         @Override
@@ -252,7 +289,7 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
         }
         class MyHolder extends RecyclerView.ViewHolder{
 
-            public TextView username, sstime, dz_count, ss_contect;
+            public TextView username, todo, sstime, dz_count, ss_contect;
             public EditText et_pl;
 
             public MyHolder(View itemView) {
@@ -262,6 +299,7 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                 dz_count = (TextView) itemView.findViewById(R.id.dz_count);
                 et_pl = (EditText) itemView.findViewById(R.id.et_pl);
                 ss_contect = (TextView) itemView.findViewById(R.id.ss_contect);
+                todo = (TextView) itemView.findViewById(R.id.todo);
             }
         }
     }

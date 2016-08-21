@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:2:1-85:12
+ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:2:1-87:12
 	package
 		ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:3:5-33
 		INJECTED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml
@@ -26,7 +26,7 @@ ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifes
 	android:name
 		ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:7:22-63
 application
-ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:9:5-83:19
+ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:9:5-85:19
 MERGED from [com.android.support:appcompat-v7:23.2.1] D:\AndroidStudioProjects\MyApplication\copyqq\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-v4:23.2.1] D:\AndroidStudioProjects\MyApplication\copyqq\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:animated-vector-drawable:23.2.1] D:\AndroidStudioProjects\MyApplication\copyqq\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\AndroidManifest.xml:7:5-20
@@ -171,6 +171,10 @@ activity#com.example.copyqq.FrindInfo_More
 ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:81:9-82:20
 	android:name
 		ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:81:19-49
+activity#com.example.copyqq.TalkAbout
+ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:83:9-84:20
+	android:name
+		ADDED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml:83:19-44
 uses-sdk
 INJECTED from D:\AndroidStudioProjects\MyApplication\copyqq\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.2.1] D:\AndroidStudioProjects\MyApplication\copyqq\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:21:5-23:78

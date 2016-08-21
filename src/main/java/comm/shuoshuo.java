@@ -1,6 +1,8 @@
 package comm;
 
-public class shuoshuo {
+import java.io.Serializable;
+
+public class shuoshuo implements Serializable {
 	private int form_ssid = -1;
 	private String neirong="";
 	private String fabutime;
