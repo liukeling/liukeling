@@ -1,8 +1,8 @@
 package com.example.fragments;
 
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,11 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dbdao.dbdao;
 import com.example.Tools.HttpTools;
+import com.example.Tools.resource;
 import com.example.copyqq.R;
 import com.example.copyqq.TalkAbout;
 
@@ -28,6 +31,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -49,17 +56,17 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
     MyRecyclerViewAdapter adapter;
 
     private ScrollView scrollView;
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             //加载说说的数据 10010是上拉加载，1001011是下拉刷新
-            if(msg.what == 10010 || msg.what == 1001011) {
-                if(msg.what == 10010) {
+            if (msg.what == 10010 || msg.what == 1001011) {
+                if (msg.what == 10010) {
                     //上拉加载完成设置
                     tv_load.setText("加载更多");
                 }
-                if(msg.what == 1001011){
+                if (msg.what == 1001011) {
                     //下拉刷新后设置处理
                     swipeRefreshLayout.setRefreshing(false);
                 }
@@ -81,13 +88,15 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                                 user suser = new user(userjson.getInt("userzhanghao"));
                                 suser.setName(userjson.getString("username"));
                                 ss.setSsuser(suser);
+
                                 ss.setSsid(job1.getString("ssid"));
                                 ss.setNeirong(job1.getString("contact"));
                                 ss.setDianzanshu(job1.getString("dianzannumbeer"));
+                                ss.setDz(job1.getBoolean("isdz"));
                                 //如果是上拉加载就直接添加，否则将数据添加到上方
-                                if(msg.what == 10010) {
+                                if (msg.what == 10010) {
                                     recyclerData.add(ss);
-                                }else if(msg.what == 1001011){
+                                } else if (msg.what == 1001011) {
                                     recyclerData.add(i, ss);
                                 }
                             }
@@ -100,6 +109,27 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }else if(msg.what == 1020){
+                try {
+                    JSONObject job = new JSONObject((String)msg.obj);
+                    String reason = job.getString("reason");
+                    Toast.makeText(getContext(), ""+reason, Toast.LENGTH_SHORT).show();
+                    String ssid = job.getString("result");
+                    //更新本Activity的说说
+                    updateSS(ssid);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else if(msg.what == 1010){
+                String json = (String)msg.obj;
+                try {
+                    JSONObject job = new JSONObject(json);
+                    String reason = job.getString("reason");
+                    Toast.makeText(DynamicFragment.this.getContext(), ""+reason, Toast.LENGTH_SHORT).show();
+                    loding(1);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     };
@@ -107,7 +137,67 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
     public DynamicFragment() {
     }
 
+    private void updateSS(final String ssid){
+        new AsyncTask<Void, Void, Void>(){
 
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    URL url = new URL("http://" + dbdao.fuwuip + ":8080/qqkongjian/servlet/ShuoShuoJsonServer?MyId=" + resource.Myzhanghao+"&type=select&selecttype=onlyOne&ssid="+ssid);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+                    int code = connection.getResponseCode();
+                    if (code == 200) {
+                        InputStream ips = connection.getInputStream();
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        byte[] byt = new byte[1024];
+                        int len = 0;
+                        while(((len = ips.read(byt)) != -1)){
+                            bos.write(byt, 0, len);
+                        }
+                        ips.close();
+                        String jso = bos.toString();
+                        JSONObject job = new JSONObject(jso);
+                        JSONObject job1 = job.getJSONObject("result");
+                        final shuoshuo ss = new shuoshuo();
+                        ss.setForm_ssid(job1.getInt("fromssid"));
+                        ss.setFabutime(job1.getString("fabutime"));
+
+                        JSONObject userjson = job1.getJSONObject("user");
+                        user suser = new user(userjson.getInt("userzhanghao"));
+                        suser.setName(userjson.getString("username"));
+                        ss.setSsuser(suser);
+                        ss.setSsid(job1.getString("ssid"));
+                        ss.setNeirong(job1.getString("contact"));
+                        ss.setDz(job1.getBoolean("isdz"));
+                        ss.setDianzanshu(job1.getString("dianzannumbeer"));
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                for (shuoshuo ss1 : recyclerData) {
+                                    if (ss.getSsid().equals(ss1.getSsid())) {
+                                        ss1.setDz(ss.isDz());
+                                        ss1.setDianzanshu(ss.getDianzanshu());
+                                        break;
+                                    } else {
+                                        continue;
+                                    }
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    } else {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -154,8 +244,8 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
-            switch (resultCode){
+        if (requestCode == 1) {
+            switch (resultCode) {
                 case 0:
                     loding(1);
                     break;
@@ -164,8 +254,8 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                     Iterator<shuoshuo> iterator = recyclerData.iterator();
                     while (iterator.hasNext()) {
                         shuoshuo s = iterator.next();
-                        for(shuoshuo ss : delss){
-                            if(ss.getSsid().equals(s.getSsid())){
+                        for (shuoshuo ss : delss) {
+                            if (ss.getSsid().equals(s.getSsid())) {
                                 iterator.remove();
                                 break;
                             }
@@ -173,13 +263,19 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                     }
                     loding(1);
                     break;
+                case 2:
+                    ArrayList<String> ids = (ArrayList<String>) data.getSerializableExtra("Ids");
+                    for(String ssid : ids){
+                        updateSS(ssid);
+                    }
+                    break;
             }
         }
     }
 
     public void loding(int type) {
         //0是上拉加载，其他是下拉刷新
-        if(type == 0) {
+        if (type == 0) {
             if ("正在加载...".equals(tv_load.getText().toString())) {
                 Toast.makeText(getContext(), "正在加载，请稍后", Toast.LENGTH_SHORT).show();
             } else if ("加载更多".equals(tv_load.getText().toString())) {
@@ -190,9 +286,9 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                 }
                 HttpTools.getShuoShuo("old", sid, handler, false);
             }
-        }else{
+        } else {
             String sid = "0";
-            if(recyclerData.size() != 0){
+            if (recyclerData.size() != 0) {
                 sid = recyclerData.get(0).getSsid();
             }
             HttpTools.getShuoShuo("new", sid, handler, false);
@@ -269,27 +365,48 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
 
         @Override
         public void onBindViewHolder(MyHolder holder, int position) {
-            shuoshuo ss = recyclerData.get(position);
+            //得到对应的说说对象
+            final shuoshuo ss = recyclerData.get(position);
+            //设置各种属性值
             holder.username.setText(ss.getSsuser().getName());
-            holder.dz_count.setText("点赞数("+ss.getDianzanshu()+")");
+            holder.dz_count.setText("点赞数(" + ss.getDianzanshu() + ")");
             holder.sstime.setText(ss.getFabutime());
             holder.ss_contect.setText(ss.getNeirong());
-            holder.todo.setText("转发");
-            holder.todo.setOnClickListener(new View.OnClickListener() {
+            //判断是否点赞，来改变相应的图片
+            if(ss.isDz()) {
+                holder.iv_dz.setImageResource(R.mipmap.ss_dz);
+            }else{
+                holder.iv_dz.setImageResource(R.mipmap.ss_dz_ok);
+            }
+            holder.iv_dz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    HttpTools.dz(ss.getSsid(), handler);
                 }
             });
+            //如果说说是自己的那么就不可以转发否则可以转发
+            if ((ss.getSsuser().getZhanghao() + "").equals(resource.Myzhanghao)) {
+                holder.todo.setVisibility(View.GONE);
+            } else {
+                holder.todo.setText("转发");
+                holder.todo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        HttpTools.forwardss(ss.getSsid(), handler);
+                    }
+                });
+            }
         }
 
         @Override
         public int getItemCount() {
             return recyclerData.size();
         }
-        class MyHolder extends RecyclerView.ViewHolder{
+
+        class MyHolder extends RecyclerView.ViewHolder {
 
             public TextView username, todo, sstime, dz_count, ss_contect;
+            public ImageView iv_dz, iv_pl;
             public EditText et_pl;
 
             public MyHolder(View itemView) {
@@ -300,6 +417,8 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                 et_pl = (EditText) itemView.findViewById(R.id.et_pl);
                 ss_contect = (TextView) itemView.findViewById(R.id.ss_contect);
                 todo = (TextView) itemView.findViewById(R.id.todo);
+                iv_dz = (ImageView) itemView.findViewById(R.id.iv_dz);
+                iv_pl = (ImageView) itemView.findViewById(R.id.iv_pl);
             }
         }
     }

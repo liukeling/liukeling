@@ -8,6 +8,7 @@ import android.util.Log;
 import com.dbdao.dbdao;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -70,6 +71,80 @@ public class HttpTools {
             }
         }.execute();
     }
+
+    //点赞与取消点赞
+    public static void dz(final String ssid, final Handler handler){
+        new AsyncTask<Void, Void, Void>(){
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    URL url = new URL("http://" + dbdao.fuwuip + ":8080/qqkongjian/servlet/ShuoShuoJsonServer?MyId=" + resource.Myzhanghao+"&type=dz&ssid="+ssid);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+                    int code = connection.getResponseCode();
+                    if (code == 200) {
+                        InputStream ips = connection.getInputStream();
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        byte[] byt = new byte[1024];
+                        int len = 0;
+                        while(((len = ips.read(byt)) != -1)){
+                            bos.write(byt, 0, len);
+                        }
+                        ips.close();
+                        String jso = bos.toString();
+                        Message msg = new Message();
+                        msg.what = 1020;
+                        msg.obj = jso;
+                        handler.sendMessage(msg);
+                    } else {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    //转发说说
+    public static void forwardss(final String ssid, final Handler handler){
+        new AsyncTask<Void, Void, Void>(){
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try{
+                    URL url = new URL("http://" + dbdao.fuwuip + ":8080/qqkongjian/servlet/ShuoShuoJsonServer?MyId=" + resource.Myzhanghao+"&type=replace&yuanssid="+ssid);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+                    int code = connection.getResponseCode();
+                    if (code == 200) {
+                        InputStream ips = connection.getInputStream();
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        byte[] byt = new byte[1024];
+                        int len = 0;
+                        while(((len = ips.read(byt)) != -1)){
+                            bos.write(byt, 0, len);
+                        }
+                        ips.close();
+                        String jso = bos.toString();
+                        Message msg = new Message();
+                        msg.what = 1010;
+                        msg.obj = jso;
+                        handler.sendMessage(msg);
+                    } else {
+
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+    }
+
     //删除说说
     public static void delShuoShuo(final String ssid, final Handler handler){
         new AsyncTask<Void, Void, Void>(){

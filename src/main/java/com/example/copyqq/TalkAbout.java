@@ -1,6 +1,7 @@
 package com.example.copyqq;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -12,16 +13,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dbdao.dbdao;
 import com.example.Tools.HttpTools;
+import com.example.Tools.resource;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import comm.shuoshuo;
@@ -34,14 +42,22 @@ public class TalkAbout extends AppCompatActivity implements View.OnTouchListener
     float Y = -1;
     boolean shanghua = false;
     boolean loading = false;
+
+    //用于储存删除的说说
     ArrayList<shuoshuo> delshuoshuos;
+    //用于记录当前要删的说说
     shuoshuo delshuoshuo = null;
+    //用于记录更新的说说的id
+    ArrayList<String> updateIDs;
+    //内容显示的控件
     EditText contact;
+    //发表按钮
     Button add;
+    //上拉加载的状态显示
     TextView load;
     ScrollView scrollview;
     RecyclerView recyclerView;
-
+    //recyclerView需要的数据
     ArrayList<shuoshuo> data;
     MyRecyclerViewAdapter adapter;
     Handler handler = new Handler() {
@@ -70,6 +86,7 @@ public class TalkAbout extends AppCompatActivity implements View.OnTouchListener
                                 ss.setSsuser(suser);
                                 ss.setSsid(job1.getString("ssid"));
                                 ss.setNeirong(job1.getString("contact"));
+                                ss.setDz(job1.getBoolean("isdz"));
                                 ss.setDianzanshu(job1.getString("dianzannumbeer"));
                                 //如果是上拉加载就直接添加，否则将数据添加到上方
                                 if (msg.what == 10000) {
@@ -114,6 +131,22 @@ public class TalkAbout extends AppCompatActivity implements View.OnTouchListener
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }else if(msg.what == 1020){
+                try {
+                    JSONObject job = new JSONObject((String)msg.obj);
+                    String reason = job.getString("reason");
+                    Toast.makeText(TalkAbout.this, ""+reason, Toast.LENGTH_SHORT).show();
+                    String ssid = job.getString("result");
+                    //用于更新fragment的说说
+                    updateIDs.add(ssid);
+                    Intent data = new Intent();
+                    data.putExtra("Ids", updateIDs);
+                    setResult(2, data);
+                    //更新本Activity的说说
+                    updateSS(ssid);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     };
@@ -137,6 +170,69 @@ public class TalkAbout extends AppCompatActivity implements View.OnTouchListener
         add.setOnClickListener(this);
         loading(0);
         delshuoshuos = new ArrayList<>();
+        updateIDs = new ArrayList<>();
+    }
+
+    private void updateSS(final String ssid){
+        new AsyncTask<Void, Void, Void>(){
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    URL url = new URL("http://" + dbdao.fuwuip + ":8080/qqkongjian/servlet/ShuoShuoJsonServer?MyId=" + resource.Myzhanghao+"&type=select&selecttype=onlyOne&ssid="+ssid);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+                    int code = connection.getResponseCode();
+                    if (code == 200) {
+                        InputStream ips = connection.getInputStream();
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        byte[] byt = new byte[1024];
+                        int len = 0;
+                        while(((len = ips.read(byt)) != -1)){
+                            bos.write(byt, 0, len);
+                        }
+                        ips.close();
+                        String jso = bos.toString();
+                        JSONObject job = new JSONObject(jso);
+                        JSONObject job1 = job.getJSONObject("result");
+                        final shuoshuo ss = new shuoshuo();
+                        ss.setForm_ssid(job1.getInt("fromssid"));
+                        ss.setFabutime(job1.getString("fabutime"));
+
+                        JSONObject userjson = job1.getJSONObject("user");
+                        user suser = new user(userjson.getInt("userzhanghao"));
+                        suser.setName(userjson.getString("username"));
+                        ss.setSsuser(suser);
+                        ss.setSsid(job1.getString("ssid"));
+                        ss.setNeirong(job1.getString("contact"));
+                        ss.setDz(job1.getBoolean("isdz"));
+                        ss.setDianzanshu(job1.getString("dianzannumbeer"));
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                for(shuoshuo ss1 : data){
+                                    if(ss.getSsid().equals(ss1.getSsid())){
+                                        ss1.setDz(ss.isDz());
+                                        ss1.setDianzanshu(ss.getDianzanshu());
+                                        break;
+                                    }else{
+                                        continue;
+                                    }
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    } else {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
     }
 
     @Override
@@ -247,6 +343,19 @@ public class TalkAbout extends AppCompatActivity implements View.OnTouchListener
             holder.sstime.setText(ss.getFabutime());
             holder.ss_contect.setText(ss.getNeirong());
             holder.todo.setText("删除");
+            //判断是否点赞，来改变相应的图片
+            if(ss.isDz()) {
+                holder.iv_dz.setImageResource(R.mipmap.ss_dz);
+            }else{
+                holder.iv_dz.setImageResource(R.mipmap.ss_dz_ok);
+            }
+            holder.iv_dz.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HttpTools.dz(ss.getSsid(), handler);
+                }
+            });
+            //删除点击事件
             holder.todo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -265,6 +374,7 @@ public class TalkAbout extends AppCompatActivity implements View.OnTouchListener
 
             public TextView username, todo, sstime, dz_count, ss_contect;
             public EditText et_pl;
+            public ImageView iv_dz;
 
             public MyHolder(View itemView) {
                 super(itemView);
@@ -274,6 +384,7 @@ public class TalkAbout extends AppCompatActivity implements View.OnTouchListener
                 et_pl = (EditText) itemView.findViewById(R.id.et_pl);
                 ss_contect = (TextView) itemView.findViewById(R.id.ss_contect);
                 todo = (TextView) itemView.findViewById(R.id.todo);
+                iv_dz = (ImageView) itemView.findViewById(R.id.iv_dz);
             }
         }
     }

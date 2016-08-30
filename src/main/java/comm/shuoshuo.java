@@ -9,6 +9,16 @@ public class shuoshuo implements Serializable {
 	private String ssid;
 	private user ssuser;
 	private String dianzanshu;
+
+	public boolean isDz() {
+		return dz;
+	}
+
+	public void setDz(boolean dz) {
+		this.dz = dz;
+	}
+
+	private boolean dz;
 	public void setDianzanshu(String dianzanshu) {
 		this.dianzanshu = dianzanshu;
 	}
