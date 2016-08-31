@@ -32,8 +32,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,6 +56,9 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
 
     ArrayList<shuoshuo> recyclerData;
     MyRecyclerViewAdapter adapter;
+
+    //记录scrollview当前位置
+    int[] position = new int[2];
 
     private ScrollView scrollView;
     Handler handler = new Handler() {
@@ -103,6 +108,8 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                         }
                         //数据更新完后更新布局
                         adapter.notifyDataSetChanged();
+                        //设置scrollview到之前的位置
+                        scrollView.smoothScrollTo(position[0], position[1]);
                     } else {
                         Toast.makeText(getContext(), "加载失败", Toast.LENGTH_SHORT).show();
                     }
@@ -130,6 +137,18 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }else if(msg.what == 1030){
+                try {
+                    JSONObject job = new JSONObject((String)msg.obj);
+                    String pl_msg = job.getString("reason");
+                    adapter.notifyDataSetChanged();
+                    //设置scrollview到之前的位置
+                    scrollView.smoothScrollTo(position[0], position[1]);
+                    Toast.makeText(DynamicFragment.this.getContext(), pl_msg, Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     };
@@ -186,6 +205,8 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                                     }
                                 }
                                 adapter.notifyDataSetChanged();
+                                //设置scrollview到之前的位置
+                                scrollView.smoothScrollTo(position[0], position[1]);
                             }
                         });
                     } else {
@@ -297,7 +318,8 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-
+        position[1] = scrollView.getScrollY();
+        position[0] = scrollView.getScrollX();
         switch (v.getId()) {
             //自己写的根据scrollview是否滑到底以及用户是否是上滑来判断是否上拉加载
             case R.id.scrollview:
@@ -364,7 +386,7 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
         }
 
         @Override
-        public void onBindViewHolder(MyHolder holder, int position) {
+        public void onBindViewHolder(final MyHolder holder, int position) {
             //得到对应的说说对象
             final shuoshuo ss = recyclerData.get(position);
             //设置各种属性值
@@ -396,16 +418,85 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                     }
                 });
             }
+            //发表评论
+            holder.iv_pl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String pl_contect = holder.et_pl.getText().toString();
+                    HttpTools.addpl(ss.getSsid(), pl_contect, handler);
+                    holder.et_pl.setText("");
+                }
+            });
+            //显示评论
+            showPL(holder, ss);
         }
+
+
 
         @Override
         public int getItemCount() {
             return recyclerData.size();
         }
 
+        //获取最后一条评论并显示
+        private void showPL(final MyHolder holder, final shuoshuo ss){
+            new AsyncTask<Void, Void, String>(){
+
+                @Override
+                protected String doInBackground(Void... params) {
+                    try {
+                        URL url = new URL("http://"+dbdao.fuwuip+":8080/qqkongjian/servlet/ShuoShuoJsonServer?MyId=" + resource.Myzhanghao+"&type=selectpl&plselecttype=selectlast&ssid="+ss.getSsid());
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("GET");
+                        connection.connect();
+                        int code = connection.getResponseCode();
+                        if (code == 200) {
+                            InputStream ips = connection.getInputStream();
+                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                            byte[] byt = new byte[1024];
+                            int len = 0;
+                            while(((len = ips.read(byt)) != -1)){
+                                bos.write(byt, 0, len);
+                            }
+                            ips.close();
+                            String jso = bos.toString();
+                            return jso;
+                        } else {
+                            return "err";
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return "err";
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(String s) {
+                    if(!"err".equals(s)){
+                        try {
+                            JSONObject job = new JSONObject(s);
+                            String reason = job.getString("reason");
+                            String result = job.getString("result");
+                            if("获取成功".equals(reason) && !"null".equals(result)){
+                                JSONObject j = new JSONObject(result);
+                                JSONObject userJ = j.getJSONObject("user");
+                                holder.pl_contect.setText(j.getString("plnr"));
+                                holder.pl_name.setText(userJ.getString("username")+":");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        Toast.makeText(getContext(), "网络请求错误", Toast.LENGTH_SHORT).show();
+                    }
+                    super.onPostExecute(s);
+                }
+            }.execute();
+        }
+
         class MyHolder extends RecyclerView.ViewHolder {
 
-            public TextView username, todo, sstime, dz_count, ss_contect;
+            public TextView username, todo, sstime, dz_count, ss_contect, pl_name, pl_contect;
             public ImageView iv_dz, iv_pl;
             public EditText et_pl;
 
@@ -419,6 +510,8 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                 todo = (TextView) itemView.findViewById(R.id.todo);
                 iv_dz = (ImageView) itemView.findViewById(R.id.iv_dz);
                 iv_pl = (ImageView) itemView.findViewById(R.id.iv_pl);
+                pl_contect = (TextView) itemView.findViewById(R.id.pl_contect);
+                pl_name = (TextView) itemView.findViewById(R.id.pl_name);
             }
         }
     }

@@ -3,20 +3,15 @@ package com.example.Tools;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.dbdao.dbdao;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
-/**
- * Created by MBENBEN on 2016/8/19.
- */
 public class HttpTools {
     //查询说说
     public static void getShuoShuo(final String selectType, final String ssid, final Handler handler, final boolean getme) {
@@ -71,7 +66,43 @@ public class HttpTools {
             }
         }.execute();
     }
+    //添加评论
+    public static void addpl(final String ssid, final String contect, final Handler handler){
+        new AsyncTask<Void, Void, Void>(){
 
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    String encode_contect = URLEncoder.encode(contect, "UTF-8");
+                    URL url = new URL("http://" + dbdao.fuwuip + ":8080/qqkongjian/servlet/ShuoShuoJsonServer?MyId=" + resource.Myzhanghao+"&type=addpl&ssid="+ssid+"&contect="+encode_contect);
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.connect();
+                    int code = urlConnection.getResponseCode();
+                    if (code == 200) {
+                        InputStream ips = urlConnection.getInputStream();
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        byte[] byt = new byte[1024];
+                        int len = 0;
+                        while(((len = ips.read(byt)) != -1)){
+                            bos.write(byt, 0, len);
+                        }
+                        ips.close();
+                        String jso = bos.toString();
+                        Message msg = new Message();
+                        msg.what = 1030;
+                        msg.obj = jso;
+                        handler.sendMessage(msg);
+                    } else {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+    }
     //点赞与取消点赞
     public static void dz(final String ssid, final Handler handler){
         new AsyncTask<Void, Void, Void>(){
