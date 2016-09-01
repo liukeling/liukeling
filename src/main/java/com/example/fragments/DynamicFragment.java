@@ -502,6 +502,12 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
 
             public MyHolder(View itemView) {
                 super(itemView);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getContext(), "test", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 username = (TextView) itemView.findViewById(R.id.username);
                 sstime = (TextView) itemView.findViewById(R.id.sstime);
                 dz_count = (TextView) itemView.findViewById(R.id.dz_count);
