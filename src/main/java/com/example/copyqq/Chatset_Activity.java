@@ -18,7 +18,7 @@ import comm.user;
 
 public class Chatset_Activity extends Activity implements View.OnClickListener {
     private RelativeLayout user_title;
-    private TextView back, create_taolun;
+    private TextView back;
     private user intentUser;
     private Button del_frind;
     @Override
@@ -29,12 +29,10 @@ public class Chatset_Activity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_chatset_);
         user_title = (RelativeLayout) findViewById(R.id.user_title);
         back = (TextView) findViewById(R.id.back);
-        create_taolun = (TextView) findViewById(R.id.create_taolun);
         del_frind = (Button) findViewById(R.id.del_frind);
 
         back.setOnClickListener(this);
         user_title.setOnClickListener(this);
-        create_taolun.setOnClickListener(this);
         del_frind.setOnClickListener(this);
     }
 
@@ -49,14 +47,6 @@ public class Chatset_Activity extends Activity implements View.OnClickListener {
                 break;
             case R.id.back:
                 onBackPressed();
-                break;
-            case R.id.create_taolun:
-                Intent create_intent = new Intent(this, ChoiceFrinds.class);
-                if(intentUser != null){
-
-                }
-                create_intent.putExtra("user", intentUser);
-                startActivity(create_intent);
                 break;
             case R.id.del_frind:
 
