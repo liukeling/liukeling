@@ -164,6 +164,8 @@ public class TalkAbout extends AppCompatActivity implements View.OnTouchListener
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }else if(msg.what == 555){
+                Toast.makeText(TalkAbout.this, (String)msg.obj, Toast.LENGTH_LONG).show();
             }
         }
     };

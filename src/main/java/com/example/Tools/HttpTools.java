@@ -219,9 +219,11 @@ public class HttpTools {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    URL url = new URL("http://" + dbdao.fuwuip + ":8080/qqkongjian/servlet/ShuoShuoJsonServer?MyId=" + resource.Myzhanghao + "&type=add&contect="+neirong);
+                    String nr = URLEncoder.encode(neirong, "UTF-8");
+                    URL url = new URL("http://" + dbdao.fuwuip + ":8080/qqkongjian/servlet/ShuoShuoJsonServer?MyId=" + resource.Myzhanghao + "&type=add&contect="+nr);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
+                    connection.setRequestProperty("Accept-Charset", "UTF-8");
                     connection.connect();
                     int code = connection.getResponseCode();
                     if (code == 200) {
@@ -238,6 +240,10 @@ public class HttpTools {
                         msg.what = 10086;
                         msg.obj = jso;
                         handler.sendMessage(msg);
+                        Message msg1 = new Message();
+                        msg1.what = 555;
+                        msg1.obj = neirong+"///"+nr;
+                        handler.sendMessage(msg1);
                     } else {
 
                     }

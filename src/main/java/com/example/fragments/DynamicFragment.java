@@ -25,6 +25,7 @@ import com.dbdao.dbdao;
 import com.example.Tools.HttpTools;
 import com.example.Tools.resource;
 import com.example.copyqq.R;
+import com.example.copyqq.ShuoShuoInfo;
 import com.example.copyqq.TalkAbout;
 
 import org.json.JSONArray;
@@ -149,6 +150,8 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                     e.printStackTrace();
                 }
 
+            }else if(msg.what == 555){
+                Toast.makeText(getContext(), (String)msg.obj, Toast.LENGTH_LONG).show();
             }
         }
     };
@@ -505,7 +508,9 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getContext(), "test", Toast.LENGTH_SHORT).show();
+                        //TODO
+                        Intent intent = new Intent(DynamicFragment.this.getContext(), ShuoShuoInfo.class);
+                        startActivity(intent);
                     }
                 });
                 username = (TextView) itemView.findViewById(R.id.username);

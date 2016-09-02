@@ -79,6 +79,8 @@
         </activity>
         <activity android:name=".TalkAbout" >
         </activity>
+        <activity android:name=".ShuoShuoInfo" >
+        </activity>
     </application>
 
 </manifest>

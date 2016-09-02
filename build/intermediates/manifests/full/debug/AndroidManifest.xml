@@ -65,9 +65,6 @@
             android:configChanges="orientation"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.example.copyqq.ChoiceFrinds"
-            android:configChanges="orientation" />
-        <activity
             android:name="com.example.copyqq.CheckGroupActivity"
             android:configChanges="orientation" />
         <activity
@@ -87,6 +84,8 @@
         <activity android:name="com.example.copyqq.FrindInfo_More" >
         </activity>
         <activity android:name="com.example.copyqq.TalkAbout" >
+        </activity>
+        <activity android:name="com.example.copyqq.ShuoShuoInfo" >
         </activity>
     </application>
 

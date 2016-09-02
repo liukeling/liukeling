@@ -1,7 +1,6 @@
 package com.dbdao;
 
 import java.io.IOException;
-import java.util.Properties;
 
 public class dbdao {
 	public static int yunduankou;
@@ -12,7 +11,7 @@ public class dbdao {
 		qqduankou = 12241;
 		yunduankou = 13341;
 		fuwuip = "10.0.2.2";
-//		fuwuip = "192.168.23.1";
+		fuwuip = "192.168.23.1";
 		yuntext = "..";
 	}
 }
