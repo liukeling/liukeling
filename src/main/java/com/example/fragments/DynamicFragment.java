@@ -152,6 +152,12 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
 
             }else if(msg.what == 555){
                 Toast.makeText(getContext(), (String)msg.obj, Toast.LENGTH_LONG).show();
+            }else if(msg.what == 377){
+                Toast.makeText(getContext(), "网络连接失败", Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
+                if ("正在加载...".equals(tv_load.getText().toString())) {
+                    tv_load.setText("加载更多");
+                }
             }
         }
     };
@@ -271,9 +277,11 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
         if (requestCode == 1) {
             switch (resultCode) {
                 case 0:
+                    //下拉加载
                     loding(1);
                     break;
                 case 1:
+                    //删除
                     ArrayList<shuoshuo> delss = (ArrayList<shuoshuo>) data.getSerializableExtra("delss");
                     Iterator<shuoshuo> iterator = recyclerData.iterator();
                     while (iterator.hasNext()) {
@@ -288,6 +296,7 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                     loding(1);
                     break;
                 case 2:
+                    //更新
                     ArrayList<String> ids = (ArrayList<String>) data.getSerializableExtra("Ids");
                     for(String ssid : ids){
                         updateSS(ssid);
@@ -392,6 +401,16 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
         public void onBindViewHolder(final MyHolder holder, int position) {
             //得到对应的说说对象
             final shuoshuo ss = recyclerData.get(position);
+            //给itemview点击监听
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO
+                    Intent intent = new Intent(DynamicFragment.this.getContext(), ShuoShuoInfo.class);
+                    intent.putExtra("ssid", ss.getSsid());
+                    startActivityForResult(intent, 1);
+                }
+            });
             //设置各种属性值
             holder.username.setText(ss.getSsuser().getName());
             holder.dz_count.setText("点赞数(" + ss.getDianzanshu() + ")");
@@ -421,6 +440,7 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                     }
                 });
             }
+
             //发表评论
             holder.iv_pl.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -505,14 +525,6 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
 
             public MyHolder(View itemView) {
                 super(itemView);
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //TODO
-                        Intent intent = new Intent(DynamicFragment.this.getContext(), ShuoShuoInfo.class);
-                        startActivity(intent);
-                    }
-                });
                 username = (TextView) itemView.findViewById(R.id.username);
                 sstime = (TextView) itemView.findViewById(R.id.sstime);
                 dz_count = (TextView) itemView.findViewById(R.id.dz_count);

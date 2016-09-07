@@ -58,7 +58,20 @@ public class resource {
     private resource() {
 
     }
-
+/*
+    122411:链接服务器出错
+    1:登录
+    2:上线
+    5:注册用户
+    3:自动更新好友列表
+    4:获取未读聊天记录
+    8:搜索好友的结果
+    9:所有系统消息
+    10:好友请求回复完成
+    11:修改分组信息
+    1231:消息记录
+    1232:刷新好友列表成功
+ */
     // 用于连接服务器
     public static void lianjie(final Handler handler) {
         new AsyncTask<Void, Void, Void>() {
@@ -85,7 +98,6 @@ public class resource {
                     msg.what = 122411;
                     handler.sendMessage(msg);
                     resource.socket = null;
-                    Log.e("lianjie", "错");
                 }
                 return null;
             }
