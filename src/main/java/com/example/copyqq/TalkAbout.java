@@ -70,7 +70,9 @@ public class TalkAbout extends AppCompatActivity implements View.OnTouchListener
                 //上拉加载
                 String json = msg.obj.toString();
                 try {
+                    //获取到json
                     JSONObject job = new JSONObject(json);
+                    //从json中得到结果参数
                     String reason = job.getString("reason");
                     JSONArray ja = job.getJSONArray("result");
                     if ("获取成功".equals(reason)) {
@@ -166,6 +168,11 @@ public class TalkAbout extends AppCompatActivity implements View.OnTouchListener
                 }
             }else if(msg.what == 555){
                 Toast.makeText(TalkAbout.this, (String)msg.obj, Toast.LENGTH_LONG).show();
+            }else if(msg.what == 377){
+                Toast.makeText(TalkAbout.this, "网络请求错误", Toast.LENGTH_SHORT).show();
+                if("正在加载...".equals(load.getText().toString())){
+                    load.setText("加载更多");
+                }
             }
         }
     };
@@ -350,6 +357,48 @@ public class TalkAbout extends AppCompatActivity implements View.OnTouchListener
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            switch (resultCode){
+                case 1:
+                    //删除
+                    //获取到要删除的说说
+                    ArrayList<shuoshuo> dels = (ArrayList<shuoshuo>) data.getSerializableExtra("delss");
+                    //将这些说说从list数据中删掉
+                    for(shuoshuo ss : dels){
+                        TalkAbout.this.data.remove(ss);
+                    }
+                    //更新适配器
+                    adapter.notifyDataSetChanged();
+                    //滑到之前的位置
+                    scrollview.smoothScrollTo(position[0], position[1]);
+                    //添加到要删除的集合中
+                    delshuoshuos.addAll(dels);
+                    //通过intent和result通知之前的activity
+                    Intent intent = new Intent();
+                    intent.putExtra("delss", delshuoshuos);
+                    setResult(1, intent);
+
+                    break;
+                case 2:
+                    //更新
+                    ArrayList<String> ssids = data.getStringArrayListExtra("Ids");
+                    //更新前面fragemnt的说说
+                    updateIDs.addAll(ssids);
+                    Intent updata = new Intent();
+                    updata.putExtra("Ids", updateIDs);
+                    setResult(2, updata);
+                    //更新自己的说说
+                    for(String ssid : ssids){
+                        updateSS(ssid);
+                    }
+                    break;
+            }
+        }
+    }
+
     private class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyHolder> {
         @Override
         public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -361,6 +410,14 @@ public class TalkAbout extends AppCompatActivity implements View.OnTouchListener
         @Override
         public void onBindViewHolder(final MyHolder holder, final int position) {
             final shuoshuo ss = data.get(position);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(TalkAbout.this, ShuoShuoInfo.class);
+                    intent.putExtra("ssid", ss.getSsid());
+                    TalkAbout.this.startActivityForResult(intent, 1);
+                }
+            });
             holder.username.setText(ss.getSsuser().getName());
             holder.dz_count.setText("点赞数(" + ss.getDianzanshu() + ")");
             holder.sstime.setText(ss.getFabutime());

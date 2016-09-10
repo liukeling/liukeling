@@ -1,16 +1,19 @@
 package comm;
 
 public class pinglun {
-	private String userid;
+	private user plUser;
 	private String ssid;
 	private String plnr="";
 	private String pltime;
-	public String getUserid() {
-		return userid;
+
+	public user getPlUser() {
+		return plUser;
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
+
+	public void setPlUser(user plUser) {
+		this.plUser = plUser;
 	}
+
 	public String getSsid() {
 		return ssid;
 	}

@@ -432,6 +432,7 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
             if ((ss.getSsuser().getZhanghao() + "").equals(resource.Myzhanghao)) {
                 holder.todo.setVisibility(View.GONE);
             } else {
+                holder.todo.setVisibility(View.VISIBLE);
                 holder.todo.setText("转发");
                 holder.todo.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -505,9 +506,14 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, V
                                 JSONObject userJ = j.getJSONObject("user");
                                 holder.pl_contect.setText(j.getString("plnr"));
                                 holder.pl_name.setText(userJ.getString("username")+":");
+                            }else if("获取成功".equals(reason) && "null".equals(result)){
+                                holder.pl_contect.setText("");
+                                holder.pl_name.setText("");
                             }
+
                         } catch (Exception e) {
                             e.printStackTrace();
+                            Toast.makeText(getContext(), "err", Toast.LENGTH_SHORT).show();
                         }
                     }else{
                         Toast.makeText(getContext(), "网络请求错误", Toast.LENGTH_SHORT).show();
