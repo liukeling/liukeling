@@ -20,6 +20,8 @@ import com.example.Tools.resource;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -144,6 +146,7 @@ public class MainFragment extends FragmentActivity implements
             }
         }
     };
+    private SoundPool soundPool;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -159,7 +162,10 @@ public class MainFragment extends FragmentActivity implements
             }
         });
         tv_1.setClickable(false);
-//TODO
+        //初始化声音
+        soundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM , 5);
+        soundPool.load(getApplicationContext(), R.raw.qq_message, 1);
+
         //设置监听
         tv_1.setOnClickListener(this);
         tv_2.setOnClickListener(this);
@@ -310,9 +316,9 @@ public class MainFragment extends FragmentActivity implements
         if (fra != null) {
             if (fra != curr_fragment) {
 
-                String cur = ""+checkfragment;
-                if(checkfragment == 1){
-                    cur = cur+isxinxi;
+                String cur = "" + checkfragment;
+                if (checkfragment == 1) {
+                    cur = cur + isxinxi;
                 }
 
                 if (fragmentManager.findFragmentByTag("hehe" + cur) == null) {
@@ -325,7 +331,7 @@ public class MainFragment extends FragmentActivity implements
             curr_fragment = fra;
         }
     }
-	/*
+    /*
 	 * 底部导航栏的切换监听
 	 */
 
@@ -546,7 +552,9 @@ public class MainFragment extends FragmentActivity implements
             if (u != null) {
                 s = u.getName() + " " + u.getZhuangtai();
                 if ("是".equals(u.getHaveMassage())) {
+                    //有未读消息
                     s = s + "   有消息";
+                    playSound();
                 }
             }
             tv.setText(s);
@@ -555,10 +563,14 @@ public class MainFragment extends FragmentActivity implements
             return view;
         }
 
+        //允许子节点可以点击选中
         @Override
         public boolean isChildSelectable(int groupPosition, int childPosition) {
             return true;
         }
     }
 
+    public void playSound() {
+        soundPool.play(1, 1, 1, 1, 0, 1);
+    }
 }
