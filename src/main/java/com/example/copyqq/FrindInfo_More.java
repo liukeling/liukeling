@@ -36,7 +36,7 @@ public class FrindInfo_More extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_frindinfo__more);
 
         intentUser = (user) getIntent().getSerializableExtra("user");
-        if(intentUser != null) {
+        if (intentUser != null) {
             tv_back = (TextView) findViewById(R.id.back);
             ll_group = (LinearLayout) findViewById(R.id.ll_group);
             btn_del = (Button) findViewById(R.id.del);
@@ -48,17 +48,17 @@ public class FrindInfo_More extends AppCompatActivity implements View.OnClickLis
 
             setGroupName();
 
-        }else{
+        } else {
             Toast.makeText(FrindInfo_More.this, "好友为空!!", Toast.LENGTH_SHORT).show();
             onBackPressed();
         }
     }
 
-    public void setGroupName(){
+    public void setGroupName() {
 
-        for(HashMap<HashMap<Integer, String>, user> hm : resource.frinds){
+        for (HashMap<HashMap<Integer, String>, user> hm : resource.frinds) {
             user u = hm.values().iterator().next();
-            if(u.equals(intentUser)){
+            if (u.equals(intentUser)) {
                 group = hm.keySet().iterator().next();
                 break;
             }
@@ -68,7 +68,7 @@ public class FrindInfo_More extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             //返回
             case R.id.back:
                 onBackPressed();
@@ -104,14 +104,14 @@ public class FrindInfo_More extends AppCompatActivity implements View.OnClickLis
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1 && resultCode == 0){
+        if (requestCode == 1 && resultCode == 0) {
             int result = data.getIntExtra("result", -1);
-            if(result == -1){
+            if (result == -1) {
                 return;
-            }else{
-                if(group.keySet().iterator().next() == result){
+            } else {
+                if (group.keySet().iterator().next() == result) {
                     Toast.makeText(FrindInfo_More.this, "已在该分组中", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     resource.moveFrind(intentUser, result, this);
                 }
             }

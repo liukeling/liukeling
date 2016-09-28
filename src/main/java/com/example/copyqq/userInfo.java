@@ -62,7 +62,9 @@ public class UserInfo extends Activity implements View.OnClickListener {
                 tel.setVisibility(View.GONE);
                 sendMessage.setVisibility(View.GONE);
                 ok_add.setVisibility(View.GONE);
+                more.setText("编辑");
             } else {
+                more.setText("更多");
                 title.setText("个人资料");
                 boolean isFrind = false;
 
@@ -108,11 +110,16 @@ public class UserInfo extends Activity implements View.OnClickListener {
                 intent.putExtra("frind", u);
                 startActivity(intent);
                 break;
-            //更多
+            //更多/编辑
             case R.id.more:
-                Intent intent2 = new Intent(this, FrindInfo_More.class);
-                intent2.putExtra("user", u);
-                startActivityForResult(intent2, 1);
+                String m = more.getText().toString();
+                if("更多".equals(m)) {
+                    Intent intent2 = new Intent(this, FrindInfo_More.class);
+                    intent2.putExtra("user", u);
+                    startActivityForResult(intent2, 1);
+                }else if("编辑".equals(m)){
+
+                }
                 break;
         }
 

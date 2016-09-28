@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import comm.shuoshuo;
 import comm.user;
@@ -368,7 +369,13 @@ public class TalkAbout extends AppCompatActivity implements View.OnTouchListener
                     ArrayList<shuoshuo> dels = (ArrayList<shuoshuo>) data.getSerializableExtra("delss");
                     //将这些说说从list数据中删掉
                     for(shuoshuo ss : dels){
-                        TalkAbout.this.data.remove(ss);
+                        Iterator<shuoshuo> iterator = TalkAbout.this.data.iterator();
+                        while(iterator.hasNext()){
+                            shuoshuo s = iterator.next();
+                            if(s.getSsid().equals(ss.getSsid())){
+                                iterator.remove();
+                            }
+                        }
                     }
                     //更新适配器
                     adapter.notifyDataSetChanged();
