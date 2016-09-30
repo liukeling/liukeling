@@ -3,12 +3,17 @@ package com.example.copyqq;
 import java.util.ArrayList;
 
 import com.example.Tools.resource;
+import com.example.fragments.Chat_fragment_buttom_lyj;
+import com.example.fragments.Chat_fragment_buttom_other;
 
 import comm.qq_message;
 import comm.user;
 
 import android.annotation.SuppressLint;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.app.Activity;
 import android.content.Context;
@@ -33,7 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint("HandlerLeak")
-public class Chat extends Activity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class Chat extends FragmentActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     //记录该聊天框是与谁的
     public user frind;
     //发送消息按钮
@@ -66,6 +71,7 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
     private RadioButton rb_money;
     private RadioButton rb_bq;
     private RadioButton rb_more;
+    private Fragment cur_buttom_fragment;
     //用于接收消息的handler
     @SuppressLint("HandlerLeak")
     public Handler handler = new Handler() {
@@ -86,12 +92,15 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
 
         ;
     };
+    private FragmentManager fragmentManager;
 
     @SuppressLint("ShowToast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+        //得到fragmentmanager
+        fragmentManager = getSupportFragmentManager();
         //得到屏幕的宽和高
         pinmu[0] = getWindowManager().getDefaultDisplay().getWidth();
         pinmu[1] = getWindowManager().getDefaultDisplay().getHeight();
@@ -127,7 +136,6 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
         rb_zxj = (RadioButton) findViewById(R.id.zxj);
 //		RelativeLayout bottom = (RelativeLayout) findViewById(R.id.bottom);
         xiaoxi_type = (RadioGroup) findViewById(R.id.xiaoxi_type);
-        Toast.makeText(Chat.this, ""+xiaoxi_type.getCheckedRadioButtonId(), Toast.LENGTH_SHORT).show();
         recyclerView.setLayoutManager(new LinearLayoutManager(Chat.this));
 
         fresh.setOnRefreshListener(this);
@@ -162,8 +170,9 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
                 if(checkedId != -1) {
                     setfragment_bottomVisible();
                     closeInputMethod();
+                    setframe_bottomLayout(checkedId);
                 }
-                setIconChange(xiaoxi_type.getCheckedRadioButtonId());
+                setIconChange(checkedId);
             }
         });
         //获取未读信息
@@ -252,9 +261,7 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
                 if (frind != null) {
                     intent.putExtra("user", frind);
                 }
-
                 startActivityForResult(intent, 1);
-
                 break;
             //输入框点击监听
             case R.id.message:
@@ -262,7 +269,31 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
                 break;
         }
     }
-
+    //用于设置frame_bottom的布局
+    public void setframe_bottomLayout(int id){
+        if(cur_buttom_fragment != null){
+            fragmentManager.beginTransaction().hide(cur_buttom_fragment).commit();
+        }
+        Fragment fragment = fragmentManager.findFragmentByTag("frame_bottom" + id);
+        if(fragment != null){
+            fragmentManager.beginTransaction().show(fragment).commit();
+            cur_buttom_fragment = fragment;
+        }else {
+            switch (id) {
+                case R.id.lyj:
+                    Fragment lyj_fragment = new Chat_fragment_buttom_lyj();
+                    fragmentManager.beginTransaction().add(R.id.frame_bottom,lyj_fragment,"frame_bottom" + id).show(lyj_fragment).commit();
+                    cur_buttom_fragment = lyj_fragment;
+                    break;
+                default:
+                    Fragment other_fragment = new Chat_fragment_buttom_other();
+                    fragmentManager.beginTransaction().add(R.id.frame_bottom,other_fragment,"frame_bottom" + id).show(other_fragment).commit();
+                    cur_buttom_fragment = other_fragment;
+                    break;
+            }
+        }
+    }
+    //用于更改RadioButton图片
     private void setIconChange(int id) {
         rb_lyj.setBackgroundResource(R.mipmap.hui_mai_icon);
         rb_zxj.setBackgroundResource(R.mipmap.hui_phone_icoon);
@@ -295,7 +326,7 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
                 break;
         }
     }
-
+    //接收返回结果
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -337,10 +368,6 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
     protected void onResume() {
         resource.user_chat.put(frind, this);
         super.onResume();
-    }
-
-    public user getFrind() {
-        return frind;
     }
 
     @Override
