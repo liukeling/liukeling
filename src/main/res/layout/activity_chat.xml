@@ -103,6 +103,7 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/lyj"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -110,6 +111,7 @@
                     android:button="@null" />
 
                 <RadioButton
+                    android:id="@+id/lxj"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -117,6 +119,7 @@
                     android:button="@null" />
 
                 <RadioButton
+                    android:id="@+id/photo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -124,6 +127,7 @@
                     android:button="@null" />
 
                 <RadioButton
+                    android:id="@+id/zxj"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -131,6 +135,7 @@
                     android:button="@null" />
 
                 <RadioButton
+                    android:id="@+id/money"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -138,6 +143,7 @@
                     android:button="@null" />
 
                 <RadioButton
+                    android:id="@+id/bq"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -145,6 +151,7 @@
                     android:button="@null" />
 
                 <RadioButton
+                    android:id="@+id/more"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

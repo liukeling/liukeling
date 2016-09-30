@@ -219,6 +219,8 @@ public class ShuoShuoInfo extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shuo_shuo_info);
+        TextView tv_back = (TextView) findViewById(R.id.tv_back);
+        tv_back.setOnClickListener(this);
         ssid = getIntent().getStringExtra("ssid");
         if ("".equals(ssid) || ssid == null) {
             Toast.makeText(ShuoShuoInfo.this, "没找到该说说!!!", Toast.LENGTH_SHORT).show();
@@ -284,6 +286,9 @@ public class ShuoShuoInfo extends AppCompatActivity implements View.OnClickListe
                 }else if("删除".equals(td)){
                     HttpTools.delShuoShuo(ssid, handler);
                 }
+                break;
+            case R.id.tv_back:
+                onBackPressed();
                 break;
         }
     }

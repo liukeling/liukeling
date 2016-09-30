@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +59,13 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
     private ImageView user_info;
     //底部按钮的集合
     private RadioGroup xiaoxi_type;
+    private RadioButton rb_lyj;
+    private RadioButton rb_lxj;
+    private RadioButton rb_photo;
+    private RadioButton rb_zxj;
+    private RadioButton rb_money;
+    private RadioButton rb_bq;
+    private RadioButton rb_more;
     //用于接收消息的handler
     @SuppressLint("HandlerLeak")
     public Handler handler = new Handler() {
@@ -70,7 +78,7 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
                 recyclerView.smoothScrollToPosition(adapter_data.size());
             } else if (what == 1231) {
                 fresh.setRefreshing(false);
-                adapter_data.addAll(0, (ArrayList<qq_message>)msg.obj);
+                adapter_data.addAll(0, (ArrayList<qq_message>) msg.obj);
                 myAdapter.notifyDataSetChanged();
                 recyclerView.smoothScrollToPosition(0);
             }
@@ -109,9 +117,17 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
         frame_bottom = (FrameLayout) findViewById(R.id.frame_bottom);
         back = (TextView) findViewById(R.id.back);
         user_info = (ImageView) findViewById(R.id.user_info);
+
+        rb_lyj = (RadioButton) findViewById(R.id.lyj);
+        rb_bq = (RadioButton) findViewById(R.id.bq);
+        rb_lxj = (RadioButton) findViewById(R.id.lxj);
+        rb_money = (RadioButton) findViewById(R.id.money);
+        rb_more = (RadioButton) findViewById(R.id.more);
+        rb_photo = (RadioButton) findViewById(R.id.photo);
+        rb_zxj = (RadioButton) findViewById(R.id.zxj);
 //		RelativeLayout bottom = (RelativeLayout) findViewById(R.id.bottom);
         xiaoxi_type = (RadioGroup) findViewById(R.id.xiaoxi_type);
-
+        Toast.makeText(Chat.this, ""+xiaoxi_type.getCheckedRadioButtonId(), Toast.LENGTH_SHORT).show();
         recyclerView.setLayoutManager(new LinearLayoutManager(Chat.this));
 
         fresh.setOnRefreshListener(this);
@@ -143,8 +159,11 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
         xiaoxi_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                setfragment_bottomVisible();
-                closeInputMethod();
+                if(checkedId != -1) {
+                    setfragment_bottomVisible();
+                    closeInputMethod();
+                }
+                setIconChange(xiaoxi_type.getCheckedRadioButtonId());
             }
         });
         //获取未读信息
@@ -241,7 +260,39 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
             case R.id.message:
                 setfragme_bottomGONE();
                 break;
+        }
+    }
 
+    private void setIconChange(int id) {
+        rb_lyj.setBackgroundResource(R.mipmap.hui_mai_icon);
+        rb_zxj.setBackgroundResource(R.mipmap.hui_phone_icoon);
+        rb_photo.setBackgroundResource(R.mipmap.hui_image_icon);
+        rb_more.setBackgroundResource(R.mipmap.hui_jia_icon);
+        rb_bq.setBackgroundResource(R.mipmap.hui_xiao_icon);
+        rb_money.setBackgroundResource(R.mipmap.hui_hongbao_icon);
+        rb_lxj.setBackgroundResource(R.mipmap.hui_vadio_icon);
+        switch (id){
+            case R.id.lyj:
+                rb_lyj.setBackgroundResource(R.mipmap.lan_mai_icon);
+                break;
+            case R.id.zxj:
+                rb_zxj.setBackgroundResource(R.mipmap.lan_phone_icon);
+                break;
+            case R.id.photo:
+                rb_photo.setBackgroundResource(R.mipmap.lan_image_icon);
+                break;
+            case R.id.more:
+                rb_more.setBackgroundResource(R.mipmap.lan_jia_icon);
+                break;
+            case R.id.bq:
+                rb_bq.setBackgroundResource(R.mipmap.lan_xiao_icon);
+                break;
+            case R.id.money:
+                rb_money.setBackgroundResource(R.mipmap.hong_hongbao_icon);
+                break;
+            case R.id.lxj:
+                rb_lxj.setBackgroundResource(R.mipmap.lan_vadio_icon);
+                break;
         }
     }
 
@@ -259,6 +310,7 @@ public class Chat extends Activity implements View.OnClickListener, SwipeRefresh
     }
 
     private void setfragme_bottomGONE() {
+        xiaoxi_type.check(-1);
         frame_bottom.setVisibility(View.GONE);
     }
 
