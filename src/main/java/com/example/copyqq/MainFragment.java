@@ -325,7 +325,11 @@ public class MainFragment extends FragmentActivity implements
                     fragmentManager.beginTransaction()
                             .add(R.id.frame, fra, "hehe" + cur).show(fra).commit();
                 } else {
-                    fragmentManager.beginTransaction().hide(curr_fragment).show(fra).commit();
+                    List<Fragment> list = fragmentManager.getFragments();
+                    for(Fragment f : list){
+                        fragmentManager.beginTransaction().hide(f).commit();
+                    }
+                    fragmentManager.beginTransaction().show(fra).commit();
                 }
             }
             curr_fragment = fra;

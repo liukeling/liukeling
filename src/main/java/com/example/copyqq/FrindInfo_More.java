@@ -34,8 +34,9 @@ public class FrindInfo_More extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_frindinfo__more);
-
+        //获取到传递的数据
         intentUser = (user) getIntent().getSerializableExtra("user");
+        //判断intentuser是否为空
         if (intentUser != null) {
             tv_back = (TextView) findViewById(R.id.back);
             ll_group = (LinearLayout) findViewById(R.id.ll_group);

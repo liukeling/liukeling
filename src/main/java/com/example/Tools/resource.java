@@ -31,6 +31,7 @@ import comm.user;
 import com.dbdao.dbdao;
 import com.example.copyqq.FrindInfo_More;
 
+//单例类，用于存放公共的数据和
 public class resource {
     private static Context context;
     public static Socket socket = null;
@@ -41,6 +42,7 @@ public class resource {
     //存放需要返回消息的handler
     private static Handler linshiHandler = null;
     public static ArrayList<SysInfo> Sysinfos = new ArrayList<>();
+    //
     public static ArrayList<HashMap<HashMap<Integer, String>, user>> frinds = new ArrayList<>();
     public static HashMap<user, Chat> user_chat = new HashMap<>();
     /**

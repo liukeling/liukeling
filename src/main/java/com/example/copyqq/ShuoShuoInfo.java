@@ -1,8 +1,10 @@
 package com.example.copyqq;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -278,13 +280,30 @@ public class ShuoShuoInfo extends AppCompatActivity implements View.OnClickListe
                 }else{
                     HttpTools.addpl(ssid, pl_contect, handler);
                 }
+                pl.setText("");
                 break;
             case R.id.todo:
                 String td = todo.getText().toString();
                 if("转发".equals(td)){
                     HttpTools.forwardss(ssid, handler);
                 }else if("删除".equals(td)){
-                    HttpTools.delShuoShuo(ssid, handler);
+                    AlertDialog dialog = new AlertDialog.Builder(ShuoShuoInfo.this)
+                            .setTitle("提示")
+                            .setMessage("确定删除该说说?")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    HttpTools.delShuoShuo(ssid, handler);
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .create();
+                    dialog.show();
                 }
                 break;
             case R.id.tv_back:

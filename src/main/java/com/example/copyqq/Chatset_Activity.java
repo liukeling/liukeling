@@ -24,13 +24,20 @@ public class Chatset_Activity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //接收传过来的user对象
         intentUser = (user) getIntent().getSerializableExtra("user");
-
+        //设置布局
         setContentView(R.layout.activity_chatset_);
+        //找到相关的控件
         user_title = (RelativeLayout) findViewById(R.id.user_title);
         back = (TextView) findViewById(R.id.back);
         del_frind = (Button) findViewById(R.id.del_frind);
 
+        TextView name = (TextView) findViewById(R.id.name);
+        //设置名称
+        name.setText(intentUser.getName());
+
+        //设置点击监听
         back.setOnClickListener(this);
         user_title.setOnClickListener(this);
         del_frind.setOnClickListener(this);

@@ -71,7 +71,9 @@ public class Chat extends FragmentActivity implements View.OnClickListener, Swip
     private RadioButton rb_money;
     private RadioButton rb_bq;
     private RadioButton rb_more;
+    //记录当前的fragment
     private Fragment cur_buttom_fragment;
+    private FragmentManager fragmentManager;
     //用于接收消息的handler
     @SuppressLint("HandlerLeak")
     public Handler handler = new Handler() {
@@ -79,10 +81,12 @@ public class Chat extends FragmentActivity implements View.OnClickListener, Swip
         public void handleMessage(android.os.Message msg) {
             int what = msg.what;
             if (what == 4) {
+                //接收到新的消息
                 adapter_data.addAll((ArrayList<qq_message>) msg.obj);
                 myAdapter.notifyDataSetChanged();
                 recyclerView.smoothScrollToPosition(adapter_data.size());
             } else if (what == 1231) {
+                //刷新消息时获取到的历史记录
                 fresh.setRefreshing(false);
                 adapter_data.addAll(0, (ArrayList<qq_message>) msg.obj);
                 myAdapter.notifyDataSetChanged();
@@ -92,7 +96,6 @@ public class Chat extends FragmentActivity implements View.OnClickListener, Swip
 
         ;
     };
-    private FragmentManager fragmentManager;
 
     @SuppressLint("ShowToast")
     @Override
@@ -143,6 +146,7 @@ public class Chat extends FragmentActivity implements View.OnClickListener, Swip
         myAdapter = new Chat_adapter();
         recyclerView.setAdapter(myAdapter);
 
+        //设置各种监听
         message.setOnClickListener(this);
 
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
@@ -162,16 +166,20 @@ public class Chat extends FragmentActivity implements View.OnClickListener, Swip
                 return false;
             }
         });
-        //设置各种监听
         user_info.setOnClickListener(this);
         xiaoxi_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                //如果选择的button不为空
                 if(checkedId != -1) {
+                    //设置底部的fragment显示
                     setfragment_bottomVisible();
+                    //关闭输入法
                     closeInputMethod();
+                    //设置显示的fragment
                     setframe_bottomLayout(checkedId);
                 }
+                //设置图标的改变
                 setIconChange(checkedId);
             }
         });
@@ -202,7 +210,7 @@ public class Chat extends FragmentActivity implements View.OnClickListener, Swip
 
             @Override
             public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
+                // 当输入框文本发生改变时对发送消息按钮进行相关设置
                 if (message.getText().toString() != null && !"".equals(message.getText().toString())) {
                     sendButton.setClickable(true);
                     sendButton.setBackgroundResource(R.mipmap.sendbutton_chat);
@@ -271,14 +279,19 @@ public class Chat extends FragmentActivity implements View.OnClickListener, Swip
     }
     //用于设置frame_bottom的布局
     public void setframe_bottomLayout(int id){
+        //如果当前fragment不为空则将当前fragment设置为隐藏
         if(cur_buttom_fragment != null){
             fragmentManager.beginTransaction().hide(cur_buttom_fragment).commit();
         }
+        //如果要显示的fragment之前添加过那么直接显示该fragment否则添加该fragment并显示   标记为 frame_bottom+id
         Fragment fragment = fragmentManager.findFragmentByTag("frame_bottom" + id);
+        //判断标记的fragment是否为空
         if(fragment != null){
+            //不为空则将该fragment显示
             fragmentManager.beginTransaction().show(fragment).commit();
             cur_buttom_fragment = fragment;
         }else {
+            //为空则根据id来创建fragment并显示
             switch (id) {
                 case R.id.lyj:
                     Fragment lyj_fragment = new Chat_fragment_buttom_lyj();
@@ -339,18 +352,19 @@ public class Chat extends FragmentActivity implements View.OnClickListener, Swip
             }
         }
     }
-
+    //设置底部fragment消失
     private void setfragme_bottomGONE() {
         xiaoxi_type.check(-1);
         frame_bottom.setVisibility(View.GONE);
     }
-
+    //设置底部的fragment显示
     private void setfragment_bottomVisible() {
         frame_bottom.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onBackPressed() {
+        //按返回键时判断底部fragment是否为显示，是则隐藏否则返回前一个activity
         if (frame_bottom.getVisibility() == View.VISIBLE) {
             setfragme_bottomGONE();
         } else {
@@ -360,18 +374,21 @@ public class Chat extends FragmentActivity implements View.OnClickListener, Swip
 
     @Override
     protected void onStop() {
+        //聊天框关闭时将该聊天框从集合中移除
         resource.user_chat.remove(frind);
         super.onStop();
     }
 
     @Override
     protected void onResume() {
+        //进来时将对话框放进集合储存
         resource.user_chat.put(frind, this);
         super.onResume();
     }
 
     @Override
     public void onRefresh() {
+        //下拉加载历史记录时判断对话框是否已有聊天记录有则将第一条记录的id传过去，否则传-1表示没有任何记录
         if (adapter_data.size() != 0) {
             resource.getRecord(frind.getZhanghao() + "", adapter_data.get(0).getId(), handler);
         } else {
@@ -379,17 +396,28 @@ public class Chat extends FragmentActivity implements View.OnClickListener, Swip
         }
     }
 
-
+    //recyclerview适配器
     class Chat_adapter extends RecyclerView.Adapter<Chat_adapter.MyViewHolder> {
-
+        //设置标记,如果是我发送的消息标记则为1，如果是对方的消息则为0；
+        @Override
+        public int getItemViewType(int position) {
+            if (resource.Myzhanghao.equals(adapter_data.get(position).getSendUser_zhanghao())) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = null;
+            //判断标记来设置相关的条目布局
             switch (viewType) {
                 case 0:
+                    //对方消息的条目布局
                     view = View.inflate(Chat.this, R.layout.item_qqmessage1, null);
                     break;
                 case 1:
+                    //我发送的消息的条目布局
                     view = View.inflate(Chat.this, R.layout.item_qqmessage2, null);
                     break;
             }
@@ -410,15 +438,6 @@ public class Chat extends FragmentActivity implements View.OnClickListener, Swip
         @Override
         public int getItemCount() {
             return adapter_data.size();
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            if (resource.Myzhanghao.equals(adapter_data.get(position).getSendUser_zhanghao())) {
-                return 1;
-            } else {
-                return 0;
-            }
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {

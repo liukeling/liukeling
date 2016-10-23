@@ -84,7 +84,7 @@
                         android:layout_toRightOf="@id/touxiang"
                         android:gravity="bottom"
                         android:paddingBottom="10dp"
-                        android:text="生活好无聊"
+                        android:text="开心快乐每一天"
                         android:textSize="15dp" />
 
                     <ImageView

@@ -17,34 +17,40 @@ import java.util.HashMap;
 
 import comm.user;
 
+//这是个有返回值的activity，
 public class CheckGroupActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int position;
     private TextView back, send;
     private Spinner gruop_spinner;
+    //储存分组，以分组的id为键，分组名为值得键值对集合
     private HashMap<Integer, String> gruops = new HashMap<>();
+    //用于储存分组集合的"键"
     private ArrayList<Integer> keys = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_addfrind);
+        //储存分组"键值对",integer是分组的id，String是分组的名称，user是该分组的用户
         for (HashMap<HashMap<Integer, String>, user> hm1 : resource.frinds) {
             for (HashMap<Integer, String> hm2 : hm1.keySet()) {
                 gruops.putAll(hm2);
             }
         }
         keys.addAll(gruops.keySet());
-
+        //找到各种控件
         back = (TextView) findViewById(R.id.back);
         gruop_spinner = (Spinner) findViewById(R.id.gruop_spinner);
         send = (TextView) findViewById(R.id.send);
-
+        //设置点击监听
         back.setOnClickListener(this);
         send.setOnClickListener(this);
-
+        //group_spinner的适配器
         MySpinnerAdapter adapter = new MySpinnerAdapter();
+        //设置适配器
         gruop_spinner.setAdapter(adapter);
+        //条目选择监听
         gruop_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -83,7 +89,7 @@ public class CheckGroupActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    class MySpinnerAdapter extends BaseAdapter {
+    private class MySpinnerAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
