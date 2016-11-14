@@ -72,4 +72,4 @@
         android:layout_margin="20dp"
         android:text="@string/paswd_forgets" />
     
-</RelativeLayout><!-- From: file:/D:/AndroidStudioProjects/MyApplication/copyqq/src/main/res/layout/activity_login.xml -->
+</RelativeLayout><!-- From: file:/D:/AndroidStudioProjects/MyApplication2/copyqq/src/main/res/layout/activity_login.xml -->

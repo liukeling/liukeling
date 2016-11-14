@@ -45,8 +45,9 @@
                         <LinearLayout
                             android:id="@+id/title_bottm"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:alpha="1"
+                            android:layout_height="40dp"
+                            android:alpha="0.7"
+                            android:background="@android:color/black"
                             android:orientation="horizontal">
 
                             <TextView
@@ -55,9 +56,14 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="相册"
-                                android:textColor="@android:color/black"
+                                android:textColor="@android:color/white"
                                 android:textSize="15dp" />
-
+                            <View
+                                android:layout_width="1px"
+                                android:layout_height="match_parent"
+                                android:background="@android:color/white"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:id="@+id/Myss"
                                 android:layout_width="0dp"
@@ -65,25 +71,35 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="说说"
-                                android:textColor="@android:color/black"
+                                android:textColor="@android:color/white"
                                 android:textSize="15dp" />
-
+                            <View
+                                android:layout_width="1px"
+                                android:layout_height="match_parent"
+                                android:background="@android:color/white"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="视频"
-                                android:textColor="@android:color/black"
+                                android:textColor="@android:color/white"
                                 android:textSize="15dp" />
-
+                            <View
+                                android:layout_width="1px"
+                                android:layout_height="match_parent"
+                                android:background="@android:color/white"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="\@与我相关"
-                                android:textColor="@android:color/black"
+                                android:textColor="@android:color/white"
                                 android:textSize="15dp" />
                         </LinearLayout>
 

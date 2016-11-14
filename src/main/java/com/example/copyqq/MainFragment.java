@@ -88,17 +88,21 @@ public class MainFragment extends FragmentActivity implements
                         .frinds;
                 frinds.addAll(list);
                 updata();
+                //判断是不是第一次接受到消息，
                 if ("one".equals(msg.obj)) {
-
+                    //判断是不是消息界面
                     boolean isxiaoxijiemian = false;
                     if (fra != null) {
+                        //如果fra不为空则判断是不是消息界面
                         isxiaoxijiemian = fra instanceof SysInfolist_fragmnet;
                     }
 
                     if (isxiaoxijiemian) {
+                        //如果是消息界面则刷新消息
                         SysInfolist_fragmnet frindlist_fragment = (SysInfolist_fragmnet) fra;
-                        frindlist_fragment.reflushSysInfo(resource.Sysinfos);
+                        frindlist_fragment.reflushSysInfo();
                     }
+                    //如果有未读的系统消息则震动
                     for (SysInfo sinfo : resource.Sysinfos) {
                         if (!sinfo.isRead()) {
                             //震动
@@ -108,13 +112,15 @@ public class MainFragment extends FragmentActivity implements
                             break;
                         }
                     }
-
+                    //开始接受消息
                     resource.jieshouxiaoxiThread(handler);
                 }
-            } else if (what == 71) {
-                //获取到好友的信息
-                user frind_info = (user) msg.obj;
-            } else if (what == 9) {
+            }
+//            else if (what == 71) {
+//                //获取到好友的信息
+//                user frind_info = (user) msg.obj;
+//            }
+            else if (what == 9) {
                 ArrayList<SysInfo> al = (ArrayList<SysInfo>) msg.obj;
                 resource.Sysinfos.clear();
                 resource.Sysinfos.addAll(al);
@@ -124,7 +130,7 @@ public class MainFragment extends FragmentActivity implements
                 }
                 if (isxiaoxijiemian) {
                     SysInfolist_fragmnet frindlist_fragment = (SysInfolist_fragmnet) fra;
-                    frindlist_fragment.reflushSysInfo(al);
+                    frindlist_fragment.reflushSysInfo();
                 }
                 for (SysInfo sinfo : al) {
                     if (!sinfo.isRead()) {
@@ -179,9 +185,12 @@ public class MainFragment extends FragmentActivity implements
         /*
          * 侧滑功能的实现
 		 */
+        //设置侧滑菜单的位置在左侧
         menu.setMode(SlidingMenu.LEFT);
+        //设置侧滑菜单的宽度
         menu.setBehindOffset(100);
 
+        //以内容的形式显示
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         // 为侧滑菜单设置布局
         menu.setMenu(cehuamen);
@@ -190,13 +199,13 @@ public class MainFragment extends FragmentActivity implements
 		 */
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.menu_item, R.id.tv, menudata);
-
+        //侧滑菜单的listview
         menuListView.setAdapter(adapter);
-
+        //侧滑菜单的打开监听
         menu.setOnOpenListener(new SlidingMenu.OnOpenListener() {
             @Override
             public void onOpen() {
-
+                //设置侧滑菜单的数据
                 if (resource.getMe() != null) {
                     usertitle.setText(resource.getMe().getName() + "\n" + resource.getMe().getZhanghao());
                 } else {
@@ -204,7 +213,7 @@ public class MainFragment extends FragmentActivity implements
                 }
             }
         });
-
+        //好友列表的适配器
         frindlistadapter = new MyAdapter();
         updata();
         // 一进来默认是第2个被选中
@@ -258,7 +267,7 @@ public class MainFragment extends FragmentActivity implements
                 if (isxinxi) {
                     fragment = fragmentManager.findFragmentByTag("hehe" + checkfragment + isxinxi);
                     if (fragment == null) {
-                        fra = SysInfolist_fragmnet.newInstance(resource.Sysinfos);
+                        fra = SysInfolist_fragmnet.newInstance();
                     } else {
                         fra = fragment;
                     }
@@ -376,12 +385,14 @@ public class MainFragment extends FragmentActivity implements
                 for (int i : key.keySet()) {
                     //用于判断是否有重复的分组编号
                     boolean b = false;
+                    //遍历分组编号的集合，如果存在i==k，那么就有重复
                     for (int k : al) {
                         if (i == k) {
                             b = true;
                             break;
                         }
                     }
+                    //如果编号不重复则添加到编号集合内，并且将分组的名称添加到al1集合内，否则break；
                     if (b) {
                         break;
                     } else {
@@ -458,7 +469,7 @@ public class MainFragment extends FragmentActivity implements
                 isxinxi = true;
                 fragment = fragmentManager.findFragmentByTag("hehe1true");
                 if (fragment == null) {
-                    fra = SysInfolist_fragmnet.newInstance(resource.Sysinfos);
+                    fra = SysInfolist_fragmnet.newInstance();
                 } else {
                     fra = fragment;
                 }

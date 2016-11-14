@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">刘科领专属版qq</string>
+    <string name="app_name">仿qq</string>
     <string name="action_settings">Settings</string>
-    <string name="tiaokuan">
-        	本仿qq权属刘科领所有
+    <string name="xieyi">
+        	\n本产品所有权归刘科领所有。\n
+            \nqq号码的生成由系统生成。\n
+            \n在本产品上聊天的一切交易风险均由个人承担，与本人无关。\n
+            \n注册就表明同意该协议。\n
     </string>
     <string name="hello_world">Hello world!</string>
     <string name="login_button">登 陆</string>

@@ -29,38 +29,28 @@ public class SysInfolist_fragmnet extends Fragment {
 
     private SysInfo linshiinfo;
     private ListView list_view;
-    private ArrayList<SysInfo> al;
     private MyAdapter adapter;
 
     private SysInfolist_fragmnet() {
 
     }
 
-    public static SysInfolist_fragmnet newInstance(ArrayList<SysInfo> al) {
+    public static SysInfolist_fragmnet newInstance() {
         SysInfolist_fragmnet sysInfolist_fragmnet = new SysInfolist_fragmnet();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("sysInfos", al);
-        sysInfolist_fragmnet.setArguments(bundle);
+
         return sysInfolist_fragmnet;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        al = new ArrayList<>();
-        al.addAll((ArrayList<SysInfo>) getArguments().get("sysInfos"));
         View v = View.inflate(getContext(), R.layout.frindlistfragment_layout, null);
         list_view = (ListView) v.findViewById(R.id.list_view);
-        if (al == null) {
-            al = new ArrayList<>();
-        }
         adapter = new MyAdapter();
         list_view.setAdapter(adapter);
         return v;
     }
 
-    public void reflushSysInfo(ArrayList<SysInfo> al) {
-        this.al.clear();
-        this.al.addAll(al);
+    public void reflushSysInfo() {
         adapter.notifyDataSetChanged();
     }
 
@@ -70,12 +60,12 @@ public class SysInfolist_fragmnet extends Fragment {
 
         @Override
         public int getCount() {
-            return al.size();
+            return resource.Sysinfos.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return al.get(position);
+            return resource.Sysinfos.get(position);
         }
 
         @Override
@@ -92,7 +82,7 @@ public class SysInfolist_fragmnet extends Fragment {
 
             LinearLayout ll = (LinearLayout) convertView.findViewById(R.id.ll_huifu);
 
-            final SysInfo info = al.get(position);
+            final SysInfo info = resource.Sysinfos.get(position);
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

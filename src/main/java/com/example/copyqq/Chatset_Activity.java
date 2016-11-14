@@ -20,6 +20,7 @@ public class Chatset_Activity extends Activity implements View.OnClickListener {
     private RelativeLayout user_title;
     private TextView back;
     private user intentUser;
+    private TextView create_taolun;
     private Button del_frind;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class Chatset_Activity extends Activity implements View.OnClickListener {
         user_title = (RelativeLayout) findViewById(R.id.user_title);
         back = (TextView) findViewById(R.id.back);
         del_frind = (Button) findViewById(R.id.del_frind);
+        create_taolun = (TextView) findViewById(R.id.create_taolun);
 
         TextView name = (TextView) findViewById(R.id.name);
         //设置名称
@@ -41,6 +43,7 @@ public class Chatset_Activity extends Activity implements View.OnClickListener {
         back.setOnClickListener(this);
         user_title.setOnClickListener(this);
         del_frind.setOnClickListener(this);
+        create_taolun.setOnClickListener(this);
     }
 
 
@@ -75,6 +78,9 @@ public class Chatset_Activity extends Activity implements View.OnClickListener {
                         .setTitle("确定删除该好友？")
                         .create();
                 alertDialog.show();
+                break;
+            case R.id.create_taolun:
+                
                 break;
         }
     }

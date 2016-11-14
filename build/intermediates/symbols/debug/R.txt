@@ -955,7 +955,7 @@ int string login_pswd 0x7f08003c
 int string login_remenber 0x7f08003d
 int string paswd_forgets 0x7f08003e
 int string status_bar_notification_info_overflow 0x7f080031
-int string tiaokuan 0x7f08003f
+int string xieyi 0x7f08003f
 int style AlertDialog_AppCompat 0x7f0b0086
 int style AlertDialog_AppCompat_Light 0x7f0b0087
 int style Animation_AppCompat_Dialog 0x7f0b0088

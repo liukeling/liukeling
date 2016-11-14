@@ -59,12 +59,16 @@ public class FrindInfo_More extends AppCompatActivity implements View.OnClickLis
 
         for (HashMap<HashMap<Integer, String>, user> hm : resource.frinds) {
             user u = hm.values().iterator().next();
-            if (u.equals(intentUser)) {
-                group = hm.keySet().iterator().next();
-                break;
+            if(u != null) {
+                if (u.equals(intentUser)) {
+                    group = hm.keySet().iterator().next();
+                    break;
+                }
             }
         }
-        groupName.setText(group.values().iterator().next());
+        if(group != null) {
+            groupName.setText(group.values().iterator().next());
+        }
     }
 
     @Override

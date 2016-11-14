@@ -86,6 +86,7 @@ public class UserInfo extends Activity implements View.OnClickListener {
                     tel.setVisibility(View.GONE);
                     sendMessage.setVisibility(View.GONE);
                     ok_add.setVisibility(View.VISIBLE);
+                    more.setVisibility(View.GONE);
                 }
             }
         }

@@ -41,7 +41,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:textColor="#000000"
-        android:text="是否同意以下条款" />
+        android:text="是否同意以下协议" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:text="@string/tiaokuan" />
+            android:text="@string/xieyi" />
     </ScrollView>
 
 </RelativeLayout>

@@ -2282,7 +2282,7 @@ containing a value of this type.
         public static final int login_remenber=0x7f08003d;
         public static final int paswd_forgets=0x7f08003e;
         public static final int status_bar_notification_info_overflow=0x7f080031;
-        public static final int tiaokuan=0x7f08003f;
+        public static final int xieyi=0x7f08003f;
     }
     public static final class style {
         public static final int AlertDialog_AppCompat=0x7f0b0086;
