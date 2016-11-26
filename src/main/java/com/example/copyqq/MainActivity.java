@@ -23,32 +23,38 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		resource.init();
 		if(resource.Myzhanghao != null && !resource.Myzhanghao.equals("0") && !resource.Myzhanghao.equals("")){
-			Toast.makeText(MainActivity.this, "a", Toast.LENGTH_SHORT).show();
-		}
-
-		SharedPreferences spf = this.getSharedPreferences("users",
-				LoginActivity.MODE_PRIVATE);
-		//用于判断是否之前记住过用户名和密码
-		if(!"null".equals(spf.getString("username", "null"))){
-
-			Intent intent = new Intent(this, LoginActivity.class);
+			Intent intent = new Intent(MainActivity.this,
+					MainFragment.class);
 			startActivity(intent);
-			this.finish();
-		}
+			Toast.makeText(MainActivity.this, "a", Toast.LENGTH_SHORT).show();
+			finish();
+		}else {
 
-		try {
-			//初始化配置
-			dbdao.init();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SharedPreferences spf = this.getSharedPreferences("users",
+					LoginActivity.MODE_PRIVATE);
+			//用于判断是否之前记住过用户名和密码
+			if (!"null".equals(spf.getString("username", "null"))) {
+
+				Intent intent = new Intent(this, LoginActivity.class);
+				startActivity(intent);
+				this.finish();
+			}
+
+			try {
+				//初始化配置
+				dbdao.init();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			setContentView(R.layout.activity_main);
+			login = (Button) findViewById(R.id.login);
+			regist = (Button) findViewById(R.id.regist);
+			login.setOnClickListener(this);
+			regist.setOnClickListener(this);
 		}
-		setContentView(R.layout.activity_main);
-		login = (Button) findViewById(R.id.login);
-		regist = (Button) findViewById(R.id.regist);
-		login.setOnClickListener(this);
-		regist.setOnClickListener(this);
 	}
 
 	@Override

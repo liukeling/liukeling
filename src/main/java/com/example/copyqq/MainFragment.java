@@ -152,8 +152,13 @@ public class MainFragment extends FragmentActivity implements
                 } else {
                     Toast.makeText(MainFragment.this, "好友请求回复成功 ", Toast.LENGTH_SHORT).show();
                 }
-            } else if (what == 1232 && curr_fragment instanceof FrindListmain_fragment) {
-                ((FrindListmain_fragment) curr_fragment).freshed();
+            } else if (what == 1232) {
+                List<Fragment> list = fragmentManager.getFragments();
+//                FrindListmain_fragment
+                Fragment f = fragmentManager.findFragmentByTag("hehe2");
+                if(f instanceof FrindListmain_fragment){
+                    ((FrindListmain_fragment) f).freshed();
+                }
             }
         }
     };
@@ -335,6 +340,7 @@ public class MainFragment extends FragmentActivity implements
             if (fra != curr_fragment) {
 
                 String cur = "" + checkfragment;
+                Toast.makeText(MainFragment.this, ""+checkfragment, Toast.LENGTH_SHORT).show();
                 if (checkfragment == 1) {
                     cur = cur + isxinxi;
                 }

@@ -41,21 +41,28 @@ public class resource {
     public static boolean jieshouxiaoxi = false;
     //存放需要返回消息的handler
     private static Handler linshiHandler = null;
-    public static ArrayList<SysInfo> Sysinfos = new ArrayList<>();
+    public static ArrayList<SysInfo> Sysinfos;
     //
-    public static ArrayList<HashMap<HashMap<Integer, String>, user>> frinds = new ArrayList<>();
-    public static HashMap<user, Chat> user_chat = new HashMap<>();
+    public static ArrayList<HashMap<HashMap<Integer, String>, user>> frinds;
+    public static HashMap<user, Chat> user_chat;
     /**
      * 创建一级条目容器
      */
-    public static ArrayList<Map<String, String>> gruops = new ArrayList<Map<String, String>>();
+    public static ArrayList<Map<String, String>> gruops;
     /**
      * 存放内容, 以便显示在列表中
      */
-    public static List<List<Map<String, user>>> childs = new ArrayList<List<Map<String, user>>>();
+    public static List<List<Map<String, user>>> childs;
     //储存登陆的用户
     private static user me = null;
 
+    public static void init(){
+        Sysinfos = new ArrayList<>();
+        frinds = new ArrayList<>();
+        user_chat = new HashMap<>();
+        gruops = new ArrayList<>();
+        childs = new ArrayList<>();
+    }
     //不允许实例化
     private resource() {
 
@@ -449,10 +456,13 @@ public class resource {
 
 
                 Sysinfos.clear();
-                Sysinfos.addAll((ArrayList<SysInfo>) response1.getObj());
-
+                if(response1.getObj() != null) {
+                    Sysinfos.addAll((ArrayList<SysInfo>) response1.getObj());
+                }
                 frinds.clear();
-                frinds.addAll((ArrayList<HashMap<HashMap<Integer, String>, user>>) response.getObj());
+                if (response.getObj() != null) {
+                    frinds.addAll((ArrayList<HashMap<HashMap<Integer, String>, user>>) response.getObj());
+                }
                 Message msg = new Message();
                 msg.what = 3;
                 msg.obj = "one";
@@ -662,7 +672,7 @@ public class resource {
                 return response;
             } catch (Exception e) {
                 e.printStackTrace();
-                return null;
+                return new Response();
             }
         } else {
             try {
