@@ -3,6 +3,7 @@ package com.example.copyqq;
 import java.io.IOException;
 
 import com.dbdao.dbdao;
+import com.example.Tools.resource;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -11,6 +12,7 @@ import android.content.SharedPreferences;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -20,6 +22,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if(resource.Myzhanghao != null && !resource.Myzhanghao.equals("0") && !resource.Myzhanghao.equals("")){
+			Toast.makeText(MainActivity.this, "a", Toast.LENGTH_SHORT).show();
+		}
 
 		SharedPreferences spf = this.getSharedPreferences("users",
 				LoginActivity.MODE_PRIVATE);
@@ -62,5 +68,5 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 		this.finish();
 	}
-	
+
 }

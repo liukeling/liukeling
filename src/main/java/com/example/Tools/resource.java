@@ -385,7 +385,7 @@ public class resource {
             return response;
         }
     }
-
+    //获取消息记录
     public static void getRecord(final String zhanghao, final int id, Handler handler) {
         linshiHandler = handler;
         new AsyncTask<Void, Void, Void>() {

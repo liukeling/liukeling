@@ -80,7 +80,8 @@ public class Chatset_Activity extends Activity implements View.OnClickListener {
                 alertDialog.show();
                 break;
             case R.id.create_taolun:
-                
+                Intent intent = new Intent(this, taolunzu.class);
+                startActivity(intent);
                 break;
         }
     }

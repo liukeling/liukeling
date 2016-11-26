@@ -89,6 +89,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 					Intent intent = new Intent(LoginActivity.this,
 							MainFragment.class);
 					startActivity(intent);
+					finish();
 				} else {
 				//上线失败说明账号在其他地方已经登录。
 					Toast.makeText(LoginActivity.this, "登陆失败,该账号在其他地方登录", Toast.LENGTH_SHORT)
@@ -152,14 +153,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 			login();
 		}
 	}
-
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		resource.exitqq();
-		super.onDestroy();
-	}
-
 	int back = 0;
 //双击退出
 	@Override

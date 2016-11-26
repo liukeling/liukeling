@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:2:1-86:12
+ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:2:1-87:12
 	package
 		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:3:5-33
 		INJECTED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml
@@ -26,7 +26,7 @@ ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManife
 	android:name
 		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:7:22-63
 application
-ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:9:5-84:19
+ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:9:5-85:19
 MERGED from [com.android.support:appcompat-v7:23.2.1] D:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-v4:23.2.1] D:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:animated-vector-drawable:23.2.1] D:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\AndroidManifest.xml:7:5-20
@@ -155,24 +155,32 @@ ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManife
 	android:name
 		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:68:13-40
 meta-data#com.google.android.gms.version
-ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:74:9-76:69
+ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:70:9-72:69
 MERGED from [com.google.android.gms:play-services-basement:8.1.0] D:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.1.0\AndroidManifest.xml:21:9-23:69
 	android:value
-		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:76:13-66
+		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:72:13-66
 	android:name
-		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:75:13-58
+		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:71:13-58
 activity#com.example.copyqq.FrindInfo_More
+ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:74:9-75:20
+	android:name
+		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:74:19-49
+activity#com.example.copyqq.TalkAbout
+ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:76:9-77:20
+	android:name
+		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:76:19-44
+activity#com.example.copyqq.ShuoShuoInfo
 ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:78:9-79:20
 	android:name
-		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:78:19-49
-activity#com.example.copyqq.TalkAbout
+		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:78:19-47
+activity#com.example.copyqq.taolunzu
 ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:80:9-81:20
 	android:name
-		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:80:19-44
-activity#com.example.copyqq.ShuoShuoInfo
-ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:82:9-83:20
+		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:80:19-43
+service#com.services.QqMessageService
+ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:83:9-84:19
 	android:name
-		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:82:19-47
+		ADDED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:83:18-62
 uses-sdk
 INJECTED from D:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.2.1] D:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:21:5-23:78

@@ -16,19 +16,24 @@ import comm.SysInfo;
 import comm.user;
 
 import com.example.Tools.resource;
+import com.services.QqMessageService;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -154,10 +159,14 @@ public class MainFragment extends FragmentActivity implements
     };
     private SoundPool soundPool;
 
+    private Intent service;
+    private ServiceConnection conn;
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
+        service = new Intent(this, QqMessageService.class);
+        startService(service);
         fragmentManager = getSupportFragmentManager();
         initView();
         //点击toolbar的图标，开始侧滑
@@ -449,7 +458,10 @@ public class MainFragment extends FragmentActivity implements
     @Override
     public void onDestroy() {
         // TODO Auto-generated method stub
-        resource.outLine();
+//        resource.outLine();
+        if(conn != null){
+            unbindService(conn);
+        }
         super.onDestroy();
     }
 
@@ -587,5 +599,27 @@ public class MainFragment extends FragmentActivity implements
 
     public void playSound() {
         soundPool.play(1, 1, 1, 1, 0, 1);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(conn == null){
+            conn = new MyServiceConnection();
+        }
+        bindService(service, conn, BIND_AUTO_CREATE);
+    }
+
+    private class MyServiceConnection implements ServiceConnection {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
     }
 }
