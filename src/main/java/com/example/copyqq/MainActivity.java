@@ -23,15 +23,13 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		resource.init();
 		if(resource.Myzhanghao != null && !resource.Myzhanghao.equals("0") && !resource.Myzhanghao.equals("")){
 			Intent intent = new Intent(MainActivity.this,
 					MainFragment.class);
 			startActivity(intent);
-			Toast.makeText(MainActivity.this, "a", Toast.LENGTH_SHORT).show();
 			finish();
 		}else {
-
+			resource.init();
 			SharedPreferences spf = this.getSharedPreferences("users",
 					LoginActivity.MODE_PRIVATE);
 			//用于判断是否之前记住过用户名和密码

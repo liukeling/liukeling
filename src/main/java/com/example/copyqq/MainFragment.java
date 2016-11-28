@@ -2,7 +2,6 @@ package com.example.copyqq;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,28 +11,22 @@ import com.example.fragments.SysInfolist_fragmnet;
 import com.example.fragments.Phonelist_fragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-import comm.SysInfo;
 import comm.user;
 
 import com.example.Tools.resource;
 import com.services.QqMessageService;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -66,8 +59,6 @@ public class MainFragment extends FragmentActivity implements
     private TextView tv_3;
     //记录当前Fragment
     private Fragment curr_fragment;
-    //获取到好友列表数据
-    private ArrayList<HashMap<HashMap<Integer, String>, user>> frinds = new ArrayList<HashMap<HashMap<Integer, String>, user>>();
     // 当前的Fragment
     private int checkfragment = 2;
     //要转化的Fragment
@@ -88,10 +79,6 @@ public class MainFragment extends FragmentActivity implements
         public void handleMessage(android.os.Message msg) {
             int what = msg.what;
             if (what == 3) {
-                frinds.clear();
-                ArrayList<HashMap<HashMap<Integer, String>, user>> list = resource
-                        .frinds;
-                frinds.addAll(list);
                 updata();
                 //判断是不是第一次接受到消息，
                 if ("one".equals(msg.obj)) {
@@ -107,28 +94,10 @@ public class MainFragment extends FragmentActivity implements
                         SysInfolist_fragmnet frindlist_fragment = (SysInfolist_fragmnet) fra;
                         frindlist_fragment.reflushSysInfo();
                     }
-                    //如果有未读的系统消息则震动
-                    for (SysInfo sinfo : resource.Sysinfos) {
-                        if (!sinfo.isRead()) {
-                            //震动
-                            Vibrator vibrator = (Vibrator) MainFragment.this.getSystemService(Context.VIBRATOR_SERVICE);
-                            vibrator.vibrate(1000);
-                            Toast.makeText(MainFragment.this, "有未读的系统消息", Toast.LENGTH_SHORT).show();
-                            break;
-                        }
-                    }
-                    //开始接受消息
-                    resource.jieshouxiaoxiThread(handler);
+
                 }
             }
-//            else if (what == 71) {
-//                //获取到好友的信息
-//                user frind_info = (user) msg.obj;
-//            }
             else if (what == 9) {
-                ArrayList<SysInfo> al = (ArrayList<SysInfo>) msg.obj;
-                resource.Sysinfos.clear();
-                resource.Sysinfos.addAll(al);
                 boolean isxiaoxijiemian = false;
                 if (fra != null) {
                     isxiaoxijiemian = fra instanceof SysInfolist_fragmnet;
@@ -137,15 +106,6 @@ public class MainFragment extends FragmentActivity implements
                     SysInfolist_fragmnet frindlist_fragment = (SysInfolist_fragmnet) fra;
                     frindlist_fragment.reflushSysInfo();
                 }
-                for (SysInfo sinfo : al) {
-                    if (!sinfo.isRead()) {
-                        //震动
-                        Vibrator vibrator = (Vibrator) MainFragment.this.getSystemService(Context.VIBRATOR_SERVICE);
-                        vibrator.vibrate(1000);
-                        Toast.makeText(MainFragment.this, "有未读的系统消息", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                }
             } else if (what == 10) {
                 if (!msg.obj.equals("")) {
                     Toast.makeText(MainFragment.this, "" + msg.obj, Toast.LENGTH_SHORT).show();
@@ -153,8 +113,6 @@ public class MainFragment extends FragmentActivity implements
                     Toast.makeText(MainFragment.this, "好友请求回复成功 ", Toast.LENGTH_SHORT).show();
                 }
             } else if (what == 1232) {
-                List<Fragment> list = fragmentManager.getFragments();
-//                FrindListmain_fragment
                 Fragment f = fragmentManager.findFragmentByTag("hehe2");
                 if(f instanceof FrindListmain_fragment){
                     ((FrindListmain_fragment) f).freshed();
@@ -162,7 +120,6 @@ public class MainFragment extends FragmentActivity implements
             }
         }
     };
-    private SoundPool soundPool;
 
     private Intent service;
     private ServiceConnection conn;
@@ -182,9 +139,6 @@ public class MainFragment extends FragmentActivity implements
             }
         });
         tv_1.setClickable(false);
-        //初始化声音
-        soundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM , 5);
-        soundPool.load(getApplicationContext(), R.raw.qq_message, 1);
 
         //设置监听
         tv_1.setOnClickListener(this);
@@ -195,7 +149,7 @@ public class MainFragment extends FragmentActivity implements
 
         rg.setOnCheckedChangeListener(this);
         // 获取好友列表数据
-        resource.getfrindListdata(handler);
+//        resource.getfrindListdata(handler);
         /*
          * 侧滑功能的实现
 		 */
@@ -230,9 +184,23 @@ public class MainFragment extends FragmentActivity implements
         //好友列表的适配器
         frindlistadapter = new MyAdapter();
         updata();
-        // 一进来默认是第2个被选中
-        rg.check(R.id.radiob2);
-//        setFragment();
+        // 一进来默认选中
+        int cur = getIntent().getIntExtra("fragment_cur", 12);
+        Toast.makeText(MainFragment.this, ""+cur, Toast.LENGTH_SHORT).show();
+        switch (cur){
+            case 1:
+                rg.check(R.id.radiob1);
+                break;
+            case 2:
+                rg.check(R.id.radiob2);
+                break;
+            case 3:
+                rg.check(R.id.radiob3);
+                break;
+            default:
+                rg.check(R.id.radiob2);
+                break;
+        }
     }
 
     /*
@@ -340,7 +308,6 @@ public class MainFragment extends FragmentActivity implements
             if (fra != curr_fragment) {
 
                 String cur = "" + checkfragment;
-                Toast.makeText(MainFragment.this, ""+checkfragment, Toast.LENGTH_SHORT).show();
                 if (checkfragment == 1) {
                     cur = cur + isxinxi;
                 }
@@ -394,7 +361,7 @@ public class MainFragment extends FragmentActivity implements
         ArrayList<Integer> al = new ArrayList<Integer>();
         //用于储存分组名称
         ArrayList<String> al1 = new ArrayList<String>();
-        for (HashMap<HashMap<Integer, String>, user> hm : frinds) {
+        for (HashMap<HashMap<Integer, String>, user> hm : resource.frinds) {
             for (HashMap<Integer, String> key : hm.keySet()) {
                 //i为分组编号
                 for (int i : key.keySet()) {
@@ -431,7 +398,7 @@ public class MainFragment extends FragmentActivity implements
 //            boolean userIsNull = false;
 
             List<Map<String, user>> er = new ArrayList<Map<String, user>>();
-            for (HashMap<HashMap<Integer, String>, user> hm : frinds) {
+            for (HashMap<HashMap<Integer, String>, user> hm : resource.frinds) {
                 //记录是否添加至二级目录
                 boolean addTotwo = false;
                 HashMap<String, user> c_er = new HashMap<String, user>();
@@ -459,16 +426,6 @@ public class MainFragment extends FragmentActivity implements
         if (frindlistadapter != null) {
             frindlistadapter.notifyDataSetChanged();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        // TODO Auto-generated method stub
-//        resource.outLine();
-        if(conn != null){
-            unbindService(conn);
-        }
-        super.onDestroy();
     }
 
     //TODO
@@ -526,7 +483,7 @@ public class MainFragment extends FragmentActivity implements
     }
 
 
-    public class MyAdapter extends BaseExpandableListAdapter {
+    private class MyAdapter extends BaseExpandableListAdapter {
 
         @Override
         public int getGroupCount() {
@@ -587,7 +544,6 @@ public class MainFragment extends FragmentActivity implements
                 if ("是".equals(u.getHaveMassage())) {
                     //有未读消息
                     s = s + "   有消息";
-                    playSound();
                 }
             }
             tv.setText(s);
@@ -603,16 +559,25 @@ public class MainFragment extends FragmentActivity implements
         }
     }
 
-    public void playSound() {
-        soundPool.play(1, 1, 1, 1, 0, 1);
+    @Override
+    public void onDestroy() {
+        // TODO Auto-generated method stub
+//        resource.outLine();
+        if(conn != null){
+            unbindService(conn);
+        }
+        QqMessageService.MFHandler = null;
+        conn = null;
+        super.onDestroy();
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         if(conn == null){
             conn = new MyServiceConnection();
         }
+        QqMessageService.MFHandler = handler;
         bindService(service, conn, BIND_AUTO_CREATE);
     }
 
