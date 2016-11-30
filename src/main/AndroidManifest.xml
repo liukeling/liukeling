@@ -67,6 +67,7 @@
         <activity
             android:name=".GropManager"
             android:configChanges="orientation" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -80,8 +81,12 @@
         <activity android:name=".taolunzu" >
         </activity>
 
-        <service android:name="com.services.QqMessageService">
+        <service android:name="com.services.QqMessageService" >
         </service>
+
+        <activity android:name=".IDSetActivity"
+            android:launchMode="singleTop" >
+        </activity>
     </application>
 
 </manifest>

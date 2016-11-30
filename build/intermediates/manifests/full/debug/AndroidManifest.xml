@@ -89,6 +89,11 @@
 
         <service android:name="com.services.QqMessageService" >
         </service>
+
+        <activity
+            android:name="com.example.copyqq.IDSetActivity"
+            android:launchMode="singleTop" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,35 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/cehua_qqbg"
-    android:orientation="vertical" >
-    
+    android:background="@mipmap/cehua_qqbg">
+
     <LinearLayout
+        android:id="@+id/MyInfo"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:onClick="checkOther"
-        android:layout_height="wrap_content" >
+        android:orientation="horizontal">
+
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_margin="20dp"
             android:src="@mipmap/touxiang" />
+
         <TextView
             android:id="@+id/usertitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="刘科领\n1"
+            android:layout_gravity="center_vertical"
             android:lines="2"
-            android:layout_gravity="center_vertical" />
+            android:text="刘科领\n1" />
     </LinearLayout>
-    
-    <ListView
-        android:id="@+id/listView"
+
+    <RelativeLayout
+        android:id="@+id/menu_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginLeft="10dp"
-         />
+        android:layout_alignParentBottom="true">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/ID_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="设置"
+            android:textSize="25dp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/menu_bottom"
+        android:layout_below="@id/MyInfo">
+
+        <com.example.MyViews.MyListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1" />
+    </ScrollView>
+</RelativeLayout>

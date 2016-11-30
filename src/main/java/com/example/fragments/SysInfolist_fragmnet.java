@@ -133,7 +133,6 @@ public class SysInfolist_fragmnet extends Fragment {
             btn_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Toast.makeText(SysInfolist_fragmnet.this.getContext(), ""+info.getReleaseuser(), Toast.LENGTH_SHORT).show();
                     int position = spinner_position[0];
                     String s = "";
                     if (position != -1) {

@@ -67,6 +67,8 @@ public class MainFragment extends FragmentActivity implements
     // 侧滑布局
     private View cehuamen;
     private TextView usertitle;
+    //帐号设置
+    private TextView ID_set;
     // 侧滑布局中ListView
     private ListView menuListView;
     // 侧滑布局中ListView的数据
@@ -127,32 +129,43 @@ public class MainFragment extends FragmentActivity implements
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
-        service = new Intent(this, QqMessageService.class);
-        startService(service);
-        fragmentManager = getSupportFragmentManager();
+        startMyService();
+        //初始化布局
         initView();
-        //点击toolbar的图标，开始侧滑
-        main_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                menu.showMenu();
-            }
-        });
-        tv_1.setClickable(false);
 
         //设置监听
-        tv_1.setOnClickListener(this);
-        tv_2.setOnClickListener(this);
-        add_mainfram.setOnClickListener(this);
-
-        add_mainfram_tv.setOnClickListener(this);
-
-        rg.setOnCheckedChangeListener(this);
-        // 获取好友列表数据
-//        resource.getfrindListdata(handler);
+        setListener();
         /*
          * 侧滑功能的实现
 		 */
+        setSlidingMenu();
+        updata();
+        // 一进来默认选中
+        int cur = getIntent().getIntExtra("fragment_cur", 12);
+        switch (cur){
+            case 1:
+                rg.check(R.id.radiob1);
+                break;
+            case 2:
+                rg.check(R.id.radiob2);
+                break;
+            case 3:
+                rg.check(R.id.radiob3);
+                break;
+            default:
+                rg.check(R.id.radiob2);
+                break;
+        }
+    }
+    //开启服务
+    private void startMyService(){
+        //消息服务
+        service = new Intent(this, QqMessageService.class);
+        //开启消息服务
+        startService(service);
+    }
+    //侧滑菜单的初始化
+    private void setSlidingMenu(){
         //设置侧滑菜单的位置在左侧
         menu.setMode(SlidingMenu.LEFT);
         //设置侧滑菜单的宽度
@@ -181,37 +194,34 @@ public class MainFragment extends FragmentActivity implements
                 }
             }
         });
-        //好友列表的适配器
-        frindlistadapter = new MyAdapter();
-        updata();
-        // 一进来默认选中
-        int cur = getIntent().getIntExtra("fragment_cur", 12);
-        Toast.makeText(MainFragment.this, ""+cur, Toast.LENGTH_SHORT).show();
-        switch (cur){
-            case 1:
-                rg.check(R.id.radiob1);
-                break;
-            case 2:
-                rg.check(R.id.radiob2);
-                break;
-            case 3:
-                rg.check(R.id.radiob3);
-                break;
-            default:
-                rg.check(R.id.radiob2);
-                break;
-        }
     }
-
+    //设置监听
+    private void setListener(){
+        tv_1.setOnClickListener(this);
+        tv_2.setOnClickListener(this);
+        add_mainfram.setOnClickListener(this);
+        ID_set.setOnClickListener(this);
+        add_mainfram_tv.setOnClickListener(this);
+        rg.setOnCheckedChangeListener(this);//点击toolbar的图标，开始侧滑
+        main_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menu.showMenu();
+            }
+        });
+    }
     /*
      * 初始化布局
      */
     private void initView() {
+        //得到帧布局管理者
+        fragmentManager = getSupportFragmentManager();
         Main_view = View.inflate(MainFragment.this, R.layout.mainfragment_layout, null);
         cehuamen = View.inflate(this, R.layout.main_menu, null);
         menu = new SlidingMenu(this);
         menuListView = (ListView) cehuamen.findViewById(R.id.listView);
         usertitle = (TextView) cehuamen.findViewById(R.id.usertitle);
+        ID_set = (TextView) cehuamen.findViewById(R.id.ID_set);
         rg = (RadioGroup) Main_view.findViewById(R.id.radioG);
         main_toolbar = (Toolbar) Main_view.findViewById(R.id.main_toolbar);
         tv_1 = (TextView) Main_view.findViewById(R.id.tv_1);
@@ -220,6 +230,8 @@ public class MainFragment extends FragmentActivity implements
         add_mainfram = (ImageView) Main_view.findViewById(R.id.add_mainfram);
         add_mainfram_tv = (TextView) Main_view.findViewById(R.id.add_mainfram_tv);
         setContentView(Main_view);
+        //“消息”初始为不可点击
+        tv_1.setClickable(false);
     }
 
     // 头像点击调用
@@ -352,6 +364,10 @@ public class MainFragment extends FragmentActivity implements
      */
     private void updata() {
 
+        //好友列表的适配器
+        if(frindlistadapter == null) {
+            frindlistadapter = new MyAdapter();
+        }
         /*
             更新好友分组
          */
@@ -478,6 +494,11 @@ public class MainFragment extends FragmentActivity implements
                 }
                 break;
             case R.id.add_mainfram:
+                break;
+            case R.id.ID_set:
+                //账号设置
+                Intent IDsetIntent = new Intent(this, IDSetActivity.class);
+                startActivity(IDsetIntent);
                 break;
         }
     }
