@@ -50,7 +50,6 @@ public class FrindListmain_fragment extends Fragment implements SwipeRefreshLayo
                              Bundle savedInstanceState) {
         ap_c = getActivity();
         View view = View.inflate(ap_c, R.layout.activity_frinds, null);
-        resource.jieshouxiaoxi = true;
         frindList = (MyExpandableListView) view.findViewById(R.id.frinds);
         swiperefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
 

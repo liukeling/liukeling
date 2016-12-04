@@ -39,7 +39,6 @@ public class QqMessageService extends Service {
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
 
-
             if (MFHandler != null) {
                 Message MFmsg = new Message();
                 MFmsg.what = msg.what;

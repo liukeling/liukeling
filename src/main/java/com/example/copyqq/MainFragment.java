@@ -119,14 +119,22 @@ public class MainFragment extends FragmentActivity implements
                 if(f instanceof FrindListmain_fragment){
                     ((FrindListmain_fragment) f).freshed();
                 }
+            }else if(what == 13){
+                if(resource.QqMessageservice != null) {
+                    stopService(resource.QqMessageservice);
+                    resource.QqMessageservice = null;
+                    resource.Myzhanghao = "";
+                    finish();
+                    Toast.makeText(MainFragment.this, "hehe", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     };
 
-    private Intent service;
     private ServiceConnection conn;
     @Override
     protected void onCreate(Bundle arg0) {
+        Toast.makeText(MainFragment.this, "create", Toast.LENGTH_SHORT).show();
         // TODO Auto-generated method stub
         super.onCreate(arg0);
         startMyService();
@@ -160,9 +168,12 @@ public class MainFragment extends FragmentActivity implements
     //开启服务
     private void startMyService(){
         //消息服务
-        service = new Intent(this, QqMessageService.class);
-        //开启消息服务
-        startService(service);
+        if(resource.QqMessageservice == null) {
+            resource.QqMessageservice = new Intent(this, QqMessageService.class);
+            //开启消息服务
+            startService(resource.QqMessageservice);
+            Toast.makeText(MainFragment.this, "b", Toast.LENGTH_SHORT).show();
+        }
     }
     //侧滑菜单的初始化
     private void setSlidingMenu(){
@@ -444,6 +455,15 @@ public class MainFragment extends FragmentActivity implements
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if(!menu.isMenuShowing()) {
+            super.onBackPressed();
+        }else{
+            menu.toggle(true);
+        }
+    }
+
     //TODO
     @Override
     public void onClick(View v) {
@@ -502,7 +522,6 @@ public class MainFragment extends FragmentActivity implements
                 break;
         }
     }
-
 
     private class MyAdapter extends BaseExpandableListAdapter {
 
@@ -599,7 +618,7 @@ public class MainFragment extends FragmentActivity implements
             conn = new MyServiceConnection();
         }
         QqMessageService.MFHandler = handler;
-        bindService(service, conn, BIND_AUTO_CREATE);
+        bindService(resource.QqMessageservice, conn, BIND_AUTO_CREATE);
     }
 
     private class MyServiceConnection implements ServiceConnection {

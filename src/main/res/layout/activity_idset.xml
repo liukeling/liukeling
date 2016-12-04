@@ -18,6 +18,7 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:drawableLeft="@mipmap/left_back"
@@ -34,6 +35,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="21dp"/>
             <TextView
+                android:id="@+id/IdEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -63,6 +65,7 @@
                 android:layout_height="1px"
                 android:background="@color/huise"/>
             <TextView
+                android:id="@+id/tv_addID"
                 android:layout_below="@id/line1"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -73,7 +76,36 @@
                 android:drawableLeft="@mipmap/lan_jia_icon"
                 android:drawablePadding="15dp"
                 android:paddingLeft="15dp"/>
-
+            <View
+                android:id="@+id/line2"
+                android:layout_below="@id/tv_addID"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/huise"/>
+            <TextView
+                android:id="@+id/tv_about"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@id/line2"
+                android:text="退出账号后无法接收到消息！"
+                android:gravity="center"
+                android:textColor="@color/huise"
+                android:background="@color/huibaise"/>
+            <View
+                android:id="@+id/line3"
+                android:layout_below="@id/tv_about"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/huise"/>
+            <TextView
+                android:id="@+id/ID_back"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="退出当前账号"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:textColor="@android:color/black"
+                android:layout_below="@id/line3"/>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

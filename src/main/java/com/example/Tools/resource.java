@@ -8,13 +8,16 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.example.copyqq.Chat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
@@ -38,10 +41,11 @@ public class resource {
     //储存账号
     public static String Myzhanghao = "0";
     //循环监听服务器的消息开关
-    public static boolean jieshouxiaoxi = false;
+    private static boolean jieshouxiaoxi = false;
     //存放需要返回消息的handler
     private static Handler linshiHandler = null;
     public static ArrayList<SysInfo> Sysinfos;
+    public static Set<String> idSet;
     //
     public static ArrayList<HashMap<HashMap<Integer, String>, user>> frinds;
     public static HashMap<user, Chat> user_chat;
@@ -55,6 +59,7 @@ public class resource {
     public static List<List<Map<String, user>>> childs;
     //储存登陆的用户
     private static user me = null;
+    public static Intent QqMessageservice;
 
     public static void init(){
         Sysinfos = new ArrayList<>();
@@ -62,6 +67,8 @@ public class resource {
         user_chat = new HashMap<>();
         gruops = new ArrayList<>();
         childs = new ArrayList<>();
+        idSet = new HashSet<>();
+        QqMessageservice = null;
     }
     //不允许实例化
     private resource() {
@@ -221,8 +228,6 @@ public class resource {
                     }
                 }
             }
-
-            ;
         }.start();
     }
 
@@ -239,6 +244,9 @@ public class resource {
 
         } else if ("下线成功".equals(res)) {
             jieshouxiaoxi = false;
+            Message msg = new Message();
+            msg.what = 13;
+            handler.sendMessage(msg);
         } else if ("有消息来了".equals(res)) {
             user sendUser = response.getSendUser();
             Chat c = user_chat.get(sendUser);
@@ -587,13 +595,15 @@ public class resource {
                         msg.what = 2;
                         msg.obj = response1;
                         handler.sendMessage(msg);
+                        if (response1.getResponse().contains("成功")) {
+                            jieshouxiaoxi = true;
+                        }
 
                     } catch (UnknownHostException e) {
                         e.printStackTrace();
                     }
                 }
 
-                ;
             }.start();
         }
     }
@@ -624,6 +634,7 @@ public class resource {
                 oos.writeObject(request);
                 oos.flush();
                 oos.close();
+                jieshouxiaoxi = false;
                 socket.close();
                 Myzhanghao = "";
             } catch (IOException e) {
@@ -652,8 +663,6 @@ public class resource {
                 request.setMyzhanghao(resource.Myzhanghao);
                 requestchuli(request, 0);
             }
-
-            ;
         }.start();
     }
 

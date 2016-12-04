@@ -33,7 +33,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			SharedPreferences spf = this.getSharedPreferences("users",
 					LoginActivity.MODE_PRIVATE);
 			//用于判断是否之前记住过用户名和密码
-			if (!"null".equals(spf.getString("username", "null"))) {
+			if (spf.getAll().size() >= 1) {
 
 				Intent intent = new Intent(this, LoginActivity.class);
 				startActivity(intent);
