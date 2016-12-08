@@ -247,6 +247,10 @@ public class resource {
             Message msg = new Message();
             msg.what = 13;
             handler.sendMessage(msg);
+        }else if("下线失败".equals(res)){
+            Message msg = new Message();
+            msg.what = 14;
+            handler.sendMessage(msg);
         } else if ("有消息来了".equals(res)) {
             user sendUser = response.getSendUser();
             Chat c = user_chat.get(sendUser);

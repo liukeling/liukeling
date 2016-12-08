@@ -120,12 +120,15 @@ public class MainFragment extends FragmentActivity implements
                     ((FrindListmain_fragment) f).freshed();
                 }
             }else if(what == 13){
+                //qq退出成功后将服务停止
                 if(resource.QqMessageservice != null) {
                     stopService(resource.QqMessageservice);
                     resource.QqMessageservice = null;
                     resource.Myzhanghao = "";
+                    Intent intent = new Intent(MainFragment.this, LoginActivity.class);
+                    intent.putExtra("lianjiefuwu", false);
+                    startActivity(intent);
                     finish();
-                    Toast.makeText(MainFragment.this, "hehe", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -134,10 +137,12 @@ public class MainFragment extends FragmentActivity implements
     private ServiceConnection conn;
     @Override
     protected void onCreate(Bundle arg0) {
-        Toast.makeText(MainFragment.this, "create", Toast.LENGTH_SHORT).show();
         // TODO Auto-generated method stub
         super.onCreate(arg0);
         startMyService();
+        if(QqMessageService.mNotificationManager != null){
+            QqMessageService.mNotificationManager.cancel(0);
+        }
         //初始化布局
         initView();
 
@@ -172,7 +177,6 @@ public class MainFragment extends FragmentActivity implements
             resource.QqMessageservice = new Intent(this, QqMessageService.class);
             //开启消息服务
             startService(resource.QqMessageservice);
-            Toast.makeText(MainFragment.this, "b", Toast.LENGTH_SHORT).show();
         }
     }
     //侧滑菜单的初始化

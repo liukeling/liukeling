@@ -19,6 +19,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.Tools.resource;
+import com.example.copyqq.IDSetActivity;
 import com.example.copyqq.MainFragment;
 import com.example.copyqq.R;
 import com.example.fragments.FrindListmain_fragment;
@@ -69,6 +70,7 @@ public class QqMessageService extends Service {
                         if(u != null && "是".equals(u.getHaveMassage())) {
                             playSound();
                             if(MFHandler == null){
+                                Toast.makeText(QqMessageService.this, "a", Toast.LENGTH_SHORT).show();
                                 addNotification("仿qq通知","有未读消息！！！",MainFragment.class, 2);
                             }
                             break;
@@ -86,10 +88,14 @@ public class QqMessageService extends Service {
                         break;
                     }
                 }
+            }else if(what == 14 || what == 13){
+                if(IDSetActivity.handler != null){
+                    IDSetActivity.handler.sendEmptyMessage(what);
+                }
             }
         }
     };
-    private NotificationManager mNotificationManager;
+    public static NotificationManager mNotificationManager;
 
     @Override
     public void onCreate() {

@@ -10,16 +10,31 @@ import android.widget.TextView;
 import com.example.Tools.resource;
 import com.example.copyqq.R;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Created by MBENBEN on 2016/12/4.
  */
 public class IDListViewAdapter extends BaseAdapter {
+    private Set<String> data;
     private Context context;
     private boolean canEdit = true;
-    public IDListViewAdapter(Context context) {
+    public IDListViewAdapter(Context context, Set<String> data) {
         this.context = context;
+        this.data = data;
+        if(data == null){
+            data = new HashSet<>();
+        }
+    }
+    private MyListerner myListerner;
+    public interface MyListerner {
+        void setOnUserIdClick(TextView Idview);
+        void setDelIdclick(View view);
+    }
+    public void setMyListerner(MyListerner myListerner){
+        this.myListerner = myListerner;
     }
     public void setCanEdit(boolean canEdit){
         this.canEdit = canEdit;
@@ -27,12 +42,12 @@ public class IDListViewAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return resource.idSet.size();
+        return data.size();
     }
 
     @Override
     public String getItem(int position) {
-        Iterator<String> iterator = resource.idSet.iterator();
+        Iterator<String> iterator = data.iterator();
         int k = 0;
         while (iterator.hasNext()) {
             String itemData = iterator.next();
@@ -74,6 +89,27 @@ public class IDListViewAdapter extends BaseAdapter {
             }else{
                 myHolder.iv_online.setVisibility(View.GONE);
             }
+        }
+        if(myListerner != null){
+            final MyHolder finalMyHolder = myHolder;
+            myHolder.touxiao.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    myListerner.setOnUserIdClick(finalMyHolder.tv_id);
+                }
+            });
+            myHolder.tv_id.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    myListerner.setOnUserIdClick(finalMyHolder.tv_id);
+                }
+            });
+            myHolder.iv_quxiao.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    myListerner.setDelIdclick(v);
+                }
+            });
         }
         return convertView;
     }

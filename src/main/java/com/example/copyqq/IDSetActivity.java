@@ -2,6 +2,8 @@ package com.example.copyqq;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,12 +15,16 @@ import com.example.MyViews.MyListView;
 import com.example.Tools.resource;
 import com.example.adapter.IDListViewAdapter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class IDSetActivity extends AppCompatActivity implements View.OnClickListener {
 
     private MyListView lv_IDs;
     private TextView tv_addID, back, IdEdit,ID_back;
     private IDListViewAdapter adapter;
-
+    public static Handler handler;
+    private AlertDialog whaitDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +42,44 @@ public class IDSetActivity extends AppCompatActivity implements View.OnClickList
         tv_addID.setOnClickListener(this);
         IdEdit.setOnClickListener(this);
         ID_back.setOnClickListener(this);
-
-        adapter = new IDListViewAdapter(this);
+        Set<String> Ids = new HashSet<>();
+        Ids.addAll(resource.idSet);
+        if(!Ids.contains(resource.Myzhanghao)){
+            Ids.add(resource.Myzhanghao);
+        }
+        adapter = new IDListViewAdapter(this,Ids);
         lv_IDs.setAdapter(adapter);
         adapter.setCanEdit(false);
+        whaitDialog = new AlertDialog.Builder(this)
+                .setTitle("正在退出。。。")
+                .create();
+        handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 13:
+                        if (whaitDialog != null){
+                            whaitDialog.dismiss();
+                        }
+                        Toast.makeText(IDSetActivity.this, "成功退出", Toast.LENGTH_SHORT).show();
+                        finish();
+                        break;
+                    case 14:
+                        if (whaitDialog != null){
+                            whaitDialog.dismiss();
+                        }
+                        Toast.makeText(IDSetActivity.this, "退出失败", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        };
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        handler = null;
     }
 
     @Override
@@ -73,11 +113,12 @@ public class IDSetActivity extends AppCompatActivity implements View.OnClickList
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                //qq下线
                                 resource.outLine();
-                                Intent intent = new Intent(IDSetActivity.this, LoginActivity.class);
-                                intent.putExtra("lianjiefuwu", false);
-                                startActivity(intent);
-                                finish();
+                                if (whaitDialog != null){
+                                    whaitDialog.show();
+                                }
+                                dialog.dismiss();
                             }
                         })
                         .create();

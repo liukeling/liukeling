@@ -8,23 +8,19 @@ import com.example.adapter.IDListViewAdapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -33,8 +29,6 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 @SuppressLint("HandlerLeak")
 public class LoginActivity extends Activity implements OnClickListener {
@@ -76,10 +70,6 @@ public class LoginActivity extends Activity implements OnClickListener {
                                 .getSharedPreferences("users",
                                         LoginActivity.MODE_PRIVATE);
                         Editor edit = spf.edit();
-//						edit.putString("username", username.getText()
-//								.toString());
-//						edit.putString("userpswd", userpswd.getText()
-//								.toString());
                         edit.putString(username.getText().toString(), userpswd.getText().toString());
                         edit.commit();
                     } else {
@@ -155,25 +145,40 @@ public class LoginActivity extends Activity implements OnClickListener {
         idWindow.setBackgroundDrawable(new BitmapDrawable());
         idWindow.setOutsideTouchable(true);
         idWindow.setFocusable(true);
-        popupLayout.setOnClickListener(new OnClickListener() {
+        idWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "abc", Toast.LENGTH_SHORT).show();
+            public void onDismiss() {
+                idsShow.setImageResource(R.mipmap.to_down);
             }
         });
-
         iDsspf = LoginActivity.this.getSharedPreferences(
                 "users", LoginActivity.MODE_PRIVATE);
-        HashMap<String, String> users = (HashMap<String, String>) iDsspf.getAll();
+        final HashMap<String, String> users = (HashMap<String, String>) iDsspf.getAll();
         resource.idSet = users.keySet();
         String name = "";
         if (resource.idSet != null && resource.idSet.size() >= 1) {
             name = resource.idSet.iterator().next();
-            popupListView.setAdapter(new IDListViewAdapter(this));
         }else{
             resource.idSet = new HashSet<>();
             idsShow.setVisibility(View.GONE);
         }
+        IDListViewAdapter adapter = new IDListViewAdapter(this, resource.idSet);
+        adapter.setMyListerner(new IDListViewAdapter.MyListerner() {
+
+
+            @Override
+            public void setOnUserIdClick(TextView Idview) {
+                username.setText(Idview.getText().toString());
+                userpswd.setText(users.get(Idview.getText().toString()));
+                idWindow.dismiss();
+            }
+
+            @Override
+            public void setDelIdclick(View view) {
+                Toast.makeText(LoginActivity.this, "del", Toast.LENGTH_SHORT).show();
+            }
+        });
+        popupListView.setAdapter(adapter);
         if (name == null) {
             name = "";
         }
@@ -210,8 +215,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                     idWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
                     idWindow.setWidth(username.getMeasuredWidth());
                     idWindow.showAsDropDown(username);
-                } else {
-                    idWindow.dismiss();
+                    idsShow.setImageResource(R.mipmap.to_up);
                 }
                 break;
         }
