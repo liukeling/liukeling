@@ -29,19 +29,6 @@ public class IDSetActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-    }
-    private void initView(){
-        setContentView(R.layout.activity_idset);
-        lv_IDs = (MyListView) findViewById(R.id.IDs);
-        tv_addID = (TextView) findViewById(R.id.tv_addID);
-        back = (TextView) findViewById(R.id.back);
-        IdEdit = (TextView) findViewById(R.id.IdEdit);
-        ID_back = (TextView) findViewById(R.id.ID_back);
-
-        back.setOnClickListener(this);
-        tv_addID.setOnClickListener(this);
-        IdEdit.setOnClickListener(this);
-        ID_back.setOnClickListener(this);
         Set<String> Ids = new HashSet<>();
         Ids.addAll(resource.idSet);
         if(!Ids.contains(resource.Myzhanghao)){
@@ -50,6 +37,20 @@ public class IDSetActivity extends AppCompatActivity implements View.OnClickList
         adapter = new IDListViewAdapter(this,Ids);
         lv_IDs.setAdapter(adapter);
         adapter.setCanEdit(false);
+        adapter.setMyListerner(new IDListViewAdapter.MyListerner() {
+            @Override
+            public void setOnUserIdClick(TextView Idview) {
+                String check_id = Idview.getText().toString();
+                if(!resource.Myzhanghao.equals(check_id)){
+                    
+                }
+            }
+
+            @Override
+            public void setDelIdclick(View view) {
+
+            }
+        });
         whaitDialog = new AlertDialog.Builder(this)
                 .setTitle("正在退出。。。")
                 .create();
@@ -74,6 +75,19 @@ public class IDSetActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         };
+    }
+    private void initView(){
+        setContentView(R.layout.activity_idset);
+        lv_IDs = (MyListView) findViewById(R.id.IDs);
+        tv_addID = (TextView) findViewById(R.id.tv_addID);
+        back = (TextView) findViewById(R.id.back);
+        IdEdit = (TextView) findViewById(R.id.IdEdit);
+        ID_back = (TextView) findViewById(R.id.ID_back);
+
+        back.setOnClickListener(this);
+        tv_addID.setOnClickListener(this);
+        IdEdit.setOnClickListener(this);
+        ID_back.setOnClickListener(this);
     }
 
     @Override

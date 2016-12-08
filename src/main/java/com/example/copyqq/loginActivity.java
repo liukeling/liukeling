@@ -47,6 +47,7 @@ public class LoginActivity extends Activity implements OnClickListener {
     private PopupWindow idWindow;
     private ImageView idsShow;
     private MyListView popupListView;
+    private SharedPreferences iDsspf;
 
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
@@ -112,7 +113,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 
         ;
     };
-    private SharedPreferences iDsspf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

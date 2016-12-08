@@ -110,6 +110,12 @@ public class IDListViewAdapter extends BaseAdapter {
                     myListerner.setDelIdclick(v);
                 }
             });
+            myHolder.iv_online.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    myListerner.setOnUserIdClick(finalMyHolder.tv_id);
+                }
+            });
         }
         return convertView;
     }
