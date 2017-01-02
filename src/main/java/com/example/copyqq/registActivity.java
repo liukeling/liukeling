@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint("HandlerLeak") public class RegistActivity extends Activity {
@@ -28,6 +29,7 @@ import android.widget.Toast;
 	private Button registbutton;
 	private String name;
 	private ProgressDialog registprogress;
+	private TextView tv_back;
 	@SuppressLint("ShowToast") Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			if (msg.what == 5) {
@@ -84,6 +86,13 @@ import android.widget.Toast;
 		userpswd = (EditText) findViewById(R.id.userpswd);
 		agree = (CheckBox) findViewById(R.id.agree);
 		registbutton = (Button) findViewById(R.id.registButton);
+		tv_back = (TextView) findViewById(R.id.tv_back);
+		tv_back.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				onBackPressed();
+			}
+		});
 		agree.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
@@ -124,5 +133,11 @@ import android.widget.Toast;
 			}
 		});
 		registbutton.setClickable(false);
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		startActivity(new Intent(this, LoginActivity.class));
 	}
 }

@@ -89,4 +89,4 @@
         android:text="@string/paswd_forgets"
         android:textColor="#ff0000" />
 
-</RelativeLayout><!-- From: file:/D:/AndroidStudioProjects/MyApplication2/copyqq/src/main/res/layout/activity_login.xml -->
+</RelativeLayout>

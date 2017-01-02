@@ -575,12 +575,24 @@ public class resource {
                     msg.obj = response;
                     handler.sendMessage(msg);
                 }
-
-                ;
             }.start();
+        }else{
+            lianjie(handler);
         }
     }
 
+    //切换账号
+    public static void cutId(String Id, String psd){
+        if(socket != null){
+            new AsyncTask<Void,Void,Void>(){
+                @Override
+                protected Void doInBackground(Void... params) {
+                    Request request = new Request();
+                    return null;
+                }
+            }.execute();
+        }
+    }
     // 上线
     public static void onLine(final Handler handler) {
         if (socket != null) {

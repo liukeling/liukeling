@@ -2,6 +2,7 @@ package com.example.copyqq;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +26,7 @@ public class IDSetActivity extends AppCompatActivity implements View.OnClickList
     private IDListViewAdapter adapter;
     public static Handler handler;
     private AlertDialog whaitDialog;
+    private SharedPreferences spf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +44,10 @@ public class IDSetActivity extends AppCompatActivity implements View.OnClickList
             public void setOnUserIdClick(TextView Idview) {
                 String check_id = Idview.getText().toString();
                 if(!resource.Myzhanghao.equals(check_id)){
-                    
+//                    resource.Myzhanghao = check_id;
+//                    resource.reflushFrindList();
+//                    resource.outLine();
+//                    resource.login(check_id, spf.getString(check_id, ""), );
                 }
             }
 
@@ -88,6 +93,7 @@ public class IDSetActivity extends AppCompatActivity implements View.OnClickList
         tv_addID.setOnClickListener(this);
         IdEdit.setOnClickListener(this);
         ID_back.setOnClickListener(this);
+        spf = getSharedPreferences("users", LoginActivity.MODE_PRIVATE);
     }
 
     @Override

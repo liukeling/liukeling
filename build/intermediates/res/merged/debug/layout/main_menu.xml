@@ -56,4 +56,4 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="1" />
     </ScrollView>
-</RelativeLayout><!-- From: file:/D:/AndroidStudioProjects/MyApplication2/copyqq/src/main/res/layout/main_menu.xml -->
+</RelativeLayout>

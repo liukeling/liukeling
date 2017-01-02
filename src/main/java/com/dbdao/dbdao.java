@@ -7,6 +7,6 @@ public class dbdao {
 	public static String fuwuip;
 	public static void init() throws IOException{
 		qqduankou = 12241;
-		fuwuip = "192.168.155.1";
+		fuwuip = "192.168.0.102";
 	}
 }

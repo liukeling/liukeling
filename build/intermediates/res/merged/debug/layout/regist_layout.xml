@@ -3,7 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff" >
-
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/toolbar"
+        android:background="@color/qinse">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="返回"
+                android:gravity="center"
+                android:drawableLeft="@mipmap/left_back"
+                android:layout_marginLeft="10dp"
+                android:textSize="15dp"
+                android:textColor="@android:color/white"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="注册新用户"
+                android:layout_centerInParent="true"
+                android:textColor="@android:color/white"
+                android:textSize="20dp"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"
@@ -11,6 +38,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
+        android:layout_below="@id/toolbar"
         android:hint="请输入用户名" />
 
     <EditText
@@ -57,4 +85,4 @@
             android:text="@string/xieyi" />
     </ScrollView>
 
-</RelativeLayout><!-- From: file:/D:/AndroidStudioProjects/MyApplication2/copyqq/src/main/res/layout/regist_layout.xml -->
+</RelativeLayout>

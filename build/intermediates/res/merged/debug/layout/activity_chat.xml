@@ -166,4 +166,4 @@
                 android:layout_below="@id/xiaoxi_type" />
         </RelativeLayout>
     </LinearLayout>
-</RelativeLayout><!-- From: file:/D:/AndroidStudioProjects/MyApplication2/copyqq/src/main/res/layout/activity_chat.xml -->
+</RelativeLayout>
