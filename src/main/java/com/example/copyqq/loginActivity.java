@@ -11,19 +11,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,10 +41,10 @@ public class LoginActivity extends Activity implements OnClickListener {
     private String name = "";
 
     private CheckBox remenber;
-    private PopupWindow idWindow;
+//    private PopupWindow idWindow;
     private ImageView idsShow;
-    private MyListView popupListView;
     private SharedPreferences iDsspf;
+    private RelativeLayout listGroup;
 
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
@@ -124,8 +121,8 @@ public class LoginActivity extends Activity implements OnClickListener {
         if(initSocket) {
             resource.lianjie(handler);
         }
-        View popupLayout = View.inflate(LoginActivity.this, R.layout.popup_layout, null);
-        popupListView = (MyListView) popupLayout.findViewById(R.id.mylistView);
+        View list_contaner = View.inflate(LoginActivity.this, R.layout.list_contaner, null);
+        MyListView IdsListView = (MyListView) list_contaner.findViewById(R.id.mylistView);
         regist = (TextView) findViewById(R.id.regist);
         forgets = (TextView) findViewById(R.id.forgets);
         login = (Button) findViewById(R.id.login);
@@ -137,20 +134,9 @@ public class LoginActivity extends Activity implements OnClickListener {
         forgets.setOnClickListener(this);
         login.setOnClickListener(this);
         idsShow.setOnClickListener(this);
-
-
-        idWindow = new PopupWindow();
-        idWindow.setContentView(popupLayout);
-        //设置什么都可以只要不为空，设置了这个，外部点击才能取消popupwindow以及外部控件的点击。
-        idWindow.setBackgroundDrawable(new BitmapDrawable());
-        idWindow.setOutsideTouchable(true);
-        idWindow.setFocusable(true);
-        idWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                idsShow.setImageResource(R.mipmap.to_down);
-            }
-        });
+        listGroup = (RelativeLayout) findViewById(R.id.listGroup);
+        listGroup.addView(list_contaner);
+        listGroup.setVisibility(View.GONE);
         iDsspf = LoginActivity.this.getSharedPreferences(
                 "users", LoginActivity.MODE_PRIVATE);
         final HashMap<String, String> users = (HashMap<String, String>) iDsspf.getAll();
@@ -158,6 +144,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         String name = "";
         if (resource.idSet != null && resource.idSet.size() >= 1) {
             name = resource.idSet.iterator().next();
+
         }else{
             resource.idSet = new HashSet<>();
             idsShow.setVisibility(View.GONE);
@@ -170,7 +157,7 @@ public class LoginActivity extends Activity implements OnClickListener {
             public void setOnUserIdClick(TextView Idview) {
                 username.setText(Idview.getText().toString());
                 userpswd.setText(users.get(Idview.getText().toString()));
-                idWindow.dismiss();
+//                idWindow.dismiss();
             }
 
             @Override
@@ -178,7 +165,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                 Toast.makeText(LoginActivity.this, "del", Toast.LENGTH_SHORT).show();
             }
         });
-        popupListView.setAdapter(adapter);
+        IdsListView.setAdapter(adapter);
         if (name == null) {
             name = "";
         }
@@ -211,11 +198,12 @@ public class LoginActivity extends Activity implements OnClickListener {
                 login();
                 break;
             case R.id.IdsShow:
-                if (!idWindow.isShowing()) {
-                    idWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-                    idWindow.setWidth(username.getMeasuredWidth());
-                    idWindow.showAsDropDown(username);
+                if(listGroup.getVisibility() == View.GONE) {
+                    listGroup.setVisibility(View.VISIBLE);
                     idsShow.setImageResource(R.mipmap.to_up);
+                }else{
+                    idsShow.setImageResource(R.mipmap.to_down);
+                    listGroup.setVisibility(View.GONE);
                 }
                 break;
         }

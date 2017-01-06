@@ -44,10 +44,7 @@ public class IDSetActivity extends AppCompatActivity implements View.OnClickList
             public void setOnUserIdClick(TextView Idview) {
                 String check_id = Idview.getText().toString();
                 if(!resource.Myzhanghao.equals(check_id)){
-//                    resource.Myzhanghao = check_id;
-//                    resource.reflushFrindList();
-//                    resource.outLine();
-//                    resource.login(check_id, spf.getString(check_id, ""), );
+                    //切换账号
                 }
             }
 

@@ -15,8 +15,8 @@
     <RelativeLayout
         android:id="@+id/rl_name"
         android:layout_width="match_parent"
-        android:layout_below="@id/qietou"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/qietou">
 
         <EditText
             android:id="@+id/username"
@@ -28,45 +28,51 @@
             android:hint="@string/login_name"
             android:paddingLeft="20dp"
             android:textSize="15dp" />
+
         <ImageView
             android:id="@+id/IdsShow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:src="@mipmap/to_down"
-            android:layout_centerVertical="true"/>
+            android:src="@mipmap/to_down" />
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/userpswd"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_name"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:hint="@string/login_pswd"
-        android:paddingLeft="20dp"
-        android:password="true"
-        android:textSize="15dp" />
+        android:layout_below="@id/rl_name">
 
-    <Button
-        android:id="@+id/login"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/userpswd"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/login_buttonselector"
-        android:text="@string/login_button" />
+        <EditText
+            android:id="@+id/userpswd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="@string/login_pswd"
+            android:paddingLeft="20dp"
+            android:password="true"
+            android:textSize="15dp" />
 
-    <CheckBox
-        android:id="@+id/remenber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/login"
-        android:hint="@string/login_remenber" />
+        <Button
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/userpswd"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_buttonselector"
+            android:text="@string/login_button" />
+
+        <CheckBox
+            android:id="@+id/remenber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login"
+            android:hint="@string/login_remenber" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/regist"
@@ -84,9 +90,17 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/regist"
         android:layout_alignBottom="@+id/regist"
-        android:layout_alignRight="@+id/userpswd"
+        android:layout_alignParentRight="true"
         android:layout_margin="20dp"
         android:text="@string/paswd_forgets"
         android:textColor="#ff0000" />
 
+    <RelativeLayout
+        android:id="@+id/listGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_name"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/white"/>
 </RelativeLayout>
