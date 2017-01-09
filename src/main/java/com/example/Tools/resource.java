@@ -45,7 +45,6 @@ public class resource {
     //存放需要返回消息的handler
     private static Handler linshiHandler = null;
     public static ArrayList<SysInfo> Sysinfos;
-    public static Set<String> idSet;
     //
     public static ArrayList<HashMap<HashMap<Integer, String>, user>> frinds;
     public static HashMap<user, Chat> user_chat;
@@ -67,7 +66,6 @@ public class resource {
         user_chat = new HashMap<>();
         gruops = new ArrayList<>();
         childs = new ArrayList<>();
-        idSet = new HashSet<>();
         QqMessageservice = null;
     }
     //不允许实例化
@@ -209,14 +207,12 @@ public class resource {
                                 socket.getInputStream());
                         final Response response = (Response) ois.readObject();
 
-                        final String res = response.getResponse();
-
-                        if ("下线成功".equals(res)) {
-                            responsechuli(res, response, handler);
+                        if ("下线成功".equals(response.getResponse())) {
+                            responsechuli(response, handler);
                         } else {
                             Thread thread = new Thread() {
                                 public void run() {
-                                    responsechuli(res, response, handler);
+                                    responsechuli(response, handler);
                                 }
                             };
                             thread.start();
@@ -231,7 +227,8 @@ public class resource {
         }.start();
     }
 
-    private static void responsechuli(String res, final Response response, Handler handler) {
+    private static void responsechuli(final Response response, Handler handler) {
+        String res = response.getResponse();
         if ("自动更新列表".equals(res)) {
             Object obj = response.getObj();
             frinds.clear();
@@ -420,7 +417,21 @@ public class resource {
             }
         }.execute();
     }
+    //切换账号
+    public static void changeId(final String changeId){
+        new AsyncTask<Void,Void,Void>(){
 
+            @Override
+            protected Void doInBackground(Void... voids) {
+                Request request = new Request();
+                request.setZhiling("切换账号");
+                request.setDlzhanghao(changeId);
+//                request.setDlpswd();
+                requestchuli(request, 0);
+                return null;
+            }
+        }.execute();
+    }
     //将系统消息标记为已读
     public static void setSysinfoRead(SysInfo sinfo) {
         Request request = new Request();

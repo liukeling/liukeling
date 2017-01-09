@@ -3,6 +3,7 @@ package com.example.copyqq;
 import comm.Response;
 
 import com.example.MyViews.MyListView;
+import com.example.Tools.IdArray;
 import com.example.Tools.resource;
 import com.example.adapter.IDListViewAdapter;
 
@@ -43,7 +44,6 @@ public class LoginActivity extends Activity implements OnClickListener {
     private CheckBox remenber;
 //    private PopupWindow idWindow;
     private ImageView idsShow;
-    private SharedPreferences iDsspf;
     private RelativeLayout listGroup;
 
     @SuppressLint("HandlerLeak")
@@ -62,23 +62,8 @@ public class LoginActivity extends Activity implements OnClickListener {
                     Toast.makeText(LoginActivity.this, "链接服务器失败", Toast.LENGTH_SHORT).show();
                 } else if (response.getResponse().contains("成功")) {
                     //登录成功
-                    if (remenber.isChecked()) {
-                        //判断是否记住用户名和密码
-                        SharedPreferences spf = LoginActivity.this
-                                .getSharedPreferences("users",
-                                        LoginActivity.MODE_PRIVATE);
-                        Editor edit = spf.edit();
-                        edit.putString(username.getText().toString(), userpswd.getText().toString());
-                        edit.commit();
-                    } else {
-                        //没有记住用户名和密码，就将之前的标记删除
-                        SharedPreferences spf = LoginActivity.this
-                                .getSharedPreferences("users",
-                                        LoginActivity.MODE_PRIVATE);
-                        Editor edit = spf.edit();
-                        edit.remove(username.getText().toString());
-                        edit.commit();
-                    }
+                    IdArray.remove(username.getText().toString());
+                    IdArray.add(username.getText().toString(), userpswd.getText().toString(), remenber.isChecked());
                     resource.onLine(this);
 
                 } else {
@@ -112,6 +97,12 @@ public class LoginActivity extends Activity implements OnClickListener {
     };
 
     @Override
+    protected void onResume() {
+        IdArray.flush();
+        super.onResume();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
@@ -122,7 +113,7 @@ public class LoginActivity extends Activity implements OnClickListener {
             resource.lianjie(handler);
         }
         View list_contaner = View.inflate(LoginActivity.this, R.layout.list_contaner, null);
-        MyListView IdsListView = (MyListView) list_contaner.findViewById(R.id.mylistView);
+        final MyListView IdsListView = (MyListView) list_contaner.findViewById(R.id.mylistView);
         regist = (TextView) findViewById(R.id.regist);
         forgets = (TextView) findViewById(R.id.forgets);
         login = (Button) findViewById(R.id.login);
@@ -137,27 +128,20 @@ public class LoginActivity extends Activity implements OnClickListener {
         listGroup = (RelativeLayout) findViewById(R.id.listGroup);
         listGroup.addView(list_contaner);
         listGroup.setVisibility(View.GONE);
-        iDsspf = LoginActivity.this.getSharedPreferences(
-                "users", LoginActivity.MODE_PRIVATE);
-        final HashMap<String, String> users = (HashMap<String, String>) iDsspf.getAll();
-        resource.idSet = users.keySet();
-        String name = "";
-        if (resource.idSet != null && resource.idSet.size() >= 1) {
-            name = resource.idSet.iterator().next();
-
+        if (IdArray.getSize() > 0) {
+            name = IdArray.getItem(1,0)[0];
         }else{
-            resource.idSet = new HashSet<>();
             idsShow.setVisibility(View.GONE);
         }
-        IDListViewAdapter adapter = new IDListViewAdapter(this, resource.idSet);
+        IDListViewAdapter adapter = new IDListViewAdapter(this);
         adapter.setMyListerner(new IDListViewAdapter.MyListerner() {
 
 
             @Override
             public void setOnUserIdClick(TextView Idview) {
-                username.setText(Idview.getText().toString());
-                userpswd.setText(users.get(Idview.getText().toString()));
-//                idWindow.dismiss();
+                String id = Idview.getText().toString();
+                username.setText(id);
+                userpswd.setText(IdArray.getItem(0, Integer.parseInt(id))[1]);
             }
 
             @Override
@@ -166,12 +150,16 @@ public class LoginActivity extends Activity implements OnClickListener {
             }
         });
         IdsListView.setAdapter(adapter);
+        String pswd = "";
         if (name == null) {
             name = "";
+        }else{
+            if(!"".equals(name)) {
+                pswd = IdArray.getItem(0, Integer.parseInt(name))[1];
+            }
+            username.setText(name);
+            userpswd.setText(pswd);
         }
-        String pswd = iDsspf.getString(name, "");
-        username.setText(name);
-        userpswd.setText(pswd);
         if (!"".equals(name) && !"".equals(pswd) && name != null && pswd != null) {
             remenber.setChecked(true);
         } else {

@@ -26,17 +26,11 @@ public class IDSetActivity extends AppCompatActivity implements View.OnClickList
     private IDListViewAdapter adapter;
     public static Handler handler;
     private AlertDialog whaitDialog;
-    private SharedPreferences spf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-        Set<String> Ids = new HashSet<>();
-        Ids.addAll(resource.idSet);
-        if(!Ids.contains(resource.Myzhanghao)){
-            Ids.add(resource.Myzhanghao);
-        }
-        adapter = new IDListViewAdapter(this,Ids);
+        adapter = new IDListViewAdapter(this);
         lv_IDs.setAdapter(adapter);
         adapter.setCanEdit(false);
         adapter.setMyListerner(new IDListViewAdapter.MyListerner() {
@@ -44,18 +38,21 @@ public class IDSetActivity extends AppCompatActivity implements View.OnClickList
             public void setOnUserIdClick(TextView Idview) {
                 String check_id = Idview.getText().toString();
                 if(!resource.Myzhanghao.equals(check_id)){
+                    resource.changeId(check_id);
                     //切换账号
+                    whaitDialog.setTitle("正在切换，请稍等。。。");
+                    whaitDialog.show();
                 }
             }
 
             @Override
             public void setDelIdclick(View view) {
-
+                //删除账号
             }
         });
         whaitDialog = new AlertDialog.Builder(this)
-                .setTitle("正在退出。。。")
                 .create();
+        whaitDialog.setCanceledOnTouchOutside(false);
         handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
@@ -90,7 +87,6 @@ public class IDSetActivity extends AppCompatActivity implements View.OnClickList
         tv_addID.setOnClickListener(this);
         IdEdit.setOnClickListener(this);
         ID_back.setOnClickListener(this);
-        spf = getSharedPreferences("users", LoginActivity.MODE_PRIVATE);
     }
 
     @Override
@@ -133,6 +129,7 @@ public class IDSetActivity extends AppCompatActivity implements View.OnClickList
                                 //qq下线
                                 resource.outLine();
                                 if (whaitDialog != null){
+                                    whaitDialog.setTitle("正在退出。。。");
                                     whaitDialog.show();
                                 }
                                 dialog.dismiss();

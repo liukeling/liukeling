@@ -7,26 +7,18 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.Tools.IdArray;
 import com.example.Tools.resource;
 import com.example.copyqq.R;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 /**
  * Created by MBENBEN on 2016/12/4.
  */
 public class IDListViewAdapter extends BaseAdapter {
-    private Set<String> data;
     private Context context;
     private boolean canEdit = true;
-    public IDListViewAdapter(Context context, Set<String> data) {
+    public IDListViewAdapter(Context context) {
         this.context = context;
-        this.data = data;
-        if(data == null){
-            data = new HashSet<>();
-        }
     }
     private MyListerner myListerner;
     public interface MyListerner {
@@ -42,21 +34,12 @@ public class IDListViewAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return data.size();
+        return IdArray.getSize();
     }
 
     @Override
     public String getItem(int position) {
-        Iterator<String> iterator = data.iterator();
-        int k = 0;
-        while (iterator.hasNext()) {
-            String itemData = iterator.next();
-            if (k == position) {
-                return itemData;
-            }
-            k++;
-        }
-        return "";
+        return IdArray.getItem(1, position)[0];
     }
 
     @Override

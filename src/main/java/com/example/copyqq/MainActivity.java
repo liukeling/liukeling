@@ -3,6 +3,7 @@ package com.example.copyqq;
 import java.io.IOException;
 
 import com.dbdao.dbdao;
+import com.example.Tools.IdArray;
 import com.example.Tools.resource;
 
 import android.os.Bundle;
@@ -30,10 +31,9 @@ public class MainActivity extends Activity implements OnClickListener {
 			finish();
 		}else {
 			resource.init();
-			SharedPreferences spf = this.getSharedPreferences("users",
-					LoginActivity.MODE_PRIVATE);
+			IdArray.init(MainActivity.this);
 			//用于判断是否之前记住过用户名和密码
-			if (spf.getAll().size() >= 1) {
+			if (IdArray.getSize() >= 1) {
 
 				Intent intent = new Intent(this, LoginActivity.class);
 				startActivity(intent);
