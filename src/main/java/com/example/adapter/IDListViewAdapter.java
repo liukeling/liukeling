@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.Tools.IdArray;
-import com.example.Tools.resource;
 import com.example.copyqq.R;
+import com.example.lkl.socketlibrary.tools.resource;
 
 /**
  * Created by MBENBEN on 2016/12/4.

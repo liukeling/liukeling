@@ -1,7 +1,6 @@
 package com.example.copyqq;
 
 import comm.Response;
-import com.example.Tools.resource;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -12,6 +11,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.lkl.socketlibrary.tools.resource;
 
 @SuppressLint("HandlerLeak") public class Forgetspswd extends Activity {
 	EditText username;

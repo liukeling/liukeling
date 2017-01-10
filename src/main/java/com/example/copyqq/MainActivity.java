@@ -2,9 +2,9 @@ package com.example.copyqq;
 
 import java.io.IOException;
 
-import com.dbdao.dbdao;
 import com.example.Tools.IdArray;
-import com.example.Tools.resource;
+import com.example.lkl.socketlibrary.dbdao.dbdao;
+import com.example.lkl.socketlibrary.tools.resource;
 
 import android.os.Bundle;
 import android.app.Activity;

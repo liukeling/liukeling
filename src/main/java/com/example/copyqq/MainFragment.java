@@ -9,11 +9,11 @@ import com.example.fragments.DynamicFragment;
 import com.example.fragments.FrindListmain_fragment;
 import com.example.fragments.SysInfolist_fragmnet;
 import com.example.fragments.Phonelist_fragment;
+import com.example.lkl.socketlibrary.tools.resource;
 import com.example.othercehua.lib.SlidingMenu;
 
 import comm.user;
 
-import com.example.Tools.resource;
 import com.services.QqMessageService;
 
 import android.content.ComponentName;

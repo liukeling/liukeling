@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.MyViews.MyListView;
-import com.example.Tools.resource;
+import com.example.lkl.socketlibrary.tools.resource;
 
 import java.util.ArrayList;
 

@@ -13,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.MyViews.MyListView;
-import com.example.Tools.resource;
 import com.example.adapter.IDListViewAdapter;
+import com.example.lkl.socketlibrary.tools.resource;
 
 import java.util.HashSet;
 import java.util.Set;

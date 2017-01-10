@@ -2,9 +2,11 @@ package com.example.copyqq;
 
 import java.util.ArrayList;
 
-import com.example.Tools.resource;
 import com.example.fragments.Chat_fragment_buttom_lyj;
 import com.example.fragments.Chat_fragment_buttom_other;
+import com.example.lkl.socketlibrary.BaseChat;
+import com.example.lkl.socketlibrary.BaseFrindInfo_More;
+import com.example.lkl.socketlibrary.tools.resource;
 
 import comm.qq_message;
 import comm.user;
@@ -38,7 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint("HandlerLeak")
-public class Chat extends FragmentActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class Chat extends FragmentActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener,BaseChat {
     //记录该聊天框是与谁的
     public user frind;
     //发送消息按钮

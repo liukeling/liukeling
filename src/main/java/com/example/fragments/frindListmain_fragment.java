@@ -10,8 +10,8 @@ import com.example.copyqq.R;
 
 import comm.user;
 
-import com.example.Tools.resource;
 import com.example.copyqq.UserInfo;
+import com.example.lkl.socketlibrary.tools.resource;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;

@@ -21,7 +21,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.Tools.resource;
+
+import com.example.lkl.socketlibrary.tools.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;

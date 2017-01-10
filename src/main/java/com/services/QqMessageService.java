@@ -18,12 +18,12 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.Tools.resource;
 import com.example.copyqq.IDSetActivity;
 import com.example.copyqq.MainFragment;
 import com.example.copyqq.R;
 import com.example.fragments.FrindListmain_fragment;
 import com.example.fragments.SysInfolist_fragmnet;
+import com.example.lkl.socketlibrary.tools.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;

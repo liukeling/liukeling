@@ -17,8 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.Tools.HttpTools;
-import com.example.Tools.resource;
+import com.example.lkl.socketlibrary.tools.HttpTools;
+import com.example.lkl.socketlibrary.tools.resource;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -34,6 +34,7 @@ MERGED from [MyApplication2:othercehua:unspecified] E:\AndroidStudioProjects\MyA
 MERGED from [com.android.support:appcompat-v7:23.2.1] E:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:animated-vector-drawable:23.2.1] E:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\AndroidManifest.xml:7:5-20
 MERGED from [com.android.support:support-vector-drawable:23.2.1] E:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.1\AndroidManifest.xml:7:5-20
+MERGED from [MyApplication2:socketlibrary:unspecified] E:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\MyApplication2\socketlibrary\unspecified\AndroidManifest.xml:11:5-16:19
 	android:label
 		ADDED from E:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml:12:9-41
 	android:supportsRtl
@@ -193,6 +194,7 @@ MERGED from [MyApplication2:othercehua:unspecified] E:\AndroidStudioProjects\MyA
 MERGED from [com.android.support:appcompat-v7:23.2.1] E:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:21:5-23:78
 MERGED from [com.android.support:animated-vector-drawable:23.2.1] E:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\AndroidManifest.xml:5:5-44
 MERGED from [com.android.support:support-vector-drawable:23.2.1] E:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.1\AndroidManifest.xml:5:5-43
+MERGED from [MyApplication2:socketlibrary:unspecified] E:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\MyApplication2\socketlibrary\unspecified\AndroidManifest.xml:7:5-9:41
 	tools:overrideLibrary
 		ADDED from [com.android.support:appcompat-v7:23.2.1] E:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:23:9-75
 	android:targetSdkVersion
@@ -201,3 +203,7 @@ MERGED from [com.android.support:support-vector-drawable:23.2.1] E:\AndroidStudi
 	android:minSdkVersion
 		INJECTED from E:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml
 		INJECTED from E:\AndroidStudioProjects\MyApplication2\copyqq\src\main\AndroidManifest.xml
+activity#com.example.lkl.socketlibrary.BaseChat
+ADDED from [MyApplication2:socketlibrary:unspecified] E:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\MyApplication2\socketlibrary\unspecified\AndroidManifest.xml:15:9-75
+	android:name
+		ADDED from [MyApplication2:socketlibrary:unspecified] E:\AndroidStudioProjects\MyApplication2\copyqq\build\intermediates\exploded-aar\MyApplication2\socketlibrary\unspecified\AndroidManifest.xml:15:19-72

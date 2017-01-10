@@ -2,7 +2,6 @@ package com.example.copyqq;
 
 import comm.Response;
 import comm.user;
-import com.example.Tools.resource;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -21,6 +20,8 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.lkl.socketlibrary.tools.resource;
 
 @SuppressLint("HandlerLeak") public class RegistActivity extends Activity {
 	private EditText username;

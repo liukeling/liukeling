@@ -15,10 +15,10 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.Tools.resource;
 import com.example.copyqq.CheckGroupActivity;
 import com.example.copyqq.R;
 import com.example.copyqq.Sysinfo_Activity;
+import com.example.lkl.socketlibrary.tools.resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;

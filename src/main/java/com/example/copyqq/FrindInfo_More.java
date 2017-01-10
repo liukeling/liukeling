@@ -11,14 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.Tools.resource;
+import com.example.lkl.socketlibrary.BaseFrindInfo_More;
+import com.example.lkl.socketlibrary.tools.resource;
 
 import java.util.HashMap;
 
 import comm.user;
 
 //"更多"界面
-public class FrindInfo_More extends AppCompatActivity implements View.OnClickListener {
+public class FrindInfo_More extends AppCompatActivity implements View.OnClickListener,BaseFrindInfo_More {
     //返回键
     TextView tv_back, groupName;
     //好友分组所在的线性布局
